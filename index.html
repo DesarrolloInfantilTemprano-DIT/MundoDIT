@@ -3,346 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIT CORE - Multiverso de Desarrollo Infantil</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>DIT | Quantum Interface</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --accent-cyan: #00f2fe;
-            --accent-blue: #4facfe;
-            --accent-pink: #f093fb;
-            --sidebar-w: 280px;
-            --sidebar-c: 90px;
-            --bg-deep: #0b0e14;
+            --glow-color: #00f2fe;
+            --bg-color: #05070a;
+            --card-bg: rgba(10, 15, 25, 0.7);
+            --neon-pink: #ff007f;
+            --neon-blue: #00d4ff;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-family: 'Orbitron', 'Inter', sans-serif;
         }
 
         body {
-            background: radial-gradient(circle at top left, #1a1f2c, #0b0e14);
-            color: #e0e0e0;
+            background-color: var(--bg-color);
+            color: white;
             height: 100vh;
             display: flex;
             overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 100%, 100% 4px, 100% 100%;
         }
 
-        /* FONDO DINÁMICO "CON VIDA" */
-        .bg-glow {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: var(--accent-blue);
-            filter: blur(150px);
-            opacity: 0.12;
-            border-radius: 50%;
-            z-index: -1;
-            animation: drift 25s infinite alternate;
-        }
-
-        @keyframes drift {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(120%, 80%); }
-        }
-
-        /* --- SIDEBAR RETRÁCTIL TIPO 5D --- */
-        #sidebar {
-            width: var(--sidebar-w);
-            height: 96vh;
-            margin: 2vh 0 2vh 20px;
-            background: var(--glass);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            position: relative;
-            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        /* --- SIDEBAR FUTURISTA --- */
+        #nav-node {
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(10,15,25,0.4) 100%);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            box-shadow: 20px 0 50px rgba(0,0,0,0.5);
-            z-index: 1000;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 50;
         }
 
-        #sidebar.collapsed {
-            width: var(--sidebar-c);
+        #nav-node.minimized {
+            width: 85px;
         }
 
-        /* Botón de control lateral */
-        .toggle-zone {
+        /* Decoración de escaneo */
+        #nav-node::after {
+            content: "";
             position: absolute;
-            right: -15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 30px;
-            height: 70px;
-            background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-blue));
-            border-radius: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
-            border: 3px solid #0b0e14;
-            transition: 0.3s;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--glow-color);
+            box-shadow: 0 0 20px var(--glow-color);
+            animation: scan 4s linear infinite;
+            opacity: 0.3;
         }
 
-        .toggle-zone:hover { transform: translateY(-50%) scale(1.1); }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
 
-        /* Logo y Título */
-        .logo-area {
-            padding: 45px 25px;
+        .brand {
+            padding: 20px 10px;
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--glow-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px var(--glow-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 10px var(--glow-color); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px var(--glow-color); }
+            100% { transform: scale(1); box-shadow: 0 0 10px var(--glow-color); }
+        }
+
+        /* Ítems del Menú Estilo "Node" */
+        .node-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .node-item {
+            position: relative;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: 0.4s;
             overflow: hidden;
         }
 
-        .logo-box {
-            min-width: 45px;
-            height: 45px;
-            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-blue));
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            color: #000;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
-        }
-
-        .logo-text {
-            font-weight: 800;
-            font-size: 1.3rem;
-            white-space: nowrap;
-            background: linear-gradient(to right, #fff, #666);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Navegación */
-        .nav-links {
-            flex: 1;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 16px 20px;
-            text-decoration: none;
-            color: #94a3b8;
-            border-radius: 20px;
-            transition: all 0.4s;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .nav-item i {
-            font-size: 1.4rem;
-            min-width: 40px;
-            transition: 0.3s;
-        }
-
-        .nav-item span {
-            font-weight: 600;
-            white-space: nowrap;
+        .node-item::before {
+            content: "";
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.1), transparent);
             transition: 0.5s;
         }
 
-        .nav-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            transform: translateX(8px) scale(1.02);
+        .node-item:hover::before {
+            left: 100%;
         }
 
-        .nav-item.active {
-            background: linear-gradient(90deg, rgba(0, 242, 254, 0.15), transparent);
-            color: var(--accent-cyan);
-            border-left: 4px solid var(--accent-cyan);
+        .node-item:hover {
+            border-color: var(--glow-color);
+            transform: translateX(10px);
+            background: rgba(0, 242, 254, 0.05);
         }
 
-        .collapsed .logo-text, .collapsed .nav-item span {
+        .node-item i {
+            font-size: 1.4rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .node-item.active {
+            border-color: var(--neon-pink);
+            background: rgba(255, 0, 127, 0.1);
+        }
+
+        .node-item.active i {
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+
+        .node-item span {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            transition: opacity 0.3s;
+        }
+
+        .minimized .node-item span, .minimized .brand-text {
             opacity: 0;
             pointer-events: none;
         }
 
-        /* --- ÁREA DE CONTENIDO (VIEWPORT) --- */
-        .viewport {
+        /* --- VISOR PRINCIPAL --- */
+        .main-stage {
             flex: 1;
-            height: 100vh;
-            padding: 2vh 20px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
         }
 
-        .top-bar {
-            height: 80px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            border: 1px solid var(--glass-border);
+        .system-header {
             display: flex;
-            align-items: center;
-            padding: 0 35px;
             justify-content: space-between;
-        }
-
-        .status-badge {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            color: #10b981;
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: flex;
             align-items: center;
-            gap: 10px;
-            text-transform: uppercase;
+            padding: 10px 30px;
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            border-left: 5px solid var(--glow-color);
         }
 
-        .iframe-container {
+        .view-frame {
             flex: 1;
-            background: #000;
-            border-radius: 30px;
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
+            background: black;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.7);
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
         }
 
         iframe {
             width: 100%;
             height: 100%;
             border: none;
-            opacity: 0;
-            transition: opacity 1s ease;
+            filter: contrast(1.1) brightness(1.1);
+            transition: 0.5s;
         }
 
-        /* Cargador Espacial */
-        .loader {
+        /* Botón Flotante de Retracción */
+        .collapse-trigger {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--glow-color);
+            color: black;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--glow-color);
+            z-index: 60;
+        }
+
+        /* Cargador */
+        .loading-overlay {
             position: absolute;
             inset: 0;
-            background: #0b0e14;
+            background: var(--bg-color);
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             z-index: 10;
         }
 
-        .ring {
-            width: 70px;
-            height: 70px;
-            border: 4px solid var(--glass-border);
-            border-top: 4px solid var(--accent-cyan);
+        .cyber-loader {
+            width: 100px;
+            height: 100px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--glow-color);
+            border-bottom: 2px solid var(--neon-pink);
             border-radius: 50%;
-            animation: spin 1.2s linear infinite;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-
-    <nav id="sidebar">
-        <div class="toggle-zone" onclick="toggleSidebar()">
-            <i class="fas fa-chevron-left" id="t-icon" style="color:#000; font-size: 0.9rem;"></i>
+    <nav id="nav-node">
+        <div class="brand">
+            <div class="brand-icon"><i class="fas fa-atom"></i></div>
+            <div class="brand-text">
+                <h4 style="color: var(--glow-color);">SISTEMA DIT</h4>
+                <small style="font-size: 0.6rem; color: #555;">v5.0 QUANTUM</small>
+            </div>
         </div>
 
-        <div class="logo-area">
-            <div class="logo-box"><i class="fas fa-microchip"></i></div>
-            <span class="logo-text">DIT DASHBOARD</span>
-        </div>
-
-        <div class="nav-links">
-            <div class="nav-item active" onclick="load('https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/', 'Monitor de Censo', this)">
-                <i class="fas fa-database"></i>
+        <div class="node-list">
+            <div class="node-item active" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/', 'Central de Inteligencia', this)">
+                <i class="fas fa-fingerprint"></i>
                 <span>Censo DIT</span>
             </div>
-            <div class="nav-item" onclick="load('https://desarrolloinfantiltemprano-dit.github.io/casita/', 'Entorno Virtual Casita', this)">
-                <i class="fas fa-shield-cat"></i>
+            <div class="node-item" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/casita/', 'Simulador Casita', this)">
+                <i class="fas fa-brain"></i>
                 <span>La Casita</span>
             </div>
-            <div class="nav-item" onclick="load('https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/', 'Control de Agenda', this)">
-                <i class="fas fa-calendar-check"></i>
-                <span>Reservar Citas</span>
+            <div class="node-item" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/', 'Gestión Temporal', this)">
+                <i class="fas fa-microchip"></i>
+                <span>Citas DIT</span>
             </div>
-            <div class="nav-item" onclick="load('https://desarrolloinfantiltemprano-dit.github.io/Mapa/', 'Mapeo Geoespacial', this)">
-                <i class="fas fa-earth-americas"></i>
+            <div class="node-item" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/Mapa/', 'Mapeo de Nodos', this)">
+                <i class="fas fa-satellite-dish"></i>
                 <span>Mapa DIT</span>
             </div>
-            <div class="nav-item" onclick="load('https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/', 'Bitácora de Operaciones', this)">
-                <i class="fas fa-terminal"></i>
-                <span>Registro Diario</span>
+            <div class="node-item" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/', 'Log de Datos', this)">
+                <i class="fas fa-code-branch"></i>
+                <span>Registros</span>
             </div>
-            <div class="nav-item" onclick="load('https://confianzaseguridad772-max.github.io/Dosificador_Hierro/', 'Algoritmo de Dosificación', this)">
-                <i class="fas fa-vial-circle-check"></i>
+            <div class="node-item" onclick="switchSystem('https://confianzaseguridad772-max.github.io/Dosificador_Hierro/', 'Laboratorio Químico', this)">
+                <i class="fas fa-flask-vial"></i>
                 <span>Dosificador</span>
             </div>
         </div>
+
+        <div class="collapse-trigger" onclick="toggleNav()">
+            <i class="fas fa-bars"></i>
+        </div>
     </nav>
 
-    <main class="viewport">
-        <div class="top-bar">
+    <main class="main-stage">
+        <header class="system-header">
             <div>
-                <h2 id="view-title" style="font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px;">Monitor de Censo</h2>
-                <p style="font-size: 0.8rem; color: #64748b;">Protocolo de Desarrollo Infantil Temprano</p>
+                <span style="color: var(--glow-color); font-size: 0.7rem; font-weight: bold;">[ ESTATUS: ACTIVO ]</span>
+                <h2 id="system-title">Central de Inteligencia</h2>
             </div>
-            <div class="status-badge">
-                <i class="fas fa-bolt"></i>
-                SISTEMA EN LÍNEA
-            </div>
-        </div>
+            <div id="clock" style="font-family: monospace; color: var(--neon-pink);">00:00:00</div>
+        </header>
 
-        <div class="iframe-container">
-            <div id="loader" class="loader">
-                <div class="ring"></div>
-                <p style="margin-top:25px; letter-spacing: 3px; font-size: 0.7rem; color: var(--accent-cyan); font-weight: bold;">SINCRONIZANDO...</p>
+        <div class="view-frame">
+            <div id="loader" class="loading-overlay">
+                <div class="cyber-loader"></div>
             </div>
-            <iframe id="frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/" onload="done()"></iframe>
+            <iframe id="main-frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/" onload="hideLoader()"></iframe>
         </div>
     </main>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const icon = document.getElementById('t-icon');
-            sidebar.classList.toggle('collapsed');
-            icon.className = sidebar.classList.contains('collapsed') ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+        function toggleNav() {
+            document.getElementById('nav-node').classList.toggle('minimized');
         }
 
-        function load(url, title, el) {
-            // Animación de botones
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            el.classList.add('active');
+        function switchSystem(url, title, element) {
+            document.querySelectorAll('.node-item').forEach(n => n.classList.remove('active'));
+            element.classList.add('active');
             
-            // Actualizar Título
-            document.getElementById('view-title').innerText = title;
-            
-            // Cargar iFrame con efecto
-            const loader = document.getElementById('loader');
-            const frame = document.getElementById('frame');
-            loader.style.display = 'flex';
-            frame.style.opacity = '0';
-            frame.src = url;
+            document.getElementById('system-title').innerText = title;
+            document.getElementById('loader').style.display = 'flex';
+            document.getElementById('main-frame').src = url;
         }
 
-        function done() {
+        function hideLoader() {
             document.getElementById('loader').style.display = 'none';
-            document.getElementById('frame').style.opacity = '1';
         }
+
+        // Reloj de sistema
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.getHours().toString().padStart(2, '0') + ":" + 
+                                                         now.getMinutes().toString().padStart(2, '0') + ":" + 
+                                                         now.getSeconds().toString().padStart(2, '0');
+        }, 1000);
     </script>
 </body>
 </html>
