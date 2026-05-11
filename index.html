@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DIT | Quantum Mobile Optimized</title>
+    <title>DIT | SIHCE Castillo Grande</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <style>
@@ -12,12 +12,11 @@
             --glow-pink: #ff007f;
             --bg-dark: #05070a;
             --glass: rgba(10, 15, 25, 0.95);
+            --minsa-blue: #4477c7;
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Segoe UI', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
@@ -31,199 +30,262 @@
             color: white;
         }
 
-        /* --- BARRA SUPERIOR OPTIMIZADA PARA MÓVIL --- */
+        /* --- PORTADA DE ACCESO / REGISTRO --- */
+        #auth-screen {
+            position: fixed; inset: 0; z-index: 2000;
+            display: flex; background: #fff;
+            transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .auth-visual {
+            flex: 1; 
+            background: linear-gradient(rgba(68,119,199,0.7), rgba(68,119,199,0.7)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg');
+            background-size: cover; background-position: center;
+            display: flex; align-items: flex-end; padding: 40px; color: white;
+        }
+
+        .auth-form-panel {
+            width: 450px; padding: 40px; display: flex; flex-direction: column;
+            justify-content: center; background: #fff; overflow-y: auto; color: #333;
+        }
+
+        .form-box { display: none; animation: fadeIn 0.4s; }
+        .form-box.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .field { margin-bottom: 12px; }
+        .field label { display: block; font-size: 0.7rem; color: #666; margin-bottom: 4px; font-weight: bold; }
+        input {
+            width: 100%; padding: 10px; background: #f5f8fa; border: 1px solid #d9dfe4;
+            border-radius: 6px; outline: none; font-size: 0.9rem; color: #333;
+        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .btn-main {
+            width: 100%; padding: 12px; background: var(--minsa-blue); color: white;
+            border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px;
+        }
+
+        .toggle-link { text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666; }
+        .toggle-link span { color: var(--minsa-blue); cursor: pointer; font-weight: bold; }
+
+        /* --- DASHBOARD PRINCIPAL --- */
+        #main-app { display: none; flex-direction: column; height: 100vh; width: 100%; }
+
         .top-nav {
             background: var(--glass);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 242, 254, 0.2);
-            display: flex;
-            flex-direction: column;
-            z-index: 100;
-            padding-top: 10px;
+            display: flex; flex-direction: column;
+            z-index: 100; padding-top: 10px;
         }
 
-        .brand-header {
-            display: flex;
-            align-items: center;
-            padding: 0 15px 10px 15px;
-            gap: 10px;
-        }
-
+        .brand-header { display: flex; align-items: center; padding: 0 15px 10px 15px; gap: 10px; }
         .logo-circle {
-            width: 32px;
-            height: 32px;
-            border: 1.5px solid var(--glow-cyan);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 32px; height: 32px; border: 1.5px solid var(--glow-cyan);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 10px var(--glow-cyan);
         }
 
-        /* --- CONTENEDOR CON SCROLL HORIZONTAL --- */
-        .scroll-container {
-            width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding: 5px 10px 15px 10px;
-            scrollbar-width: none; /* Firefox */
-        }
-
-        .scroll-container::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
-        }
-
-        #sortable-nodes {
-            display: flex;
-            gap: 10px;
-            width: max-content; /* Permite que el ancho crezca con los botones */
-        }
+        .scroll-container { width: 100%; overflow-x: auto; padding: 5px 10px 15px 10px; scrollbar-width: none; }
+        .scroll-container::-webkit-scrollbar { display: none; }
+        #sortable-nodes { display: flex; gap: 10px; width: max-content; }
 
         .node-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-            touch-action: pan-x; /* Permite scroll horizontal sin disparar drag */
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px; border-radius: 20px; display: flex; align-items: center; gap: 8px;
+            cursor: pointer; transition: all 0.2s ease; user-select: none; touch-action: pan-x;
         }
 
-        .node-btn i {
-            font-size: 1rem;
-            color: var(--glow-cyan);
-        }
+        .node-btn i { font-size: 1rem; color: var(--glow-cyan); }
+        .node-btn span { font-size: 0.7rem; letter-spacing: 0.5px; font-weight: 600; white-space: nowrap; }
+        .node-btn.active { border-color: var(--glow-pink); background: rgba(255, 0, 127, 0.15); box-shadow: 0 0 10px rgba(255, 0, 127, 0.3); }
+        .node-btn.active i { color: var(--glow-pink); }
 
-        .node-btn span {
-            font-size: 0.7rem;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
+        .main-viewport { flex: 1; position: relative; background: #000; }
+        iframe { width: 100%; height: 100%; border: none; }
+        .loading-bar { position: absolute; top: 0; left: 0; height: 2px; width: 0%; background: var(--glow-cyan); z-index: 10; transition: width 0.3s; }
 
-        /* Estado Activo */
-        .node-btn.active {
-            border-color: var(--glow-pink);
-            background: rgba(255, 0, 127, 0.15);
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
-        }
-
-        .node-btn.active i {
-            color: var(--glow-pink);
-        }
-
-        /* Estilo al Arrastrar (Drag) */
-        .sortable-ghost {
-            opacity: 0.3;
-            background: var(--glow-cyan) !important;
-        }
-
-        /* --- ÁREA DE CONTENIDO --- */
-        .main-viewport {
-            flex: 1;
-            position: relative;
-            background: #000;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Loader para feedback visual en móvil */
-        .loading-bar {
-            position: absolute;
-            top: 0; left: 0; height: 2px;
-            width: 0%;
-            background: var(--glow-cyan);
-            z-index: 10;
-            transition: width 0.3s;
-        }
+        @media (max-width: 768px) { .auth-visual { display: none; } .auth-form-panel { width: 100%; } }
     </style>
 </head>
 <body>
 
-    <header class="top-nav">
-        <div class="brand-header">
-            <div class="logo-circle"><i class="fas fa-gear" style="font-size: 14px;"></i></div>
+    <div id="auth-screen">
+        <div class="auth-visual">
             <div>
-                <h4 style="color: var(--glow-cyan); font-size: 0.8rem; line-height: 1;">SISTEMA DIT</h4>
-                <p style="font-size: 0.5rem; color: #666;">v5.0 QUANTUM</p>
+                <h1 style="font-size: 2.2rem; font-weight: 300;">SIHCE DIT</h1>
+                <p style="opacity: 0.8; font-size: 0.8rem;">Sistema de Gestión de Información - Castillo Grande</p>
             </div>
         </div>
+        <div class="auth-form-panel">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <i class="fas fa-lock" style="font-size: 2.5rem; color: var(--minsa-blue);"></i>
+            </div>
 
-        <div class="scroll-container">
-            <div id="sortable-nodes">
-                <div class="node-btn active" data-url="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/">
-                    <i class="fas fa-fingerprint"></i>
-                    <span>CENSO DIT</span>
+            <div id="login-box" class="form-box active">
+                <h2 style="font-size: 1.3rem;">Iniciar Sesión</h2>
+                <p style="font-size: 0.75rem; color: #888; margin-bottom: 20px;">Acceso restringido para personal de salud</p>
+                <div class="field"><label>DNI</label><input type="text" id="l-dni" placeholder="Ingrese DNI"></div>
+                <div class="field"><label>Contraseña</label><input type="password" id="l-pass" placeholder="••••••••"></div>
+                <button class="btn-main" onclick="handleLogin()">INGRESAR AL NÚCLEO</button>
+                <div class="toggle-link">¿No tiene cuenta? <span onclick="toggleAuth()">Solicitar registro</span></div>
+            </div>
+
+            <div id="register-box" class="form-box">
+                <h2 style="font-size: 1.3rem;">Registro DIT</h2>
+                <p style="font-size: 0.75rem; color: #888; margin-bottom: 15px;">Complete sus datos profesionales</p>
+                <div class="grid-2">
+                    <div class="field"><label>DNI</label><input type="text" id="r-dni"></div>
+                    <div class="field"><label>Celular</label><input type="text" id="r-cel"></div>
                 </div>
-                <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/casita/">
-                    <i class="fas fa-brain"></i>
-                    <span>LA CASITA</span>
+                <div class="field"><label>Nombres y Apellidos</label><input type="text" id="r-name"></div>
+                <div class="field"><label>Profesión</label><input type="text" id="r-prof"></div>
+                <div class="grid-2">
+                    <div class="field"><label>Región</label><input type="text" id="r-reg" value="Huánuco"></div>
+                    <div class="field"><label>Provincia</label><input type="text" id="r-prov"></div>
                 </div>
-                <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/">
-                    <i class="fas fa-microchip"></i>
-                    <span>CITAS DIT</span>
+                <div class="grid-2">
+                    <div class="field"><label>Distrito</label><input type="text" id="r-dist"></div>
+                    <div class="field"><label>EESS</label><input type="text" id="r-eess"></div>
                 </div>
-                <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Mapa/">
-                    <i class="fas fa-satellite-dish"></i>
-                    <span>MAPA DIT</span>
-                </div>
-                <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/">
-                    <i class="fas fa-code-branch"></i>
-                    <span>REGISTROS</span>
-                </div>
-                <div class="node-btn" data-url="https://confianzaseguridad772-max.github.io/Dosificador_Hierro/">
-                    <i class="fas fa-flask-vial"></i>
-                    <span>DOSIFICADOR</span>
+                <div class="field"><label>Contraseña del Sistema</label><input type="password" id="r-pass"></div>
+                <button class="btn-main" id="btn-reg" onclick="handleRegister()">ENVIAR REGISTRO</button>
+                <div class="toggle-link">¿Ya es usuario? <span onclick="toggleAuth()">Regresar al login</span></div>
+            </div>
+            <p id="auth-msg" style="text-align: center; font-size: 0.7rem; margin-top: 15px; display: none;"></p>
+        </div>
+    </div>
+
+    <div id="main-app">
+        <header class="top-nav">
+            <div class="brand-header">
+                <div class="logo-circle"><i class="fas fa-gear" style="font-size: 14px;"></i></div>
+                <div>
+                    <h4 style="color: var(--glow-cyan); font-size: 0.8rem; line-height: 1;">SISTEMA DIT</h4>
+                    <p style="font-size: 0.5rem; color: #666;">v5.0 QUANTUM - CASTILLO GRANDE</p>
                 </div>
             </div>
-        </div>
-    </header>
-
-    <main class="main-viewport">
-        <div id="l-bar" class="loading-bar"></div>
-        <iframe id="content-frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"></iframe>
-    </main>
+            <div class="scroll-container">
+                <div id="sortable-nodes">
+                    <div class="node-btn active" data-url="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/">
+                        <i class="fas fa-fingerprint"></i><span>CENSO DIT</span>
+                    </div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/casita/">
+                        <i class="fas fa-brain"></i><span>LA CASITA</span>
+                    </div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/">
+                        <i class="fas fa-microchip"></i><span>CITAS DIT</span>
+                    </div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Mapa/">
+                        <i class="fas fa-satellite-dish"></i><span>MAPA DIT</span>
+                    </div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/">
+                        <i class="fas fa-code-branch"></i><span>REGISTROS</span>
+                    </div>
+                    <div class="node-btn" data-url="https://confianzaseguridad772-max.github.io/Dosificador_Hierro/">
+                        <i class="fas fa-flask-vial"></i><span>DOSIFICADOR</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="main-viewport">
+            <div id="l-bar" class="loading-bar"></div>
+            <iframe id="content-frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"></iframe>
+        </main>
+    </div>
 
     <script>
-        const el = document.getElementById('sortable-nodes');
-        const frame = document.getElementById('content-frame');
-        const lBar = document.getElementById('l-bar');
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5bLzjMTmD_YdPfWQulFVSEMxx6ykqfcDzIRjwOIme7eKMiiFP8aKSbPKQHdddY2sN/exec";
 
-        // Configuración de Sortable optimizada para móvil
-        Sortable.create(el, {
-            animation: 150,
-            delay: 200, // IMPORTANTE: Requiere mantener presionado 200ms para mover. 
-            delayOnTouchOnly: true, // El clic normal (toque rápido) funciona para seleccionar.
-            touchStartThreshold: 5, 
-            ghostClass: 'sortable-ghost',
-            onEnd: function() {
-                // El orden se mantiene tras soltar
+        function toggleAuth() {
+            document.getElementById('login-box').classList.toggle('active');
+            document.getElementById('register-box').classList.toggle('active');
+        }
+
+        function showMsg(txt, color) {
+            const m = document.getElementById('auth-msg');
+            m.innerText = txt; m.style.color = color; m.style.display = 'block';
+        }
+
+        // REGISTRO A GOOGLE SHEETS
+        async function handleRegister() {
+            const btn = document.getElementById('btn-reg');
+            const data = {
+                action: "register",
+                dni: document.getElementById('r-dni').value,
+                nombre: document.getElementById('r-name').value,
+                profesion: document.getElementById('r-prof').value,
+                celular: document.getElementById('r-cel').value,
+                region: document.getElementById('r-reg').value,
+                provincia: document.getElementById('r-prov').value,
+                distrito: document.getElementById('r-dist').value,
+                eess: document.getElementById('r-eess').value,
+                pass: document.getElementById('r-pass').value
+            };
+
+            if(!data.dni || !data.pass || !data.nombre) return showMsg("Complete los campos obligatorios", "red");
+            
+            btn.disabled = true; showMsg("Sincronizando con el servidor...", "blue");
+
+            try {
+                // Usamos POST para enviar datos
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(data)
+                });
+                
+                showMsg("Registro exitoso. Ahora puede iniciar sesión.", "green");
+                setTimeout(toggleAuth, 2000);
+            } catch (e) {
+                showMsg("Error de conexión", "red");
+            } finally { btn.disabled = false; }
+        }
+
+        // LOGIN (VALIDACIÓN CONTRA EL EXCEL)
+        async function handleLogin() {
+            const u = document.getElementById('l-dni').value;
+            const p = document.getElementById('l-pass').value;
+
+            if(!u || !p) return showMsg("Ingrese credenciales", "red");
+
+            // Acceso maestro local
+            if(u === "admin" && p === "dit2026") {
+                unlockApp(); return;
             }
+
+            showMsg("Validando identidad...", "blue");
+            try {
+                const resp = await fetch(`${SCRIPT_URL}?action=login&dni=${u}&pass=${p}`);
+                const result = await resp.json();
+                if(result.status === "success") unlockApp();
+                else showMsg("DNI o Contraseña incorrectos", "red");
+            } catch (e) {
+                showMsg("Error al conectar con la base de datos", "red");
+            }
+        }
+
+        function unlockApp() {
+            document.getElementById('auth-screen').style.transform = "translateY(-100%)";
+            document.getElementById('main-app').style.display = "flex";
+            sessionStorage.setItem('dit_session', 'true');
+        }
+
+        // PERSISTENCIA Y FUNCIONALIDAD DE BOTONES
+        if(sessionStorage.getItem('dit_session') === 'true') unlockApp();
+
+        Sortable.create(document.getElementById('sortable-nodes'), {
+            animation: 150, delay: 200, delayOnTouchOnly: true
         });
 
-        // Evento de selección de página
         document.querySelectorAll('.node-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                // Feedback visual de carga
-                lBar.style.width = '100%';
-                
-                // Cambiar estado activo
+                document.getElementById('l-bar').style.width = '100%';
                 document.querySelectorAll('.node-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-
-                // Cambiar URL del iframe
-                frame.src = this.getAttribute('data-url');
-                
-                // Reiniciar barra después de un momento
-                setTimeout(() => { lBar.style.width = '0%'; }, 500);
+                document.getElementById('content-frame').src = this.getAttribute('data-url');
+                setTimeout(() => { document.getElementById('l-bar').style.width = '0%'; }, 500);
             });
         });
     </script>
