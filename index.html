@@ -150,7 +150,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwX1dcU8tLuQIP_dYYkLQx1-MUf6KNCr-LzryKyGjuumwATF_ukGPgVmwC9wZ_9LvZg/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfM-7jdTJzXk5ZPlb17yqXhuRbtvou_e2AKhBO_sGK1kOMM4lpUeBKi7ldxsbka3uo/exec";
         let currentDNI = '';
         let userDataCache = {};
 
@@ -170,28 +170,30 @@
             if(!dni) return showMsg("Por favor, ingrese un DNI", "red");
             showMsg("Verificando credenciales...", "blue");
             
-            const r = await fetch(`${SCRIPT_URL}?action=fetchUserData&dni=${dni}`);
-            const res = await r.json();
-            
-            if(res.status === "found") {
-                if(res.hasPass) { 
-                    showMsg("Este usuario ya está activo. Por favor inicie sesión.", "orange"); 
-                    setTimeout(()=>showBox('login'), 2000); 
-                } else {
-                    currentDNI = dni;
-                    userDataCache = res.userData;
-                    document.getElementById('reg-greeting').innerText = "Bienvenido, " + res.userData.nombre;
-                    document.getElementById('r-name').value = res.userData.nombre || "";
-                    document.getElementById('r-prof').value = res.userData.profesion || "";
-                    document.getElementById('r-cel').value = res.userData.celular || "";
-                    document.getElementById('r-reg').value = res.userData.region || "";
-                    document.getElementById('r-prov').value = res.userData.provincia || "";
-                    document.getElementById('r-dist').value = res.userData.distrito || "";
-                    document.getElementById('r-eess').value = res.userData.eess || "";
-                    showBox('reg-final');
-                    showMsg("", "");
-                }
-            } else { showMsg("DNI no autorizado en el sistema DIT.", "red"); }
+            try {
+                const r = await fetch(`${SCRIPT_URL}?action=fetchUserData&dni=${dni}`);
+                const res = await r.json();
+                
+                if(res.status === "found") {
+                    if(res.hasPass) { 
+                        showMsg("Este usuario ya está activo. Por favor inicie sesión.", "orange"); 
+                        setTimeout(()=>showBox('login'), 2000); 
+                    } else {
+                        currentDNI = dni;
+                        userDataCache = res.userData;
+                        document.getElementById('reg-greeting').innerText = "Bienvenido, " + res.userData.nombre;
+                        document.getElementById('r-name').value = res.userData.nombre || "";
+                        document.getElementById('r-prof').value = res.userData.profesion || "";
+                        document.getElementById('r-cel').value = res.userData.celular || "";
+                        document.getElementById('r-reg').value = res.userData.region || "";
+                        document.getElementById('r-prov').value = res.userData.provincia || "";
+                        document.getElementById('r-dist').value = res.userData.distrito || "";
+                        document.getElementById('r-eess').value = res.userData.eess || "";
+                        showBox('reg-final');
+                        showMsg("", "");
+                    }
+                } else { showMsg("DNI no autorizado en el sistema DIT.", "red"); }
+            } catch(e) { showMsg("Error de conexión", "red"); }
         }
 
         async function activateAccount() {
@@ -215,7 +217,8 @@
             };
 
             showMsg("Activando perfil...", "blue");
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+            // Eliminamos mode: 'no-cors' para poder recibir el 'Success' de forma segura si el script está bien configurado
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
             showMsg("¡Cuenta activada con éxito!", "green");
             setTimeout(()=>location.reload(), 1500);
         }
@@ -223,15 +226,19 @@
         async function handleLogin() {
             const u = document.getElementById('l-dni').value;
             const p = document.getElementById('l-pass').value;
+            if(!u || !p) return showMsg("Complete sus datos", "red");
+            
             showMsg("Validando acceso...", "blue");
-            const r = await fetch(`${SCRIPT_URL}?action=login&dni=${u}&pass=${p}`);
-            const res = await r.json();
-            if(res.status === "success") {
-                sessionStorage.setItem('user_dni', u);
-                sessionStorage.setItem('is_auth', 'true');
-                sessionStorage.setItem('user_name', res.nombre);
-                unlockApp(res.nombre);
-            } else { showMsg("DNI o contraseña incorrectos", "red"); }
+            try {
+                const r = await fetch(`${SCRIPT_URL}?action=login&dni=${u}&pass=${p}`);
+                const res = await r.json();
+                if(res.status === "success") {
+                    sessionStorage.setItem('user_dni', u);
+                    sessionStorage.setItem('is_auth', 'true');
+                    sessionStorage.setItem('user_name', res.nombre);
+                    unlockApp(res.nombre);
+                } else { showMsg("DNI o contraseña incorrectos", "red"); }
+            } catch(e) { showMsg("Error al conectar con el servidor", "red"); }
         }
 
         async function changePassword() {
@@ -245,28 +252,44 @@
                 oldPass: oldP, 
                 newPass: newP, 
                 isChange: true,
-                // Mantenemos los datos actuales al cambiar clave
-                nombre: sessionStorage.getItem('user_name'),
-                profesion: "", celular: "", region: "", provincia: "", distrito: "", eess: ""
+                // Al enviar estos campos vacíos, nuestro nuevo script NO los borrará en la hoja
+                nombre: "", profesion: "", celular: "", region: "", provincia: "", distrito: "", eess: ""
             };
 
             alert("Procesando cambio...");
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-            document.getElementById('modal-pw').style.display='none';
-            alert("Operación completada");
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
+                document.getElementById('modal-pw').style.display='none';
+                alert("Operación completada");
+                document.getElementById('old-pw').value = "";
+                document.getElementById('new-pw').value = "";
+            } catch(e) { alert("Error al cambiar contraseña"); }
         }
 
         function unlockApp(n) {
             document.getElementById('auth-screen').style.transform = "translateY(-100%)";
             document.getElementById('main-app').style.display = "flex";
             document.getElementById('user-display').innerText = n;
-            const msg = new SpeechSynthesisUtterance(`Bienvenido al sistema DIT, ${n}`);
-            msg.lang = 'es-ES'; window.speechSynthesis.speak(msg);
+            
+            // Verificamos si ya saludó para no repetir el audio si refresca
+            if(!window.hasGreeted) {
+                const msg = new SpeechSynthesisUtterance(`Bienvenido al sistema DIT, ${n}`);
+                msg.lang = 'es-ES'; window.speechSynthesis.speak(msg);
+                window.hasGreeted = true;
+            }
         }
 
         function logout() { sessionStorage.clear(); location.reload(); }
-        if(sessionStorage.getItem('is_auth') === 'true') unlockApp(sessionStorage.getItem('user_name'));
+        
+        // Ejecución al cargar
+        if(sessionStorage.getItem('is_auth') === 'true') {
+            unlockApp(sessionStorage.getItem('user_name'));
+        }
 
+        // Evento ENTER para login rápido
+        document.getElementById('l-pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
+
+        // Sortable y Navegación
         Sortable.create(document.getElementById('sortable-nodes'), { animation: 150 });
         document.querySelectorAll('.node-btn').forEach(btn => {
             btn.addEventListener('click', function() {
