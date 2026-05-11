@@ -11,22 +11,22 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-dark); height: 100vh; display: flex; flex-direction: column; overflow: hidden; color: white; }
 
-        /* PORTADA Y ACCESO */
+        /* ACCESO PROFESIONAL */
         #auth-screen { position: fixed; inset: 0; z-index: 2000; display: flex; background: #fff; transition: 0.8s cubic-bezier(0.86, 0, 0.07, 1); }
         .auth-visual { flex: 1; background: linear-gradient(rgba(68,119,199,0.85), rgba(68,119,199,0.85)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg'); background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 40px; color: white; }
-        .auth-form-panel { width: 450px; padding: 35px; display: flex; flex-direction: column; justify-content: center; background: #fff; color: #333; box-shadow: -5px 0 20px rgba(0,0,0,0.1); }
+        .auth-form-panel { width: 450px; padding: 35px; display: flex; flex-direction: column; justify-content: center; background: #fff; color: #333; box-shadow: -5px 0 20px rgba(0,0,0,0.1); overflow-y: auto; }
         .form-box { display: none; animation: fadeIn 0.4s; }
         .form-box.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
         
-        input { width: 100%; padding: 12px; background: #f1f4f7; border: 1px solid #cfd7df; border-radius: 8px; outline: none; margin-bottom: 12px; color: #333; font-size: 0.9rem; }
-        input:disabled { background: #e9ecef; color: #777; border-style: dashed; }
+        label { display: block; font-size: 0.7rem; font-weight: bold; color: #666; margin-bottom: 4px; margin-left: 5px; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; background: #f1f4f7; border: 1px solid #cfd7df; border-radius: 8px; outline: none; margin-bottom: 15px; color: #333; font-size: 0.9rem; }
         .btn-main { width: 100%; padding: 14px; background: var(--minsa-blue); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-main:active { transform: scale(0.98); }
         .toggle-link { text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666; }
         .toggle-link span { color: var(--minsa-blue); cursor: pointer; font-weight: bold; text-decoration: underline; }
 
-        /* DASHBOARD */
+        /* APP PRINCIPAL */
         #main-app { display: none; flex-direction: column; height: 100vh; width: 100%; }
         .top-nav { background: var(--glass); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 242, 254, 0.2); padding-top: 10px; }
         .brand-header { display: flex; justify-content: space-between; align-items: center; padding: 0 15px 10px; }
@@ -38,17 +38,9 @@
         .node-btn i { font-size: 1.1rem; color: var(--glow-cyan); }
         .node-btn span { font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
         .node-btn.active { border-color: var(--glow-pink); background: rgba(255, 0, 127, 0.15); box-shadow: 0 0 12px rgba(255, 0, 127, 0.3); }
-        .node-btn.active i { color: var(--glow-pink); }
 
-        /* INTERFAZ MODAL Y VIEWPORT */
         .main-viewport { flex: 1; position: relative; background: #000; }
         iframe { width: 100%; height: 100%; border: none; }
-        .loading-bar { position: absolute; top: 0; left: 0; height: 3px; width: 0%; background: var(--glow-cyan); transition: 0.4s; z-index: 10; }
-        
-        #modal-pw { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-card { background: #fff; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; color: #333; }
-
-        @media (max-width: 768px) { .auth-visual { display: none; } .auth-form-panel { width: 100%; } }
     </style>
 </head>
 <body>
@@ -60,34 +52,48 @@
         <div class="auth-form-panel">
             <div id="login-box" class="form-box active">
                 <h2 style="margin-bottom:20px">Acceso Profesional</h2>
-                <input type="text" id="l-dni" placeholder="DNI">
-                <input type="password" id="l-pass" placeholder="Contraseña">
-                <button class="btn-main" onclick="handleLogin()">INGRESAR</button>
-                <div class="toggle-link">¿Primera vez? <span onclick="showBox('reg-check')">Activar cuenta aquí</span></div>
+                <label>DNI del Usuario</label>
+                <input type="text" id="l-dni" placeholder="DNI de 8 dígitos">
+                <label>Contraseña</label>
+                <input type="password" id="l-pass" placeholder="Clave de sistema">
+                <button class="btn-main" onclick="handleLogin()">INGRESAR AL SISTEMA</button>
+                <div class="toggle-link">¿No tienes cuenta activa? <span onclick="showBox('reg-check')">Verificar DNI</span></div>
             </div>
 
             <div id="reg-check" class="form-box">
-                <h2>Activar Usuario</h2>
-                <p style="font-size:0.8rem; color:#888; margin-bottom:15px">Buscando su DNI en el padrón autorizado...</p>
-                <input type="text" id="r-dni-search" placeholder="Ingrese DNI">
-                <button class="btn-main" onclick="checkAuthorizedDNI()">BUSCAR DNI</button>
+                <h2>Verificación de Padrón</h2>
+                <p style="font-size:0.8rem; color:#888; margin-bottom:15px">Consulte su autorización en el sistema regional...</p>
+                <label>Ingrese DNI</label>
+                <input type="text" id="r-dni-search" placeholder="Escriba aquí su DNI">
+                <button class="btn-main" onclick="checkAuthorizedDNI()">BUSCAR REGISTRO</button>
                 <div class="toggle-link"><span onclick="showBox('login')">Volver al inicio</span></div>
             </div>
 
             <div id="reg-final" class="form-box">
-                <h3 id="reg-greeting" style="color:var(--minsa-blue); margin-bottom:15px"></h3>
-                <input type="text" id="r-name" disabled>
-                <input type="text" id="r-prof" disabled>
-                <input type="text" id="r-cel" placeholder="N° de Celular">
-                <input type="text" id="r-eess" placeholder="Nombre de su EESS">
-                <input type="password" id="r-new-pass" placeholder="Crear Nueva Contraseña">
-                <button class="btn-main" style="background:#28a745" onclick="activateAccount()">ACTIVAR MI CUENTA</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+                    <h3 id="reg-greeting" style="color:var(--minsa-blue); font-size:1rem"></h3>
+                    <button onclick="showBox('reg-check')" style="background:none; border:none; color:var(--minsa-blue); font-size:0.7rem; cursor:pointer; font-weight:bold;"><i class="fas fa-arrow-left"></i> REGRESAR</button>
+                </div>
+                
+                <label>Nombres y Apellidos (Confirmar)</label>
+                <input type="text" id="r-name">
+                
+                <label>Profesión / Especialidad</label>
+                <input type="text" id="r-prof">
+                
+                <label>Número de Celular (9 dígitos)</label>
+                <input type="number" id="r-cel" placeholder="9XXXXXXXX" oninput="if(this.value.length > 9) this.value = this.value.slice(0,9);">
+                
+                <label>E.E.S.S. (Establecimiento de Salud)</label>
+                <input type="text" id="r-eess">
+                
+                <label>Crear Nueva Contraseña</label>
+                <input type="password" id="r-new-pass" placeholder="Defina su clave">
+                
+                <button class="btn-main" style="background:#28a745" onclick="activateAccount()">CONFIRMAR Y ACTIVAR</button>
             </div>
             
-            <div style="margin-top:30px; text-align:center; border-top:1px solid #eee; padding-top:20px">
-                <p style="font-size:0.7rem; color:#aaa"><i class="fas fa-headset"></i> SOPORTE TÉCNICO: 956113989</p>
-                <p id="auth-msg" style="font-size:0.8rem; margin-top:10px; display:none; font-weight:bold"></p>
-            </div>
+            <div id="auth-msg" style="margin-top:20px; text-align:center; font-size:0.85rem; display:none; padding:10px; border-radius:5px"></div>
         </div>
     </div>
 
@@ -95,16 +101,13 @@
         <header class="top-nav">
             <div class="brand-header">
                 <div style="display:flex; align-items:center; gap:10px">
-                    <div class="logo-circle"><i class="fas fa-dna" style="font-size:16px; color:var(--glow-cyan)"></i></div>
+                    <div class="logo-circle"><i class="fas fa-dna" style="color:var(--glow-cyan)"></i></div>
                     <div>
                         <h4 style="color:var(--glow-cyan); font-size:0.8rem">SISTEMA DIT</h4>
                         <p id="user-display" style="font-size:0.6rem; color:#fff; font-weight:bold"></p>
                     </div>
                 </div>
-                <div style="display:flex; gap:8px">
-                    <button onclick="document.getElementById('modal-pw').style.display='flex'" style="background:rgba(255,255,255,0.05); border:1px solid #444; color:#fff; font-size:0.65rem; padding:6px 12px; border-radius:8px; cursor:pointer"><i class="fas fa-key"></i> LLAVE</button>
-                    <button onclick="logout()" style="background:rgba(255,77,77,0.1); border:1px solid #ff4d4d; color:#ff4d4d; font-size:0.65rem; padding:6px 12px; border-radius:8px; cursor:pointer"><i class="fas fa-power-off"></i> SALIR</button>
-                </div>
+                <button onclick="logout()" style="background:rgba(255,77,77,0.1); border:1px solid #ff4d4d; color:#ff4d4d; font-size:0.65rem; padding:6px 12px; border-radius:8px; cursor:pointer">CERRAR SESIÓN</button>
             </div>
             <div class="scroll-container">
                 <div id="sortable-nodes">
@@ -118,23 +121,12 @@
             </div>
         </header>
         <main class="main-viewport">
-            <div id="l-bar" class="loading-bar"></div>
             <iframe id="content-frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"></iframe>
         </main>
     </div>
 
-    <div id="modal-pw">
-        <div class="modal-card">
-            <h3 style="margin-bottom:15px">Cambiar Contraseña</h3>
-            <input type="password" id="old-pw" placeholder="Contraseña Actual">
-            <input type="password" id="new-pw" placeholder="Nueva Contraseña">
-            <button class="btn-main" onclick="changePassword()">ACTUALIZAR</button>
-            <button class="btn-main" style="background:#ccc; color:#333; margin-top:8px" onclick="document.getElementById('modal-pw').style.display='none'">CANCELAR</button>
-        </div>
-    </div>
-
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby0QLMGiqxXTBSVCeSSDBf7S-vJcWwdrsLGD98c91OviqgTCanNkOQ0AMsZqdOeYrKU/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBvdzD9LrumazDsf7kU4XGz-Y-7Fabq8epZ8SGa2g4-CrqJZOQ53-bHgHNWyHeZpts/exec";
         let currentDNI = '';
 
         function showBox(box) { 
@@ -144,37 +136,58 @@
 
         function showMsg(t, c) { 
             const m = document.getElementById('auth-msg'); 
-            m.innerText = t; m.style.color = c; m.style.display = 'block'; 
+            m.innerText = t; m.style.background = c === 'red' ? '#ffebee' : '#e3f2fd';
+            m.style.color = c; m.style.display = 'block'; 
         }
 
         async function checkAuthorizedDNI() {
             const dni = document.getElementById('r-dni-search').value;
-            if(!dni) return;
-            showMsg("Buscando en padrón...", "blue");
+            if(!dni) return showMsg("Por favor, ingrese un DNI", "red");
+            showMsg("Verificando credenciales...", "blue");
+            
             const r = await fetch(`${SCRIPT_URL}?action=fetchUserData&dni=${dni}`);
             const res = await r.json();
+            
             if(res.status === "found") {
                 if(res.hasPass) { 
-                    showMsg("DNI ya registrado. Inicie sesión.", "orange"); 
+                    showMsg("Este usuario ya está activo. Por favor inicie sesión.", "orange"); 
                     setTimeout(()=>showBox('login'), 2000); 
                 } else {
                     currentDNI = dni;
-                    document.getElementById('reg-greeting').innerText = "Hola, " + res.userData.nombre;
-                    document.getElementById('r-name').value = res.userData.nombre;
-                    document.getElementById('r-prof').value = res.userData.profesion;
+                    // Carga datos existentes del Excel para edición
+                    document.getElementById('reg-greeting').innerText = "Bienvenido, " + res.userData.nombre;
+                    document.getElementById('r-name').value = res.userData.nombre || "";
+                    document.getElementById('r-prof').value = res.userData.profesion || "";
+                    document.getElementById('r-cel').value = res.userData.celular || "";
+                    document.getElementById('r-eess').value = res.userData.eess || "";
                     showBox('reg-final');
                     showMsg("", "");
                 }
-            } else { showMsg("DNI no autorizado", "red"); }
+            } else { showMsg("DNI no autorizado en el sistema DIT.", "red"); }
         }
 
         async function activateAccount() {
-            const data = { action: "updateUserProfile", dni: currentDNI, nombre: document.getElementById('r-name').value, profesion: document.getElementById('r-prof').value, celular: document.getElementById('r-cel').value, eess: document.getElementById('r-eess').value, newPass: document.getElementById('r-new-pass').value };
-            if(!data.celular || !data.newPass) return showMsg("Complete los campos", "red");
-            showMsg("Activando...", "blue");
+            const cel = document.getElementById('r-cel').value;
+            const pass = document.getElementById('r-new-pass').value;
+
+            // VALIDACIÓN DE CELULAR (9 DÍGITOS)
+            if(cel.length !== 9) return showMsg("El número de celular debe tener exactamente 9 dígitos", "red");
+            if(pass.length < 4) return showMsg("Ingrese una contraseña válida", "red");
+
+            const data = { 
+                action: "updateUserProfile", 
+                dni: currentDNI, 
+                nombre: document.getElementById('r-name').value, 
+                profesion: document.getElementById('r-prof').value, 
+                celular: cel, 
+                eess: document.getElementById('r-eess').value, 
+                newPass: pass 
+            };
+
+            showMsg("Actualizando perfil...", "blue");
             await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-            showMsg("¡Cuenta activada!", "green");
-            setTimeout(()=>location.reload(), 2000);
+            showMsg("¡Cuenta activada con éxito!", "green");
+            setTimeout(()=>location.reload(), 1500);
         }
 
         async function handleLogin() {
@@ -185,42 +198,29 @@
             const res = await r.json();
             if(res.status === "success") {
                 sessionStorage.setItem('user_dni', u);
+                sessionStorage.setItem('is_auth', 'true');
+                sessionStorage.setItem('user_name', res.nombre);
                 unlockApp(res.nombre);
-                speakWelcome(res.nombre);
-            } else { showMsg("DNI o clave incorrecta", "red"); }
-        }
-
-        function speakWelcome(n) {
-            const msg = new SpeechSynthesisUtterance(`Bienvenido ${n} al sistema de Desarrollo Infantil Temprano`);
-            msg.lang = 'es-ES'; window.speechSynthesis.speak(msg);
+            } else { showMsg("DNI o contraseña incorrectos", "red"); }
         }
 
         function unlockApp(n) {
             document.getElementById('auth-screen').style.transform = "translateY(-100%)";
             document.getElementById('main-app').style.display = "flex";
             document.getElementById('user-display').innerText = n;
-            sessionStorage.setItem('is_auth', 'true');
-            sessionStorage.setItem('user_name', n);
-        }
-
-        async function changePassword() {
-            const data = { action: "updateUserProfile", dni: sessionStorage.getItem('user_dni'), oldPass: document.getElementById('old-pw').value, newPass: document.getElementById('new-pw').value, isChange: true };
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-            alert("Solicitud procesada."); document.getElementById('modal-pw').style.display = 'none';
+            const msg = new SpeechSynthesisUtterance(`Bienvenido al sistema DIT, ${n}`);
+            msg.lang = 'es-ES'; window.speechSynthesis.speak(msg);
         }
 
         function logout() { sessionStorage.clear(); location.reload(); }
         if(sessionStorage.getItem('is_auth') === 'true') unlockApp(sessionStorage.getItem('user_name'));
 
-        Sortable.create(document.getElementById('sortable-nodes'), { animation: 150, delay: 200, delayOnTouchOnly: true });
+        Sortable.create(document.getElementById('sortable-nodes'), { animation: 150 });
         document.querySelectorAll('.node-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const bar = document.getElementById('l-bar');
-                bar.style.width = '100%';
                 document.querySelectorAll('.node-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 document.getElementById('content-frame').src = this.getAttribute('data-url');
-                setTimeout(() => { bar.style.width = '0%'; }, 500);
             });
         });
     </script>
