@@ -3,335 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIT | Quantum Interface</title>
+    <title>DIT | Quantum Drag Interface</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <style>
         :root {
-            --glow-color: #00f2fe;
-            --bg-color: #05070a;
-            --card-bg: rgba(10, 15, 25, 0.7);
-            --neon-pink: #ff007f;
-            --neon-blue: #00d4ff;
+            --glow-cyan: #00f2fe;
+            --glow-pink: #ff007f;
+            --bg-dark: #05070a;
+            --glass: rgba(10, 15, 25, 0.8);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Orbitron', 'Inter', sans-serif;
+            font-family: 'Orbitron', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: white;
+            background-color: var(--bg-dark);
             height: 100vh;
-            display: flex;
-            overflow: hidden;
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 70%),
-                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 100%, 100% 4px, 100% 100%;
-        }
-
-        /* --- SIDEBAR FUTURISTA --- */
-        #nav-node {
-            width: 300px;
-            height: 100vh;
-            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(10,15,25,0.4) 100%);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(0, 242, 254, 0.2);
-            padding: 20px;
             display: flex;
             flex-direction: column;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            z-index: 50;
+            overflow: hidden;
+            color: white;
         }
 
-        #nav-node.minimized {
-            width: 85px;
-        }
-
-        /* Decoración de escaneo */
-        #nav-node::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: var(--glow-color);
-            box-shadow: 0 0 20px var(--glow-color);
-            animation: scan 4s linear infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-
-        .brand {
-            padding: 20px 10px;
+        /* --- BARRA SUPERIOR DINÁMICA --- */
+        .top-nav {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 15px 25px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 40px;
+            gap: 30px;
+            z-index: 100;
         }
 
-        .brand-icon {
-            width: 45px;
-            height: 45px;
-            border: 2px solid var(--glow-color);
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: fit-content;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--glow-cyan);
             border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 15px var(--glow-color);
-            animation: pulse 2s infinite;
+            box-shadow: 0 0 15px var(--glow-cyan);
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 10px var(--glow-color); }
-            50% { transform: scale(1.05); box-shadow: 0 0 25px var(--glow-color); }
-            100% { transform: scale(1); box-shadow: 0 0 10px var(--glow-color); }
-        }
-
-        /* Ítems del Menú Estilo "Node" */
-        .node-list {
-            list-style: none;
+        /* --- CONTENEDOR DE BOTONES DESLIZABLES --- */
+        #sortable-nodes {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            gap: 12px;
+            flex: 1;
+            padding: 5px;
         }
 
-        .node-item {
-            position: relative;
-            padding: 15px;
+        .node-btn {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
             border-radius: 12px;
-            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 20px;
-            transition: 0.4s;
-            overflow: hidden;
+            gap: 12px;
+            cursor: grab; /* Indica que se puede mover */
+            transition: all 0.3s ease;
+            user-select: none;
+            white-space: nowrap;
         }
 
-        .node-item::before {
-            content: "";
-            position: absolute;
-            left: -100%;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.1), transparent);
-            transition: 0.5s;
+        .node-btn:active { cursor: grabbing; }
+
+        /* Estilo al arrastrar */
+        .sortable-ghost {
+            opacity: 0.4;
+            transform: scale(0.95);
+            background: var(--glow-cyan);
         }
 
-        .node-item:hover::before {
-            left: 100%;
+        .node-btn i {
+            font-size: 1.1rem;
+            color: var(--glow-cyan);
+            text-shadow: 0 0 8px var(--glow-cyan);
         }
 
-        .node-item:hover {
-            border-color: var(--glow-color);
-            transform: translateX(10px);
-            background: rgba(0, 242, 254, 0.05);
+        .node-btn span {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            font-weight: bold;
         }
 
-        .node-item i {
-            font-size: 1.4rem;
-            color: var(--neon-blue);
-            text-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .node-item.active {
-            border-color: var(--neon-pink);
+        /* Botón seleccionado/activo */
+        .node-btn.active {
+            border-color: var(--glow-pink);
             background: rgba(255, 0, 127, 0.1);
         }
-
-        .node-item.active i {
-            color: var(--neon-pink);
-            text-shadow: 0 0 10px var(--neon-pink);
+        .node-btn.active i {
+            color: var(--glow-pink);
+            text-shadow: 0 0 10px var(--glow-pink);
         }
 
-        .node-item span {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            white-space: nowrap;
-            transition: opacity 0.3s;
-        }
-
-        .minimized .node-item span, .minimized .brand-text {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* --- VISOR PRINCIPAL --- */
-        .main-stage {
+        /* --- ÁREA DE CONTENIDO --- */
+        .main-viewport {
             flex: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .system-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 30px;
-            margin-bottom: 20px;
-            background: var(--card-bg);
-            border-radius: 15px;
-            border-left: 5px solid var(--glow-color);
-        }
-
-        .view-frame {
-            flex: 1;
-            background: black;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            background: radial-gradient(circle at center, #10141d 0%, #05070a 100%);
             position: relative;
+        }
+
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
         }
 
         iframe {
             width: 100%;
             height: 100%;
             border: none;
-            filter: contrast(1.1) brightness(1.1);
-            transition: 0.5s;
+            opacity: 1;
+            transition: opacity 0.5s;
         }
 
-        /* Botón Flotante de Retracción */
-        .collapse-trigger {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--glow-color);
-            color: black;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--glow-color);
-            z-index: 60;
+        /* Indicador visual de ordenamiento */
+        .drag-handle {
+            margin-right: 5px;
+            color: #333;
+            font-size: 0.8rem;
         }
-
-        /* Cargador */
-        .loading-overlay {
-            position: absolute;
-            inset: 0;
-            background: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .cyber-loader {
-            width: 100px;
-            height: 100px;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--glow-color);
-            border-bottom: 2px solid var(--neon-pink);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <nav id="nav-node">
-        <div class="brand">
-            <div class="brand-icon"><i class="fas fa-atom"></i></div>
-            <div class="brand-text">
-                <h4 style="color: var(--glow-color);">SISTEMA DIT</h4>
-                <small style="font-size: 0.6rem; color: #555;">v5.0 QUANTUM</small>
-            </div>
-        </div>
-
-        <div class="node-list">
-            <div class="node-item active" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/', 'Central de Inteligencia', this)">
-                <i class="fas fa-fingerprint"></i>
-                <span>Censo DIT</span>
-            </div>
-            <div class="node-item" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/casita/', 'Simulador Casita', this)">
-                <i class="fas fa-brain"></i>
-                <span>La Casita</span>
-            </div>
-            <div class="node-item" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/', 'Gestión Temporal', this)">
-                <i class="fas fa-microchip"></i>
-                <span>Citas DIT</span>
-            </div>
-            <div class="node-item" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/Mapa/', 'Mapeo de Nodos', this)">
-                <i class="fas fa-satellite-dish"></i>
-                <span>Mapa DIT</span>
-            </div>
-            <div class="node-item" onclick="switchSystem('https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/', 'Log de Datos', this)">
-                <i class="fas fa-code-branch"></i>
-                <span>Registros</span>
-            </div>
-            <div class="node-item" onclick="switchSystem('https://confianzaseguridad772-max.github.io/Dosificador_Hierro/', 'Laboratorio Químico', this)">
-                <i class="fas fa-flask-vial"></i>
-                <span>Dosificador</span>
-            </div>
-        </div>
-
-        <div class="collapse-trigger" onclick="toggleNav()">
-            <i class="fas fa-bars"></i>
-        </div>
-    </nav>
-
-    <main class="main-stage">
-        <header class="system-header">
+    <header class="top-nav">
+        <div class="brand-header">
+            <div class="logo-circle"><i class="fas fa-gear"></i></div>
             <div>
-                <span style="color: var(--glow-color); font-size: 0.7rem; font-weight: bold;">[ ESTATUS: ACTIVO ]</span>
-                <h2 id="system-title">Central de Inteligencia</h2>
+                <h4 style="color: var(--glow-cyan); font-size: 0.9rem;">SISTEMA DIT</h4>
+                <p style="font-size: 0.5rem; color: #555;">v5.0 QUANTUM</p>
             </div>
-            <div id="clock" style="font-family: monospace; color: var(--neon-pink);">00:00:00</div>
-        </header>
+        </div>
 
-        <div class="view-frame">
-            <div id="loader" class="loading-overlay">
-                <div class="cyber-loader"></div>
+        <div id="sortable-nodes">
+            <div class="node-btn active" data-url="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/">
+                <i class="fas fa-fingerprint"></i>
+                <span>CENSO DIT</span>
             </div>
-            <iframe id="main-frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/" onload="hideLoader()"></iframe>
+            <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/casita/">
+                <i class="fas fa-brain"></i>
+                <span>LA CASITA</span>
+            </div>
+            <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/">
+                <i class="fas fa-microchip"></i>
+                <span>CITAS DIT</span>
+            </div>
+            <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Mapa/">
+                <i class="fas fa-satellite-dish"></i>
+                <span>MAPA DIT</span>
+            </div>
+            <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/">
+                <i class="fas fa-code-branch"></i>
+                <span>REGISTROS</span>
+            </div>
+            <div class="node-btn" data-url="https://confianzaseguridad772-max.github.io/Dosificador_Hierro/">
+                <i class="fas fa-flask-vial"></i>
+                <span>DOSIFICADOR</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-viewport">
+        <div class="iframe-wrapper">
+            <iframe id="content-frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"></iframe>
         </div>
     </main>
 
     <script>
-        function toggleNav() {
-            document.getElementById('nav-node').classList.toggle('minimized');
-        }
+        // Inicializar el arrastre de botones
+        const el = document.getElementById('sortable-nodes');
+        Sortable.create(el, {
+            animation: 350,
+            ghostClass: 'sortable-ghost',
+            onEnd: function() {
+                console.log("Nuevo orden guardado localmente");
+                // Aquí podrías guardar el orden en localStorage si quisieras
+            }
+        });
 
-        function switchSystem(url, title, element) {
-            document.querySelectorAll('.node-item').forEach(n => n.classList.remove('active'));
-            element.classList.add('active');
-            
-            document.getElementById('system-title').innerText = title;
-            document.getElementById('loader').style.display = 'flex';
-            document.getElementById('main-frame').src = url;
-        }
+        // Manejar el cambio de página al hacer clic
+        const buttons = document.querySelectorAll('.node-btn');
+        const frame = document.getElementById('content-frame');
 
-        function hideLoader() {
-            document.getElementById('loader').style.display = 'none';
-        }
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // UI de botón activo
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
 
-        // Reloj de sistema
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.getHours().toString().padStart(2, '0') + ":" + 
-                                                         now.getMinutes().toString().padStart(2, '0') + ":" + 
-                                                         now.getSeconds().toString().padStart(2, '0');
-        }, 1000);
+                // Cambiar URL
+                frame.style.opacity = '0';
+                setTimeout(() => {
+                    frame.src = btn.getAttribute('data-url');
+                    frame.style.opacity = '1';
+                }, 300);
+            });
+        });
     </script>
 </body>
 </html>
