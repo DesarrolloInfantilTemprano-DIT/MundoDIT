@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DIT | SIHCE Castillo Grande</title>
+    <title>DIT | Desarrollo Infantil Temprano</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <style>
@@ -51,25 +51,25 @@
 
     <div id="auth-screen">
         <div class="auth-visual">
-            <div><h1 style="font-size:2.5rem">SIHCE <b>DIT</b></h1><p>Versión 5.0 Quantum - Castillo Grande</p></div>
+            <div><h1 style="font-size:2.5rem">Desarrollo Infantil Temprano <b>DIT</b></h1><p>2026-Pro</p></div>
         </div>
         <div class="auth-form-panel">
             <div id="login-box" class="form-box active">
                 <h2 style="margin-bottom:20px">Acceso Profesional</h2>
                 <label>DNI del Usuario</label>
-                <input type="text" id="l-dni" placeholder="DNI de 8 dígitos">
+                <input type="text" id="l-dni" placeholder="Ingrese DNI">
                 <label>Contraseña</label>
-                <input type="password" id="l-pass" placeholder="Clave de sistema">
-                <button class="btn-main" onclick="handleLogin()">INGRESAR AL SISTEMA</button>
+                <input type="password" id="l-pass" placeholder="...">
+                <button class="btn-main" onclick="handleLogin()">INGRESAR</button>
                 <div class="toggle-link">¿No tienes cuenta activa? <span onclick="showBox('reg-check')">Verificar DNI</span></div>
             </div>
 
             <div id="reg-check" class="form-box">
-                <h2>Verificación de Padrón</h2>
-                <p style="font-size:0.8rem; color:#888; margin-bottom:15px">Consulte su autorización en el sistema regional...</p>
+                <h2>Zona Validación</h2>
+                <p style="font-size:0.8rem; color:#888; margin-bottom:15px">Consulte su autorización al sistema...</p>
                 <label>Ingrese DNI</label>
                 <input type="text" id="r-dni-search" placeholder="Escriba aquí su DNI">
-                <button class="btn-main" onclick="checkAuthorizedDNI()">BUSCAR REGISTRO</button>
+                <button class="btn-main" onclick="checkAuthorizedDNI()">BUSCAR</button>
                 <div class="toggle-link"><span onclick="showBox('login')">Volver al inicio</span></div>
             </div>
 
@@ -144,7 +144,7 @@
             <h3 style="margin-bottom:15px">Cambiar Contraseña</h3>
             <label>Contraseña Actual</label><input type="password" id="old-pw">
             <label>Nueva Contraseña</label><input type="password" id="new-pw">
-            <button class="btn-main" onclick="changePassword()">ACTUALIZAR LLAVE</button>
+            <button class="btn-main" onclick="changePassword()">ACTUALIZAR</button>
             <button class="btn-main" style="background:#eee; color:#333; margin-top:8px" onclick="document.getElementById('modal-pw').style.display='none'">CANCELAR</button>
         </div>
     </div>
