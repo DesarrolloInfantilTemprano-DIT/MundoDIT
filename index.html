@@ -26,6 +26,27 @@
         .toggle-link { text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666; }
         .toggle-link span { color: var(--minsa-blue); cursor: pointer; font-weight: bold; text-decoration: underline; }
 
+        /* --- AGREGADO: DISEÑO RESPONSIVO PARA MÓVILES --- */
+        @media (max-width: 768px) {
+            #auth-screen { flex-direction: column; overflow-y: auto; }
+            .auth-visual { 
+                flex: none; 
+                height: 30vh; 
+                padding: 20px; 
+                align-items: center; 
+                justify-content: center; 
+                text-align: center; 
+            }
+            .auth-visual h1 { font-size: 1.8rem !important; }
+            .auth-form-panel { 
+                width: 100%; 
+                padding: 25px; 
+                box-shadow: none; 
+                justify-content: flex-start;
+            }
+        }
+        /* ----------------------------------------------- */
+
         /* APP PRINCIPAL */
         #main-app { display: none; flex-direction: column; height: 100vh; width: 100%; }
         .top-nav { background: var(--glass); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 242, 254, 0.2); padding-top: 10px; }
@@ -217,7 +238,6 @@
             };
 
             showMsg("Activando perfil...", "blue");
-            // Eliminamos mode: 'no-cors' para poder recibir el 'Success' de forma segura si el script está bien configurado
             await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
             showMsg("¡Cuenta activada con éxito!", "green");
             setTimeout(()=>location.reload(), 1500);
@@ -252,7 +272,6 @@
                 oldPass: oldP, 
                 newPass: newP, 
                 isChange: true,
-                // Al enviar estos campos vacíos, nuestro nuevo script NO los borrará en la hoja
                 nombre: "", profesion: "", celular: "", region: "", provincia: "", distrito: "", eess: ""
             };
 
@@ -271,7 +290,6 @@
             document.getElementById('main-app').style.display = "flex";
             document.getElementById('user-display').innerText = n;
             
-            // Verificamos si ya saludó para no repetir el audio si refresca
             if(!window.hasGreeted) {
                 const msg = new SpeechSynthesisUtterance(`Bienvenido al sistema DIT, ${n}`);
                 msg.lang = 'es-ES'; window.speechSynthesis.speak(msg);
@@ -281,15 +299,12 @@
 
         function logout() { sessionStorage.clear(); location.reload(); }
         
-        // Ejecución al cargar
         if(sessionStorage.getItem('is_auth') === 'true') {
             unlockApp(sessionStorage.getItem('user_name'));
         }
 
-        // Evento ENTER para login rápido
         document.getElementById('l-pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
 
-        // Sortable y Navegación
         Sortable.create(document.getElementById('sortable-nodes'), { animation: 150 });
         document.querySelectorAll('.node-btn').forEach(btn => {
             btn.addEventListener('click', function() {
