@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DIT | Desarrollo Infantil Temprano</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- Se eliminó el script de SortableJS para evitar interferencias en celulares -->
     <style>
         :root { --glow-cyan: #00f2fe; --glow-pink: #ff007f; --bg-dark: #05070a; --glass: rgba(10, 15, 25, 0.95); --minsa-blue: #4477c7; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -53,7 +53,8 @@
         .brand-header { display: flex; justify-content: space-between; align-items: center; padding: 0 15px 10px; }
         .logo-circle { width: 34px; height: 34px; border: 2px solid var(--glow-cyan); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px var(--glow-cyan); }
         
-        .scroll-container { width: 100%; overflow-x: auto; padding: 5px 10px 15px; scrollbar-width: none; }
+        /* Se añade -webkit-overflow-scrolling para que el deslizamiento lateral sea fluido en iPhone/Android */
+        .scroll-container { width: 100%; overflow-x: auto; padding: 5px 10px 15px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         #sortable-nodes { display: flex; gap: 10px; width: max-content; }
         .node-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; }
         .node-btn i { font-size: 1.1rem; color: var(--glow-cyan); }
@@ -171,7 +172,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzakU-OkU4tYzOcD1XVGrrXjGjWPu8pbbSRuqKNdNUX1Wxmm3MxyW1gV7ugMQN7jzeF/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfM-7jdTJzXk5ZPlb17yqXhuRbtvou_e2AKhBO_sGK1kOMM4lpUeBKi7ldxsbka3uo/exec";
         let currentDNI = '';
         let userDataCache = {};
 
@@ -239,7 +240,6 @@
 
             showMsg("Activando perfil...", "blue");
             
-            // Empaquetado seguro con URLSearchParams para evitar bloqueos de CORS
             const formData = new URLSearchParams();
             formData.append('jsonData', JSON.stringify(data));
 
@@ -296,7 +296,6 @@
 
             alert("Procesando cambio...");
             
-            // Empaquetado seguro con URLSearchParams para evitar bloqueos de CORS
             const formData = new URLSearchParams();
             formData.append('jsonData', JSON.stringify(data));
 
@@ -341,7 +340,7 @@
 
         document.getElementById('l-pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
 
-        Sortable.create(document.getElementById('sortable-nodes'), { animation: 150 });
+        // TU LOGICA ORIGINAL DE NAVEGACIÓN (SE MANTIENE 100% INTACTA)
         document.querySelectorAll('.node-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.node-btn').forEach(b => b.classList.remove('active'));
