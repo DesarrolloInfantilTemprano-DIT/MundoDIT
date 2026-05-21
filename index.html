@@ -171,7 +171,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfM-7jdTJzXk5ZPlb17yqXhuRbtvou_e2AKhBO_sGK1kOMM4lpUeBKi7ldxsbka3uo/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzakU-OkU4tYzOcD1XVGrrXjGjWPu8pbbSRuqKNdNUX1Wxmm3MxyW1gV7ugMQN7jzeF/exec";
         let currentDNI = '';
         let userDataCache = {};
 
@@ -238,9 +238,28 @@
             };
 
             showMsg("Activando perfil...", "blue");
-            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
-            showMsg("¡Cuenta activada con éxito!", "green");
-            setTimeout(()=>location.reload(), 1500);
+            
+            // Empaquetado seguro con URLSearchParams para evitar bloqueos de CORS
+            const formData = new URLSearchParams();
+            formData.append('jsonData', JSON.stringify(data));
+
+            try {
+                const response = await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: formData,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+                const resText = await response.text();
+                
+                if(resText.includes("Success")) {
+                    showMsg("¡Cuenta activada con éxito!", "green");
+                    setTimeout(()=>location.reload(), 1500);
+                } else {
+                    showMsg("Error: " + resText, "red");
+                }
+            } catch(e) {
+                showMsg("Error de conexión", "red");
+            }
         }
 
         async function handleLogin() {
@@ -276,13 +295,30 @@
             };
 
             alert("Procesando cambio...");
+            
+            // Empaquetado seguro con URLSearchParams para evitar bloqueos de CORS
+            const formData = new URLSearchParams();
+            formData.append('jsonData', JSON.stringify(data));
+
             try {
-                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
-                document.getElementById('modal-pw').style.display='none';
-                alert("Operación completada");
-                document.getElementById('old-pw').value = "";
-                document.getElementById('new-pw').value = "";
-            } catch(e) { alert("Error al cambiar contraseña"); }
+                const response = await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: formData,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+                const resText = await response.text();
+                
+                if(resText.includes("Error")) {
+                    alert(resText);
+                } else {
+                    document.getElementById('modal-pw').style.display='none';
+                    alert("Operación completada");
+                    document.getElementById('old-pw').value = "";
+                    document.getElementById('new-pw').value = "";
+                }
+            } catch(e) { 
+                alert("Error al cambiar contraseña"); 
+            }
         }
 
         function unlockApp(n) {
