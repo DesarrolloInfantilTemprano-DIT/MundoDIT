@@ -6,196 +6,518 @@
     <title>DIT | Desarrollo Infantil Temprano</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --glow-cyan: #00f2fe; --glow-pink: #ff007f; --bg-dark: #05070a; --glass: rgba(10, 15, 25, 0.95); --minsa-blue: #4477c7; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-dark); height: 100vh; display: flex; flex-direction: column; overflow: hidden; color: white; }
+        :root {
+            --glow-cyan: #00f2fe;
+            --glow-pink: #ff007f;
+            --bg-dark: #05070a;
+            --glass: rgba(10, 15, 25, 0.95);
+            --minsa-blue: #4477c7;
+        }
 
-        /* ACCESO PROFESIONAL */
-        #auth-screen { position: fixed; inset: 0; z-index: 2000; display: flex; background: #fff; transition: 0.8s cubic-bezier(0.86, 0, 0.07, 1); }
-        .auth-visual { flex: 1; background: linear-gradient(rgba(68,119,199,0.85), rgba(68,119,199,0.85)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg'); background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 40px; color: white; }
-        .auth-form-panel { width: 450px; padding: 35px; display: flex; flex-direction: column; justify-content: center; background: #fff; color: #333; box-shadow: -5px 0 20px rgba(0,0,0,0.1); overflow-y: auto; }
-        .form-box { display: none; animation: fadeIn 0.4s; }
-        .form-box.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
-        
-        label { display: block; font-size: 0.7rem; font-weight: bold; color: #666; margin-bottom: 4px; margin-left: 5px; text-transform: uppercase; }
-        input { width: 100%; padding: 12px; background: #f1f4f7; border: 1px solid #cfd7df; border-radius: 8px; outline: none; margin-bottom: 15px; color: #333; font-size: 0.9rem; }
-        .btn-main { width: 100%; padding: 14px; background: var(--minsa-blue); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-main:active { transform: scale(0.98); }
-        .toggle-link { text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666; }
-        .toggle-link span { color: var(--minsa-blue); cursor: pointer; font-weight: bold; text-decoration: underline; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        /* --- AGREGADO: DISEÑO RESPONSIVO PARA MÓVILES --- */
+        body {
+            background-color: var(--bg-dark);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* --- PANTALLA DE AUTENTICACIÓN --- */
+        #auth-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: flex;
+            background: #fff;
+            transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+        }
+
+        .auth-visual {
+            flex: 1;
+            background: linear-gradient(rgba(68, 119, 199, 0.9), rgba(68, 119, 199, 0.9)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            color: white;
+            position: relative;
+        }
+
+        .auth-form-panel {
+            width: 450px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+            color: #333;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .form-box {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .form-box.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #666;
+            margin-bottom: 4px;
+            margin-left: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            background: #f1f4f7;
+            border: 1px solid #cfd7df;
+            border-radius: 8px;
+            outline: none;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--minsa-blue);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(68, 119, 199, 0.15);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 14px;
+            background: var(--minsa-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-main:hover {
+            filter: brightness(1.1);
+        }
+
+        .btn-main:active {
+            transform: scale(0.98);
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .toggle-link span {
+            color: var(--minsa-blue);
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        /* --- DISEÑO RESPONSIVO PARA MÓVILES --- */
         @media (max-width: 768px) {
-            #auth-screen { flex-direction: column; overflow-y: auto; }
-            .auth-visual { 
-                flex: none; 
-                height: 30vh; 
-                padding: 20px; 
-                align-items: center; 
-                justify-content: center; 
-                text-align: center; 
+            #auth-screen {
+                flex-direction: column;
+                overflow-y: auto;
             }
-            .auth-visual h1 { font-size: 1.8rem !important; }
-            .auth-form-panel { 
-                width: 100%; 
-                padding: 25px; 
-                box-shadow: none; 
+            .auth-visual {
+                flex: none;
+                height: auto;
+                padding: 30px 20px;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 20px;
+            }
+            .auth-visual h1 {
+                font-size: 1.8rem !important;
+            }
+            .auth-form-panel {
+                width: 100%;
+                padding: 25px;
+                box-shadow: none;
                 justify-content: flex-start;
             }
+            .podium-container {
+                height: 110px !important;
+                margin: 10px 0 !important;
+            }
+            .podium-column {
+                padding: 4px 2px !important;
+            }
+            .podium-cup {
+                font-size: 1.1rem !important;
+            }
+            .podium-name {
+                font-size: 0.6rem !important;
+            }
         }
-        /* ----------------------------------------------- */
 
-        /* APP PRINCIPAL */
-        #main-app { display: none; flex-direction: column; height: 100vh; width: 100%; }
-        .top-nav { background: var(--glass); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 242, 254, 0.2); padding-top: 10px; }
-        .brand-header { display: flex; justify-content: space-between; align-items: center; padding: 0 15px 10px; }
-        .logo-circle { width: 34px; height: 34px; border: 2px solid var(--glow-cyan); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px var(--glow-cyan); }
-        
-        /* Se añade -webkit-overflow-scrolling para que el deslizamiento lateral sea fluido en iPhone/Android */
-        .scroll-container { width: 100%; overflow-x: auto; padding: 5px 10px 15px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        #sortable-nodes { display: flex; gap: 10px; width: max-content; }
-        .node-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 25px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s; }
-        .node-btn i { font-size: 1.1rem; color: var(--glow-cyan); }
-        .node-btn span { font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
-        .node-btn.active { border-color: var(--glow-pink); background: rgba(255, 0, 127, 0.15); box-shadow: 0 0 12px rgba(255, 0, 127, 0.3); }
+        /* --- APLICACIÓN PRINCIPAL --- */
+        #main-app {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+        }
 
-        .main-viewport { flex: 1; position: relative; background: #000; }
-        iframe { width: 100%; height: 100%; border: none; }
+        .top-nav {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            padding-top: 10px;
+        }
 
-        /* MODAL LLAVE */
-        #modal-pw { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-card { background: #fff; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; color: #333; }
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px 10px;
+        }
 
-        /* --- NUEVOS ESTILOS: PANEL DE ESTADÍSTICAS (SECCIÓN AZUL SUPERIOR) --- */
-        .stats-toggle-btn { background: rgba(0, 242, 254, 0.1); border: 1px solid var(--glow-cyan); color: var(--glow-cyan); font-size: 0.65rem; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .stats-toggle-btn:hover { background: rgba(0, 242, 254, 0.2); }
-        
-        #stats-panel { background: rgba(5, 12, 28, 0.95); border-bottom: 1px solid rgba(0, 242, 254, 0.3); padding: 15px; display: none; flex-direction: column; gap: 15px; animation: fadeIn 0.3s ease; }
-        .stats-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
-        .stats-filters div { display: flex; flex-direction: column; gap: 4px; }
-        .stats-filters label { color: var(--glow-cyan); font-size: 0.65rem; margin: 0; }
-        .stats-filters input[type="date"] { padding: 6px 10px; background: #101622; border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 6px; color: white; font-size: 0.8rem; margin: 0; width: auto; }
-        .btn-query { background: var(--minsa-blue); border: none; color: white; padding: 8px 15px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: 0.2s; height: 32px; }
-        .btn-query:hover { filter: brightness(1.1); }
+        .logo-circle {
+            width: 34px;
+            height: 34px;
+            border: 2px solid var(--glow-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px var(--glow-cyan);
+        }
 
-        /* Podio Estadístico */
-        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 15px 0 5px; height: 140px; }
-        .podium-place { display: flex; flex-direction: column; align-items: center; width: 100px; text-align: center; animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
+        .scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 5px 10px 15px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        #sortable-nodes {
+            display: flex;
+            gap: 10px;
+            width: max-content;
+        }
+
+        .node-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 18px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .node-btn i {
+            font-size: 1.1rem;
+            color: var(--glow-cyan);
+        }
+
+        .node-btn span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .node-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 242, 254, 0.4);
+        }
+
+        .node-btn.active {
+            border-color: var(--glow-pink);
+            background: rgba(255, 0, 127, 0.15);
+            box-shadow: 0 0 12px rgba(255, 0, 127, 0.3);
+        }
+
+        .main-viewport {
+            flex: 1;
+            position: relative;
+            background: #000;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- MODAL LLAVE CONTRASEÑA --- */
+        #modal-pw {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        .modal-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 350px;
+            color: #333;
+        }
+
+        /* --- DISEÑO VIBRANTE DEL PODIO EN PANEL AZUL --- */
+        .podium-section {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .podium-title {
+            font-size: 0.85rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            color: #00f2fe;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 12px;
+            height: 130px;
+            margin-bottom: 5px;
+        }
+
+        .podium-place {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 31%;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
         .podium-place.second { animation-delay: 0.2s; }
         .podium-place.first { animation-delay: 0s; }
         .podium-place.third { animation-delay: 0.4s; }
-        .podium-name { font-size: 0.7rem; font-weight: bold; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; color: #fff; }
-        .podium-column { width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        
-        .podium-place.first .podium-column { height: 95px; background: linear-gradient(135deg, #ffd700, #b8860b); border: 1px solid #ffe866; }
-        .podium-place.second .podium-column { height: 75px; background: linear-gradient(135deg, #b0c4de, #708090); border: 1px solid #d3d3d3; }
-        .podium-place.third .podium-column { height: 55px; background: linear-gradient(135deg, #cd7f32, #8b4513); border: 1px solid #e9967a; }
-        .podium-cup { font-size: 1.4rem; margin-bottom: 2px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
-        .podium-place.first .podium-cup { color: #fff7c2; text-shadow: 0 0 8px #ffd700; }
-        .podium-place.second .podium-cup { color: #f0f4f8; }
-        .podium-place.third .podium-cup { color: #ffd1a4; }
-        .podium-count { font-size: 0.85rem; font-weight: 800; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
-        .podium-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; color: #fff; }
 
-        /* Lista Desplegable Inferior */
-        .stats-list-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; max-height: 150px; overflow-y: auto; padding: 5px; }
-        .stats-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem; }
-        .stats-row:last-child { border: none; }
-        .stats-row .rank-num { width: 20px; font-weight: bold; color: var(--glow-cyan); }
-        .stats-row .spec-name { flex: 1; margin-left: 5px; color: #ddd; }
-        .stats-row .spec-count { font-weight: bold; background: rgba(0,242,254,0.1); padding: 2px 8px; border-radius: 10px; color: var(--glow-cyan); border: 1px solid rgba(0,242,254,0.2); }
+        .podium-name {
+            font-size: 0.65rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            color: #fff;
+        }
 
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .podium-column {
+            width: 100%;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 2px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .podium-place.first .podium-column {
+            height: 90px;
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            border: 1px solid #ffe866;
+        }
+
+        .podium-place.second .podium-column {
+            height: 70px;
+            background: linear-gradient(135deg, #b0c4de, #708090);
+            border: 1px solid #d3d3d3;
+        }
+
+        .podium-place.third .podium-column {
+            height: 50px;
+            background: linear-gradient(135deg, #cd7f32, #8b4513);
+            border: 1px solid #e9967a;
+        }
+
+        .podium-cup {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+        }
+
+        .podium-count {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .podium-label {
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            opacity: 0.85;
+            color: #fff;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
     <div id="auth-screen">
         <div class="auth-visual">
-            <div><h1 style="font-size:2.5rem">Desarrollo Infantil Temprano <b>DIT</b></h1><p>2026-Pro</p></div>
+            <div>
+                <h1 style="font-size: 2.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.3);">Desarrollo Infantil Temprano <b>DIT</b></h1>
+                <p style="opacity: 0.8; margin-top: 5px;">Plataforma de Monitoreo Integral Profesional</p>
+            </div>
+            
+            <div class="podium-section">
+                <div class="podium-title"><i class="fas fa-chart-line"></i> Top Atenciones del Mes</div>
+                <div class="podium-container" id="login-podium">
+                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin: auto;"><i class="fas fa-sync fa-spin"></i> Sincronizando Registro Diario...</div>
+                </div>
+            </div>
+            <div style="font-size: 0.8rem; opacity: 0.7;"><i class="fas fa-shield-alt"></i> Red Nacional de Salud - MINSA 2026</div>
         </div>
+        
         <div class="auth-form-panel">
             <div id="login-box" class="form-box active">
-                <h2 style="margin-bottom:20px">Acceso Profesional</h2>
+                <h2 style="margin-bottom: 20px; font-weight: 800; color: #111;">Acceso Profesional</h2>
                 <label>DNI del Usuario</label>
-                <input type="text" id="l-dni" placeholder="Ingrese DNI">
+                <input type="text" id="l-dni" placeholder="Ingrese su número de DNI" autocomplete="username">
+                
                 <label>Contraseña</label>
-                <input type="password" id="l-pass" placeholder="...">
-                <button class="btn-main" onclick="handleLogin()">INGRESAR</button>
-                <div class="toggle-link">¿No tienes cuenta activa? <span onclick="showBox('reg-check')">Registrarse</span></div>
+                <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password">
+                
+                <button class="btn-main" onclick="handleLogin()">INGRESAR AL SISTEMA</button>
+                <div class="toggle-link">¿No tienes una cuenta activa? <span onclick="showBox('reg-check')">Registrarse aquí</span></div>
             </div>
 
             <div id="reg-check" class="form-box">
-                <h2>Zona Validación</h2>
-                <p style="font-size:0.8rem; color:#888; margin-bottom:15px">Consulte su autorización al sistema...</p>
-                <label>Ingrese DNI</label>
-                <input type="text" id="r-dni-search" placeholder="Escriba aquí su DNI">
-                <button class="btn-main" onclick="checkAuthorizedDNI()">BUSCAR</button>
-                <div class="toggle-link"><span onclick="showBox('login')">Volver al inicio</span></div>
+                <h2 style="margin-bottom: 5px; font-weight: 800; color: #111;">Zona de Validación</h2>
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 20px;">Consulte si su DNI se encuentra autorizado por la jefatura del establecimiento.</p>
+                
+                <label>Ingrese su DNI</label>
+                <input type="text" id="r-dni-search" placeholder="Escriba aquí el DNI a evaluar">
+                
+                <button class="btn-main" onclick="checkAuthorizedDNI()">BUSCAR AUTORIZACIÓN</button>
+                <div class="toggle-link"><span onclick="showBox('login')">Volver al inicio de sesión</span></div>
             </div>
 
             <div id="reg-final" class="form-box">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
-                    <h3 id="reg-greeting" style="color:var(--minsa-blue); font-size:1rem"></h3>
-                    <button onclick="showBox('reg-check')" style="background:none; border:none; color:var(--minsa-blue); font-size:0.7rem; cursor:pointer; font-weight:bold;"><i class="fas fa-arrow-left"></i> REGRESAR</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 id="reg-greeting" style="color: var(--minsa-blue); font-size: 1.05rem; font-weight: 700;"></h3>
+                    <button onclick="showBox('reg-check')" style="background: none; border: none; color: var(--minsa-blue); font-size: 0.75rem; cursor: pointer; font-weight: 700;"><i class="fas fa-arrow-left"></i> REGRESAR</button>
                 </div>
                 
-                <label>Nombres y Apellidos</label>
-                <input type="text" id="r-name">
+                <label>Nombres y Apellidos Completos</label>
+                <input type="text" id="r-name" placeholder="Cargando...">
                 
                 <label>Profesión / Especialidad</label>
-                <input type="text" id="r-prof">
+                <input type="text" id="r-prof" placeholder="Ej. Lic. en Enfermería">
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div><label>Celular</label><input type="number" id="r-cel" oninput="if(this.value.length > 9) this.value = this.value.slice(0,9);"></div>
-                    <div><label>Región</label><input type="text" id="r-reg"></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label>Número Celular</label>
+                        <input type="number" id="r-cel" placeholder="9 cifras" oninput="if(this.value.length > 9) this.value = this.value.slice(0,9);">
+                    </div>
+                    <div>
+                        <label>Región</label>
+                        <input type="text" id="r-reg" placeholder="Dpto">
+                    </div>
                 </div>
 
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                    <div><label>Provincia</label><input type="text" id="r-prov"></div>
-                    <div><label>Distrito</label><input type="text" id="r-dist"></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label>Provincia</label>
+                        <input type="text" id="r-prov" placeholder="Provincia">
+                    </div>
+                    <div>
+                        <label>Distrito</label>
+                        <input type="text" id="r-dist" placeholder="Distrito">
+                    </div>
                 </div>
                 
-                <label>E.E.S.S.</label>
-                <input type="text" id="r-eess">
+                <label>Establecimiento de Salud (E.E.S.S.)</label>
+                <input type="text" id="r-eess" placeholder="Nombre de su IPRESS">
                 
-                <label>Crear Nueva Contraseña</label>
-                <input type="password" id="r-new-pass" placeholder="Defina su clave">
+                <label>Defina su Nueva Contraseña</label>
+                <input type="password" id="r-new-pass" placeholder="Mínimo 4 caracteres">
                 
-                <button class="btn-main" style="background:#28a745" onclick="activateAccount()">CONFIRMAR Y ACTIVAR</button>
+                <button class="btn-main" style="background: #28a745;" onclick="activateAccount()">CONFIRMAR Y ACTIVAR CUENTA</button>
             </div>
             
-            <div id="auth-msg" style="margin-top:20px; text-align:center; font-size:0.85rem; display:none; padding:10px; border-radius:5px"></div>
+            <div id="auth-msg" style="margin-top: 20px; text-align: center; font-size: 0.85rem; display: none; padding: 12px; border-radius: 8px; font-weight: 600;"></div>
         </div>
     </div>
 
     <div id="main-app">
         <header class="top-nav">
             <div class="brand-header">
-                <div style="display:flex; align-items:center; gap:10px">
-                    <div class="logo-circle"><i class="fas fa-dna" style="color:var(--glow-cyan)"></i></div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="logo-circle"><i class="fas fa-dna" style="color: var(--glow-cyan)"></i></div>
                     <div>
-                        <h4 style="color:var(--glow-cyan); font-size:0.8rem">SISTEMA DIT</h4>
-                        <p id="user-display" style="font-size:0.6rem; color:#fff; font-weight:bold"></p>
+                        <h4 style="color: var(--glow-cyan); font-size: 0.85rem; letter-spacing: 0.5px;">SISTEMA INTEGRADO DIT</h4>
+                        <p id="user-display" style="font-size: 0.65rem; color: #fff; font-weight: 700; opacity: 0.9; text-transform: uppercase;"></p>
                     </div>
                 </div>
-                <div style="display:flex; gap:8px">
-                    <button class="stats-toggle-btn" onclick="toggleStatsPanel()"><i class="fas fa-chart-crown"></i> ESTADÍSTICAS</button>
-                    <button onclick="document.getElementById('modal-pw').style.display='flex'" style="background:rgba(255,255,255,0.05); border:1px solid #444; color:#fff; font-size:0.65rem; padding:6px 12px; border-radius:8px; cursor:pointer"><i class="fas fa-key"></i> LLAVE</button>
-                    <button onclick="logout()" style="background:rgba(255,77,77,0.1); border:1px solid #ff4d4d; color:#ff4d4d; font-size:0.65rem; padding:6px 12px; border-radius:8px; cursor:pointer">SALIR</button>
+                <div style="display: flex; gap: 8px;">
+                    <button onclick="document.getElementById('modal-pw').style.display='flex'" style="background: rgba(255,255,255,0.05); border: 1px solid #444; color: #fff; font-size: 0.7rem; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-key" style="color:var(--glow-cyan)"></i> LLAVE</button>
+                    <button onclick="logout()" style="background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; font-size: 0.7rem; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> SALIR</button>
                 </div>
-            </div>
-
-            <div id="stats-panel">
-                <div class="stats-filters">
-                    <div><label>Desde:</label><input type="date" id="stats-from"></div>
-                    <div><label>Hasta:</label><input type="date" id="stats-to"></div>
-                    <button class="btn-query" onclick="loadStatistics(false)">Consultar</button>
-                    <button class="btn-query" style="background:rgba(255,255,255,0.1); color:#fff;" onclick="setTodayFilter()">Hoy</button>
-                </div>
-                <div class="podium-container" id="podium-wrapper"></div>
-                <div class="stats-list-box" id="stats-list-wrapper"></div>
             </div>
 
             <div class="scroll-container">
@@ -211,6 +533,7 @@
                 </div>
             </div>
         </header>
+
         <main class="main-viewport">
             <iframe id="content-frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"></iframe>
         </main>
@@ -218,48 +541,49 @@
 
     <div id="modal-pw">
         <div class="modal-card">
-            <h3 style="margin-bottom:15px">Cambiar Contraseña</h3>
-            <label>Contraseña Actual</label><input type="password" id="old-pw">
-            <label>Nueva Contraseña</label><input type="password" id="new-pw">
-            <button class="btn-main" onclick="changePassword()">ACTUALIZAR</button>
-            <button class="btn-main" style="background:#eee; color:#333; margin-top:8px" onclick="document.getElementById('modal-pw').style.display='none'">CANCELAR</button>
+            <h3 style="margin-bottom: 15px; font-weight: 800; color: #111;">Cambiar Contraseña</h3>
+            <label>Contraseña Actual</label>
+            <input type="password" id="old-pw" placeholder="Escriba clave vigente">
+            <label>Nueva Contraseña</label>
+            <input type="password" id="new-pw" placeholder="Mínimo 4 caracteres">
+            <button class="btn-main" onclick="changePassword()">ACTUALIZAR CREDENCIAL</button>
+            <button class="btn-main" style="background: #eee; color: #333; margin-top: 8px; font-weight: 600;" onclick="document.getElementById('modal-pw').style.display='none'">CANCELAR</button>
         </div>
     </div>
 
     <script>
-        // SCRIPT_URL mantiene el link original de tu base de Login
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2QKNMUiL-H8Z9CAtC1GvHj7OcbS4mG5yjcUwr6S1cL3B8DZ0-ZddSp2trQlAC6uyQ/exec";
-        
-        // NUEVA VARIABLE INDEPENDIENTE PARA LAS ESTADÍSTICAS DEL REGISTRO DIARIO
         const URL_REGISTRO_DIARIO = "https://script.google.com/macros/s/AKfycbwGxGqxtuxze4CSe_1ruoJErbAtt3psr_N6bEkXOpO6tMdEPDGPL1e4VIC_5XbMWnQR/exec";
 
         let currentDNI = '';
         let userDataCache = {};
 
-        function showBox(box) { 
-            document.querySelectorAll('.form-box').forEach(b => b.classList.remove('active')); 
-            document.getElementById(box === 'login' ? 'login-box' : box).classList.add('active'); 
+        function showBox(box) {
+            document.querySelectorAll('.form-box').forEach(b => b.classList.remove('active'));
+            document.getElementById(box === 'login' ? 'login-box' : box).classList.add('active');
         }
 
-        function showMsg(t, c) { 
-            const m = document.getElementById('auth-msg'); 
-            m.innerText = t; m.style.background = c === 'red' ? '#ffebee' : '#e3f2fd';
-            m.style.color = c; m.style.display = 'block'; 
+        function showMsg(t, c) {
+            const m = document.getElementById('auth-msg');
+            m.innerText = t;
+            m.style.background = c === 'red' ? '#ffebee' : (c === 'green' ? '#e8f5e9' : '#e3f2fd');
+            m.style.color = c;
+            m.style.display = t ? 'block' : 'none';
         }
 
         async function checkAuthorizedDNI() {
             const dni = document.getElementById('r-dni-search').value;
-            if(!dni) return showMsg("Por favor, ingrese un DNI", "red");
-            showMsg("Verificando credenciales...", "blue");
+            if(!dni) return showMsg("Por favor, ingrese un número de DNI", "red");
+            showMsg("Verificando credenciales en la base autorizada MINSA...", "blue");
             
             try {
                 const r = await fetch(`${SCRIPT_URL}?action=fetchUserData&dni=${dni}`);
                 const res = await r.json();
                 
                 if(res.status === "found") {
-                    if(res.hasPass) { 
-                        showMsg("Este usuario ya está activo. Por favor inicie sesión.", "orange"); 
-                        setTimeout(()=>showBox('login'), 2000); 
+                    if(res.hasPass) {
+                        showMsg("Este usuario ya posee perfil activo. Redireccionando al Login...", "orange");
+                        setTimeout(() => showBox('login'), 2200);
                     } else {
                         currentDNI = dni;
                         userDataCache = res.userData;
@@ -274,60 +598,63 @@
                         showBox('reg-final');
                         showMsg("", "");
                     }
-                } else { showMsg("DNI no autorizado en el sistema DIT.", "red"); }
-            } catch(e) { showMsg("Error de conexión", "red"); }
+                } else {
+                    showMsg("DNI no autorizado. Comuníquese con el administrador del sistema DIT.", "red");
+                }
+            } catch(e) {
+                showMsg("Error de red o caída de servidor. Intente de nuevo.", "red");
+            }
         }
 
         async function activateAccount() {
             const cel = document.getElementById('r-cel').value;
             const pass = document.getElementById('r-new-pass').value;
 
-            if(cel.length !== 9) return showMsg("El celular debe tener 9 dígitos", "red");
-            if(pass.length < 4) return showMsg("Ingrese una contraseña válida", "red");
+            if(cel.length !== 9) return showMsg("El número celular debe poseer estrictamente 9 dígitos", "red");
+            if(pass.length < 4) return showMsg("Defina una contraseña válida (mínimo 4 caracteres)", "red");
 
-            const data = { 
-                action: "updateUserProfile", 
-                dni: currentDNI, 
-                nombre: document.getElementById('r-name').value, 
-                profesion: document.getElementById('r-prof').value, 
-                celular: cel, 
+            const data = {
+                action: "updateUserProfile",
+                dni: currentDNI,
+                nombre: document.getElementById('r-name').value,
+                profesion: document.getElementById('r-prof').value,
+                celular: cel,
                 region: document.getElementById('r-reg').value,
                 provincia: document.getElementById('r-prov').value,
                 distrito: document.getElementById('r-dist').value,
-                eess: document.getElementById('r-eess').value, 
-                newPass: pass 
+                eess: document.getElementById('r-eess').value,
+                newPass: pass
             };
 
-            showMsg("Activando perfil...", "blue");
-            
+            showMsg("Inscribiendo y asegurando credenciales...", "blue");
             const formData = new URLSearchParams();
             formData.append('jsonData', JSON.stringify(data));
 
             try {
-                const response = await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
                     body: formData,
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 });
                 const resText = await response.text();
                 
                 if(resText.includes("Success")) {
-                    showMsg("¡Cuenta activada con éxito!", "green");
-                    setTimeout(()=>location.reload(), 1500);
+                    showMsg("¡Perfil activado correctamente! Reiniciando plataforma...", "green");
+                    setTimeout(() => location.reload(), 1600);
                 } else {
-                    showMsg("Error: " + resText, "red");
+                    showMsg("Error devuelto por el servidor: " + resText, "red");
                 }
             } catch(e) {
-                showMsg("Error de conexión", "red");
+                showMsg("Error crítico de conexión al guardar cambios.", "red");
             }
         }
 
         async function handleLogin() {
             const u = document.getElementById('l-dni').value;
             const p = document.getElementById('l-pass').value;
-            if(!u || !p) return showMsg("Complete sus datos", "red");
+            if(!u || !p) return showMsg("Complete todos los campos de acceso", "red");
             
-            showMsg("Validando acceso...", "blue");
+            showMsg("Validando credenciales profesionales...", "blue");
             try {
                 const r = await fetch(`${SCRIPT_URL}?action=login&dni=${u}&pass=${p}`);
                 const res = await r.json();
@@ -336,47 +663,49 @@
                     sessionStorage.setItem('is_auth', 'true');
                     sessionStorage.setItem('user_name', res.nombre);
                     unlockApp(res.nombre);
-                } else { showMsg("DNI o contraseña incorrectos", "red"); }
-            } catch(e) { showMsg("Error al conectar con el servidor", "red"); }
+                } else {
+                    showMsg("Número de DNI o Contraseña incorrectos", "red");
+                }
+            } catch(e) {
+                showMsg("Servidor inaccesible. Verifique su conexión de internet.", "red");
+            }
         }
 
         async function changePassword() {
             const oldP = document.getElementById('old-pw').value;
             const newP = document.getElementById('new-pw').value;
-            if(!oldP || !newP) return alert("Complete los campos");
+            if(!oldP || !newP) return alert("Por favor complete los campos requeridos.");
 
-            const data = { 
-                action: "updateUserProfile", 
-                dni: sessionStorage.getItem('user_dni'), 
-                oldPass: oldP, 
-                newPass: newP, 
+            const data = {
+                action: "updateUserProfile",
+                dni: sessionStorage.getItem('user_dni'),
+                oldPass: oldP,
+                newPass: newP,
                 isChange: true,
                 nombre: "", profesion: "", celular: "", region: "", provincia: "", distrito: "", eess: ""
             };
 
-            alert("Procesando cambio...");
-            
+            alert("Estableciendo nueva llave de seguridad...");
             const formData = new URLSearchParams();
             formData.append('jsonData', JSON.stringify(data));
 
             try {
-                const response = await fetch(SCRIPT_URL, { 
-                    method: 'POST', 
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
                     body: formData,
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 });
                 const resText = await response.text();
-                
                 if(resText.includes("Error")) {
                     alert(resText);
                 } else {
                     document.getElementById('modal-pw').style.display='none';
-                    alert("Operación completada");
+                    alert("¡Contraseña actualizada con éxito!");
                     document.getElementById('old-pw').value = "";
                     document.getElementById('new-pw').value = "";
                 }
-            } catch(e) { 
-                alert("Error al cambiar contraseña"); 
+            } catch(e) {
+                alert("Error de red inesperado al procesar el cambio.");
             }
         }
 
@@ -385,25 +714,25 @@
             document.getElementById('main-app').style.display = "flex";
             document.getElementById('user-display').innerText = n;
             
-            // CARGA AUTOMÁTICA DE FILTRO "HOY" AL ENTRAR AL SISTEMA
-            setTodayFilter();
-
             if(!window.hasGreeted) {
                 const msg = new SpeechSynthesisUtterance(`Bienvenido al sistema DIT, ${n}`);
-                msg.lang = 'es-ES'; window.speechSynthesis.speak(msg);
+                msg.lang = 'es-PE';
+                window.speechSynthesis.speak(msg);
                 window.hasGreeted = true;
             }
         }
 
-        function logout() { sessionStorage.clear(); location.reload(); }
-        
+        function logout() {
+            sessionStorage.clear();
+            location.reload();
+        }
+
         if(sessionStorage.getItem('is_auth') === 'true') {
             unlockApp(sessionStorage.getItem('user_name'));
         }
 
         document.getElementById('l-pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
 
-        // TU LOGICA ORIGINAL DE NAVEGACIÓN (SE MANTIENE 100% INTACTA)
         document.querySelectorAll('.node-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.node-btn').forEach(b => b.classList.remove('active'));
@@ -413,89 +742,67 @@
         });
 
         // ==========================================================================
-        //  --- NUEVA LÓGICA: PROCESAMIENTO INDEPENDIENTE DE ESTADÍSTICAS ---
+        //  --- SOLUCIÓN ANTIBLOQUEO CORS / CONSULTA AUTOMÁTICA (JSONP) ---
         // ==========================================================================
-        function toggleStatsPanel() {
-            const panel = document.getElementById('stats-panel');
-            panel.style.display = (panel.style.display === 'flex') ? 'none' : 'flex';
-        }
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            ejecutarConsultaEstadistica();
+        });
 
-        function setTodayFilter() {
-            const hoy = new Date(); const offset = hoy.getTimezoneOffset();
-            const localHoy = new Date(hoy.getTime() - (offset*60*1000));
-            const fechaStr = localHoy.toISOString().split('T')[0];
-            document.getElementById('stats-from').value = fechaStr;
-            document.getElementById('stats-to').value = fechaStr;
-            loadStatistics(true);
-        }
+        function ejecutarConsultaEstadistica() {
+            const viejoScript = document.getElementById('jsonp-stats');
+            if (viejoScript) viejoScript.remove();
 
-        async function loadStatistics(isInitialLoad) {
-            const desde = document.getElementById('stats-from').value;
-            const hasta = document.getElementById('stats-to').value;
-            const podiumWrapper = document.getElementById('podium-wrapper');
-            const listWrapper = document.getElementById('stats-list-wrapper');
+            const script = document.createElement('script');
+            script.id = 'jsonp-stats';
+            // Consulta directa inyectando el Callback global para omitir las restricciones del navegador
+            script.src = `${URL_REGISTRO_DIARIO}?action=getHistorial&callback=procesarDatosExcel`;
             
-            podiumWrapper.innerHTML = `<div style="font-size:0.8rem;color:var(--glow-cyan);"><i class="fas fa-spinner fa-spin"></i> Sincronizando podio...</div>`;
-            listWrapper.innerHTML = "";
+            script.onerror = function() {
+                document.getElementById('login-podium').innerHTML = `<div style="font-size:0.75rem; color:#ff4d4d;"><i class="fas fa-exclamation-circle"></i> Error de sincronización remota.</div>`;
+            };
+            document.body.appendChild(script);
+        }
 
-            try {
-                let url = `${URL_REGISTRO_DIARIO}?action=getHistorial`;
-                if(desde) url += `&desde=${desde}`;
-                if(hasta) url += `&hasta=${hasta}`;
+        // Callback global disparado automáticamente al retornar los datos de Google Sheets
+        function procesarDatosExcel(records) {
+            const podiumWrapper = document.getElementById('login-podium');
+            if(!podiumWrapper) return;
 
-                const response = await fetch(url);
-                const records = await response.json();
-
-                const conteo = {};
-                records.forEach(row => {
-                    let esp = row.espInfantil ? String(row.espInfantil).trim() : "";
-                    if (!esp || esp === "undefined" || esp === "-") esp = "No Asignado";
-                    conteo[esp] = (conteo[esp] || 0) + 1;
-                });
-
-                const ranking = Object.keys(conteo).map(key => {
-                    return { nombre: key, total: conteo[key] };
-                }).sort((a, b) => b.total - a.total);
-
-                if (ranking.length === 0) {
-                    podiumWrapper.innerHTML = `<div style="font-size:0.75rem; color:#888; padding: 20px 0;">No se registran atenciones en este rango.</div>`;
-                    return;
-                }
-
-                const top1 = ranking[0] || { nombre: "-", total: 0 };
-                const top2 = ranking[1] || { nombre: "-", total: 0 };
-                const top3 = ranking[2] || { nombre: "-", total: 0 };
-
-                podiumWrapper.innerHTML = `
-                    <div class="podium-place second">
-                        <div class="podium-name" title="${top2.nombre}">${top2.nombre}</div>
-                        <div class="podium-column"><i class="fas fa-trophy podium-cup"></i><span class="podium-count">${top2.total}</span><span class="podium-label">2do Lugar</span></div>
-                    </div>
-                    <div class="podium-place first">
-                        <div class="podium-name" title="${top1.nombre}">${top1.nombre}</div>
-                        <div class="podium-column"><i class="fas fa-crown podium-cup"></i><span class="podium-count">${top1.total}</span><span class="podium-label">Líder</span></div>
-                    </div>
-                    <div class="podium-place third">
-                        <div class="podium-name" title="${top3.nombre}">${top3.nombre}</div>
-                        <div class="podium-column"><i class="fas fa-award podium-cup"></i><span class="podium-count">${top3.total}</span><span class="podium-label">3er Lugar</span></div>
-                    </div>
-                `;
-
-                let listHTML = "";
-                ranking.forEach((esp, index) => {
-                    listHTML += `
-                        <div class="stats-row">
-                            <span class="rank-num">#${index + 1}</span>
-                            <span class="spec-name">${esp.nombre}</span>
-                            <span class="spec-count">${esp.total} atenciones</span>
-                        </div>
-                    `;
-                });
-                listWrapper.innerHTML = listHTML;
-            } catch (error) {
-                console.error(error);
-                podiumWrapper.innerHTML = `<div style="font-size:0.75rem; color:#ff4d4d;">Error al cargar datos estadísticos.</div>`;
+            if (!records || !Array.isArray(records) || records.length === 0) {
+                podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6);">Sin atenciones registradas hoy.</div>`;
+                return;
             }
+
+            const conteo = {};
+            records.forEach(row => {
+                let esp = row.espInfantil ? String(row.espInfantil).trim() : "";
+                if (!esp || esp === "undefined" || esp === "-") esp = "No Asignado";
+                conteo[esp] = (conteo[esp] || 0) + 1;
+            });
+
+            const ranking = Object.keys(conteo).map(key => {
+                return { nombre: key, total: conteo[key] };
+            }).sort((a, b) => b.total - a.total);
+
+            const top1 = ranking[0] || { nombre: "-", total: 0 };
+            const top2 = ranking[1] || { nombre: "-", total: 0 };
+            const top3 = ranking[2] || { nombre: "-", total: 0 };
+
+            podiumWrapper.innerHTML = `
+                <div class="podium-place second">
+                    <div class="podium-name" title="${top2.nombre}">${top2.nombre}</div>
+                    <div class="podium-column"><i class="fas fa-trophy podium-cup"></i><span class="podium-count">${top2.total}</span><span class="podium-label">2do</span></div>
+                </div>
+                <div class="podium-place first">
+                    <div class="podium-name" title="${top1.nombre}">${top1.nombre}</div>
+                    <div class="podium-column"><i class="fas fa-crown podium-cup"></i><span class="podium-count">${top1.total}</span><span class="podium-label">Líder</span></div>
+                </div>
+                <div class="podium-place third">
+                    <div class="podium-name" title="${top3.nombre}">${top3.nombre}</div>
+                    <div class="podium-column"><i class="fas fa-award podium-cup"></i><span class="podium-count">${top3.total}</span><span class="podium-label">3ro</span></div>
+                </div>
+            `;
         }
     </script>
 </body>
