@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DIT | Desarrollo Infantil Temprano</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <!-- Se eliminó el script de SortableJS para evitar interferencias en celulares -->
     <style>
         :root { --glow-cyan: #00f2fe; --glow-pink: #ff007f; --bg-dark: #05070a; --glass: rgba(10, 15, 25, 0.95); --minsa-blue: #4477c7; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -67,6 +66,47 @@
         /* MODAL LLAVE */
         #modal-pw { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .modal-card { background: #fff; padding: 25px; border-radius: 12px; width: 90%; max-width: 350px; color: #333; }
+
+        /* --- NUEVOS ESTILOS: PANEL DE ESTADÍSTICAS (SECCIÓN AZUL SUPERIOR) --- */
+        .stats-toggle-btn { background: rgba(0, 242, 254, 0.1); border: 1px solid var(--glow-cyan); color: var(--glow-cyan); font-size: 0.65rem; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .stats-toggle-btn:hover { background: rgba(0, 242, 254, 0.2); }
+        
+        #stats-panel { background: rgba(5, 12, 28, 0.95); border-bottom: 1px solid rgba(0, 242, 254, 0.3); padding: 15px; display: none; flex-direction: column; gap: 15px; animation: fadeIn 0.3s ease; }
+        .stats-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        .stats-filters div { display: flex; flex-direction: column; gap: 4px; }
+        .stats-filters label { color: var(--glow-cyan); font-size: 0.65rem; margin: 0; }
+        .stats-filters input[type="date"] { padding: 6px 10px; background: #101622; border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 6px; color: white; font-size: 0.8rem; margin: 0; width: auto; }
+        .btn-query { background: var(--minsa-blue); border: none; color: white; padding: 8px 15px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: 0.2s; height: 32px; }
+        .btn-query:hover { filter: brightness(1.1); }
+
+        /* Podio Estadístico */
+        .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 15px; margin: 15px 0 5px; height: 140px; }
+        .podium-place { display: flex; flex-direction: column; align-items: center; width: 100px; text-align: center; animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
+        .podium-place.second { animation-delay: 0.2s; }
+        .podium-place.first { animation-delay: 0s; }
+        .podium-place.third { animation-delay: 0.4s; }
+        .podium-name { font-size: 0.7rem; font-weight: bold; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; color: #fff; }
+        .podium-column { width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        
+        .podium-place.first .podium-column { height: 95px; background: linear-gradient(135deg, #ffd700, #b8860b); border: 1px solid #ffe866; }
+        .podium-place.second .podium-column { height: 75px; background: linear-gradient(135deg, #b0c4de, #708090); border: 1px solid #d3d3d3; }
+        .podium-place.third .podium-column { height: 55px; background: linear-gradient(135deg, #cd7f32, #8b4513); border: 1px solid #e9967a; }
+        .podium-cup { font-size: 1.4rem; margin-bottom: 2px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+        .podium-place.first .podium-cup { color: #fff7c2; text-shadow: 0 0 8px #ffd700; }
+        .podium-place.second .podium-cup { color: #f0f4f8; }
+        .podium-place.third .podium-cup { color: #ffd1a4; }
+        .podium-count { font-size: 0.85rem; font-weight: 800; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
+        .podium-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9; color: #fff; }
+
+        /* Lista Desplegable Inferior */
+        .stats-list-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; max-height: 150px; overflow-y: auto; padding: 5px; }
+        .stats-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.75rem; }
+        .stats-row:last-child { border: none; }
+        .stats-row .rank-num { width: 20px; font-weight: bold; color: var(--glow-cyan); }
+        .stats-row .spec-name { flex: 1; margin-left: 5px; color: #ddd; }
+        .stats-row .spec-count { font-weight: bold; background: rgba(0,242,254,0.1); padding: 2px 8px; border-radius: 10px; color: var(--glow-cyan); border: 1px solid rgba(0,242,254,0.2); }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -141,10 +181,23 @@
                     </div>
                 </div>
                 <div style="display:flex; gap:8px">
+                    <button class="stats-toggle-btn" onclick="toggleStatsPanel()"><i class="fas fa-chart-crown"></i> ESTADÍSTICAS</button>
                     <button onclick="document.getElementById('modal-pw').style.display='flex'" style="background:rgba(255,255,255,0.05); border:1px solid #444; color:#fff; font-size:0.65rem; padding:6px 12px; border-radius:8px; cursor:pointer"><i class="fas fa-key"></i> LLAVE</button>
                     <button onclick="logout()" style="background:rgba(255,77,77,0.1); border:1px solid #ff4d4d; color:#ff4d4d; font-size:0.65rem; padding:6px 12px; border-radius:8px; cursor:pointer">SALIR</button>
                 </div>
             </div>
+
+            <div id="stats-panel">
+                <div class="stats-filters">
+                    <div><label>Desde:</label><input type="date" id="stats-from"></div>
+                    <div><label>Hasta:</label><input type="date" id="stats-to"></div>
+                    <button class="btn-query" onclick="loadStatistics(false)">Consultar</button>
+                    <button class="btn-query" style="background:rgba(255,255,255,0.1); color:#fff;" onclick="setTodayFilter()">Hoy</button>
+                </div>
+                <div class="podium-container" id="podium-wrapper"></div>
+                <div class="stats-list-box" id="stats-list-wrapper"></div>
+            </div>
+
             <div class="scroll-container">
                 <div id="sortable-nodes">
                     <div class="node-btn active" data-url="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"><i class="fas fa-fingerprint"></i><span>CENSO DIT</span></div>
@@ -174,7 +227,12 @@
     </div>
 
     <script>
+        // SCRIPT_URL mantiene el link original de tu base de Login
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2QKNMUiL-H8Z9CAtC1GvHj7OcbS4mG5yjcUwr6S1cL3B8DZ0-ZddSp2trQlAC6uyQ/exec";
+        
+        // NUEVA VARIABLE INDEPENDIENTE PARA LAS ESTADÍSTICAS DEL REGISTRO DIARIO
+        const URL_REGISTRO_DIARIO = "https://script.google.com/macros/s/AKfycbwGxGqxtuxze4CSe_1ruoJErbAtt3psr_N6bEkXOpO6tMdEPDGPL1e4VIC_5XbMWnQR/exec";
+
         let currentDNI = '';
         let userDataCache = {};
 
@@ -327,6 +385,9 @@
             document.getElementById('main-app').style.display = "flex";
             document.getElementById('user-display').innerText = n;
             
+            // CARGA AUTOMÁTICA DE FILTRO "HOY" AL ENTRAR AL SISTEMA
+            setTodayFilter();
+
             if(!window.hasGreeted) {
                 const msg = new SpeechSynthesisUtterance(`Bienvenido al sistema DIT, ${n}`);
                 msg.lang = 'es-ES'; window.speechSynthesis.speak(msg);
@@ -350,6 +411,92 @@
                 document.getElementById('content-frame').src = this.getAttribute('data-url');
             });
         });
+
+        // ==========================================================================
+        //  --- NUEVA LÓGICA: PROCESAMIENTO INDEPENDIENTE DE ESTADÍSTICAS ---
+        // ==========================================================================
+        function toggleStatsPanel() {
+            const panel = document.getElementById('stats-panel');
+            panel.style.display = (panel.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function setTodayFilter() {
+            const hoy = new Date(); const offset = hoy.getTimezoneOffset();
+            const localHoy = new Date(hoy.getTime() - (offset*60*1000));
+            const fechaStr = localHoy.toISOString().split('T')[0];
+            document.getElementById('stats-from').value = fechaStr;
+            document.getElementById('stats-to').value = fechaStr;
+            loadStatistics(true);
+        }
+
+        async function loadStatistics(isInitialLoad) {
+            const desde = document.getElementById('stats-from').value;
+            const hasta = document.getElementById('stats-to').value;
+            const podiumWrapper = document.getElementById('podium-wrapper');
+            const listWrapper = document.getElementById('stats-list-wrapper');
+            
+            podiumWrapper.innerHTML = `<div style="font-size:0.8rem;color:var(--glow-cyan);"><i class="fas fa-spinner fa-spin"></i> Sincronizando podio...</div>`;
+            listWrapper.innerHTML = "";
+
+            try {
+                let url = `${URL_REGISTRO_DIARIO}?action=getHistorial`;
+                if(desde) url += `&desde=${desde}`;
+                if(hasta) url += `&hasta=${hasta}`;
+
+                const response = await fetch(url);
+                const records = await response.json();
+
+                const conteo = {};
+                records.forEach(row => {
+                    let esp = row.espInfantil ? String(row.espInfantil).trim() : "";
+                    if (!esp || esp === "undefined" || esp === "-") esp = "No Asignado";
+                    conteo[esp] = (conteo[esp] || 0) + 1;
+                });
+
+                const ranking = Object.keys(conteo).map(key => {
+                    return { nombre: key, total: conteo[key] };
+                }).sort((a, b) => b.total - a.total);
+
+                if (ranking.length === 0) {
+                    podiumWrapper.innerHTML = `<div style="font-size:0.75rem; color:#888; padding: 20px 0;">No se registran atenciones en este rango.</div>`;
+                    return;
+                }
+
+                const top1 = ranking[0] || { nombre: "-", total: 0 };
+                const top2 = ranking[1] || { nombre: "-", total: 0 };
+                const top3 = ranking[2] || { nombre: "-", total: 0 };
+
+                podiumWrapper.innerHTML = `
+                    <div class="podium-place second">
+                        <div class="podium-name" title="${top2.nombre}">${top2.nombre}</div>
+                        <div class="podium-column"><i class="fas fa-trophy podium-cup"></i><span class="podium-count">${top2.total}</span><span class="podium-label">2do Lugar</span></div>
+                    </div>
+                    <div class="podium-place first">
+                        <div class="podium-name" title="${top1.nombre}">${top1.nombre}</div>
+                        <div class="podium-column"><i class="fas fa-crown podium-cup"></i><span class="podium-count">${top1.total}</span><span class="podium-label">Líder</span></div>
+                    </div>
+                    <div class="podium-place third">
+                        <div class="podium-name" title="${top3.nombre}">${top3.nombre}</div>
+                        <div class="podium-column"><i class="fas fa-award podium-cup"></i><span class="podium-count">${top3.total}</span><span class="podium-label">3er Lugar</span></div>
+                    </div>
+                `;
+
+                let listHTML = "";
+                ranking.forEach((esp, index) => {
+                    listHTML += `
+                        <div class="stats-row">
+                            <span class="rank-num">#${index + 1}</span>
+                            <span class="spec-name">${esp.nombre}</span>
+                            <span class="spec-count">${esp.total} atenciones</span>
+                        </div>
+                    `;
+                });
+                listWrapper.innerHTML = listHTML;
+            } catch (error) {
+                console.error(error);
+                podiumWrapper.innerHTML = `<div style="font-size:0.75rem; color:#ff4d4d;">Error al cargar datos estadísticos.</div>`;
+            }
+        }
     </script>
 </body>
 </html>
