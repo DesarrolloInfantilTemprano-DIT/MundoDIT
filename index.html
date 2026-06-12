@@ -402,7 +402,7 @@
             color: #fff;
         }
 
-        .podium-label {
+        .podium-column span.podium-label {
             font-size: 0.5rem;
             text-transform: uppercase;
             opacity: 0.85;
@@ -553,7 +553,7 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2QKNMUiL-H8Z9CAtC1GvHj7OcbS4mG5yjcUwr6S1cL3B8DZ0-ZddSp2trQlAC6uyQ/exec";
-        const URL_REGISTRO_DIARIO = "https://script.google.com/macros/s/AKfycbxYvK8NTQs-t40SXnCWZUzVGtCq2nmVNnrciPAi-t_qR2A-4VG3YbPqlF-oEepM355o/exec";
+        const URL_REGISTRO_DIARIO = "https://script.google.com/macros/s/AKfycbzguoW46PkNG2VXY11yeIFsohc9r01LRqKsLH_kWOhoJz2eV6ylC3OzSwai6SlBH5zH/exec";
 
         let currentDNI = '';
         let userDataCache = {};
@@ -770,14 +770,14 @@
             if(!podiumWrapper) return;
 
             if (!records || !Array.isArray(records) || records.length === 0) {
-                podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6);">Sin atenciones registradas hoy.</div>`;
+                podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones este mes.</div>`;
                 return;
             }
 
             const conteo = {};
             records.forEach(row => {
-                let esp = row.espInfantil ? String(row.espInfantil).trim() : "";
-                if (!esp || esp === "undefined" || esp === "-") esp = "No Asignado";
+                let esp = row.espInfantil ? String(row.espInfantil).toUpperCase().trim() : "PERSONAL EESS";
+                if (esp === "UNDEFINED" || esp === "-" || esp === "") esp = "PERSONAL EESS";
                 conteo[esp] = (conteo[esp] || 0) + 1;
             });
 
@@ -785,21 +785,31 @@
                 return { nombre: key, total: conteo[key] };
             }).sort((a, b) => b.total - a.total);
 
+            // Función interna optimizada para formatear nombres largos (Ej: "YULIANA ANGELA PEÑA" -> "YULIANA PEÑA")
+            const formatearNombreCorto = (nombreCompleto) => {
+                if(!nombreCompleto || nombreCompleto === "-" || nombreCompleto === "PERSONAL EESS") return nombreCompleto;
+                var partes = nombreCompleto.split(" ");
+                if(partes.length >= 3) {
+                    return partes[0] + " " + partes[2];
+                }
+                return nombreCompleto;
+            };
+
             const top1 = ranking[0] || { nombre: "-", total: 0 };
             const top2 = ranking[1] || { nombre: "-", total: 0 };
             const top3 = ranking[2] || { nombre: "-", total: 0 };
 
             podiumWrapper.innerHTML = `
                 <div class="podium-place second">
-                    <div class="podium-name" title="${top2.nombre}">${top2.nombre}</div>
+                    <div class="podium-name" title="${top2.nombre}">${formatearNombreCorto(top2.nombre)}</div>
                     <div class="podium-column"><i class="fas fa-trophy podium-cup"></i><span class="podium-count">${top2.total}</span><span class="podium-label">2do</span></div>
                 </div>
                 <div class="podium-place first">
-                    <div class="podium-name" title="${top1.nombre}">${top1.nombre}</div>
+                    <div class="podium-name" title="${top1.nombre}">${formatearNombreCorto(top1.nombre)}</div>
                     <div class="podium-column"><i class="fas fa-crown podium-cup"></i><span class="podium-count">${top1.total}</span><span class="podium-label">Líder</span></div>
                 </div>
                 <div class="podium-place third">
-                    <div class="podium-name" title="${top3.nombre}">${top3.nombre}</div>
+                    <div class="podium-name" title="${top3.nombre}">${formatearNombreCorto(top3.nombre)}</div>
                     <div class="podium-column"><i class="fas fa-award podium-cup"></i><span class="podium-count">${top3.total}</span><span class="podium-label">3ro</span></div>
                 </div>
             `;
