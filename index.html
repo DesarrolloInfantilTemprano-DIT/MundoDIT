@@ -170,6 +170,10 @@
                 box-shadow: none;
                 justify-content: flex-start;
             }
+            .podium-section {
+                max-width: 100% !important;
+                padding: 15px !important;
+            }
             .podium-container {
                 height: 110px !important;
                 margin: 10px 0 !important;
@@ -186,6 +190,9 @@
             .podium-metrics-card {
                 display: none !important;
             }
+            .podium-place.first .podium-column { height: 80px !important; }
+            .podium-place.second .podium-column { height: 60px !important; }
+            .podium-place.third .podium-column { height: 45px !important; }
         }
 
         /* --- APLICACIÓN PRINCIPAL --- */
@@ -596,7 +603,7 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2QKNMUiL-H8Z9CAtC1GvHj7OcbS4mG5yjcUwr6S1cL3B8DZ0-ZddSp2trQlAC6uyQ/exec";
-        const URL_ATENCION_SICHE = "https://script.google.com/macros/s/AKfycbwq5kr0Sdv5ZmcegSck1JAcbMagKh_FyT7ukVvIZmOVJUk8pnUkFj4SIsZ0g8FA--eT/exec";
+        const URL_ATENCION_SICHE = "https://script.google.com/macros/s/AKfycbyxdxIUhN3whXP81Y-PpLyiZfpsHUvKbsmjqNYM5YSjQmCElb3YUDqOsvzbUOJLWoc/exec";
 
         let currentDNI = '';
         let userDataCache = {};
@@ -829,7 +836,6 @@
             const top2 = ranking[1] || fallback;
             const top3 = ranking[2] || fallback;
 
-            // Inyección limpia del Podio (La métrica principal sobre las columnas muestra los 'Migrados' del profesional)
             podiumWrapper.innerHTML = `
                 <!-- Segundo Lugar -->
                 <div class="podium-place second">
