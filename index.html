@@ -184,7 +184,7 @@
                 font-size: 0.6rem !important;
             }
             .podium-metrics-card {
-                display: none !important; /* Ocultar sub-tarjetas detalladas en pantallas móviles muy pequeñas */
+                display: none !important;
             }
         }
 
@@ -468,7 +468,7 @@
             </div>
             
             <div class="podium-section">
-                <div class="podium-title"><i class="fas fa-chart-line"></i> Top Calidad de Atención (SICHE)</div>
+                <div class="podium-title"><i class="fas fa-chart-line"></i> Top Datos Migrados (SICHE)</div>
                 <div class="podium-container" id="login-podium">
                     <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin: auto;"><i class="fas fa-sync fa-spin"></i> Sincronizando Auditoría de Cobertura...</div>
                 </div>
@@ -596,7 +596,6 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2QKNMUiL-H8Z9CAtC1GvHj7OcbS4mG5yjcUwr6S1cL3B8DZ0-ZddSp2trQlAC6uyQ/exec";
-        // CAMBIO DE UBICACIÓN REALIZADO DE ACUERDO CON REQUERIMIENTOS DE ATENCIÓN SICHE
         const URL_ATENCION_SICHE = "https://script.google.com/macros/s/AKfycbwq5kr0Sdv5ZmcegSck1JAcbMagKh_FyT7ukVvIZmOVJUk8pnUkFj4SIsZ0g8FA--eT/exec";
 
         let currentDNI = '';
@@ -799,7 +798,6 @@
 
             const script = document.createElement('script');
             script.id = 'jsonp-stats';
-            // Modificado para apuntar a la base de datos de Auditoría Integral "Atención Siche"
             script.src = `${URL_ATENCION_SICHE}?action=getHistorial&callback=procesarDatosExcel`;
             
             script.onerror = function() {
@@ -808,7 +806,6 @@
             document.body.appendChild(script);
         }
 
-        // Callback global disparado automáticamente al retornar los datos estadísticos analizados
         function procesarDatosExcel(ranking) {
             const podiumWrapper = document.getElementById('login-podium');
             if(!podiumWrapper) return;
@@ -818,7 +815,6 @@
                 return;
             }
 
-            // Función interna optimizada para formatear nombres largos del personal de salud
             const formatearNombreCorto = (nombreCompleto) => {
                 if(!nombreCompleto || nombreCompleto === "-" || nombreCompleto.includes("NO ESPECIFICADO")) return "P. SALUD";
                 var partes = nombreCompleto.split(" ");
@@ -828,24 +824,25 @@
                 return nombreCompleto;
             };
 
-            // Estructuras de fallback elegantes por si el ranking tiene menos de 3 integrantes
-            const top1 = ranking[0] || { nombre: "-", totalAtenciones: 0, erroresMigracion: 0, migrados: 0, porProcesar: 0, anemia: 0, cred: 0 };
-            const top2 = ranking[1] || { nombre: "-", totalAtenciones: 0, erroresMigracion: 0, migrados: 0, porProcesar: 0, anemia: 0, cred: 0 };
-            const top3 = ranking[2] || { nombre: "-", totalAtenciones: 0, erroresMigracion: 0, migrados: 0, porProcesar: 0, anemia: 0, cred: 0 };
+            const fallback = { nombre: "-", totalAtenciones: 0, erroresMigracion: 0, migrados: 0, porProcesar: 0, anemia: 0, cred: 0 };
+            const top1 = ranking[0] || fallback;
+            const top2 = ranking[1] || fallback;
+            const top3 = ranking[2] || fallback;
 
-            // Inyección limpia del Podio con tarjetas dinámicas de microestadísticas incorporadas por profesional
+            // Inyección limpia del Podio (La métrica principal sobre las columnas muestra los 'Migrados' del profesional)
             podiumWrapper.innerHTML = `
                 <!-- Segundo Lugar -->
                 <div class="podium-place second">
                     <div class="podium-name" title="${top2.nombre}">${formatearNombreCorto(top2.nombre)}</div>
                     <div class="podium-column">
                         <i class="fas fa-trophy podium-cup"></i>
-                        <span class="podium-count">${top2.totalAtenciones}</span>
+                        <span class="podium-count">${top2.migrados}</span>
                         <span class="podium-label">2do</span>
                     </div>
                     <div class="podium-metrics-card">
+                        <div class="metric-line"><span><i class="fas fa-briefcase"></i>Tot:</span><span style="color:#fff;">${top2.totalAtenciones}</span></div>
                         <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top2.erroresMigracion}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-check-double"></i>Mig:</span><span class="badge-mig">${top2.migrados}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock"></i>Pend:</span><span class="badge-proc">${top2.porProcesar}</span></div>
                         <div class="metric-line"><span><i class="fas fa-virus"></i>Ane:</span><span class="badge-ane">${top2.anemia}</span></div>
                         <div class="metric-line"><span><i class="fas fa-child"></i>Cred:</span><span class="badge-cred">${top2.cred}</span></div>
                     </div>
@@ -856,12 +853,13 @@
                     <div class="podium-name" title="${top1.nombre}">${formatearNombreCorto(top1.nombre)}</div>
                     <div class="podium-column">
                         <i class="fas fa-crown podium-cup"></i>
-                        <span class="podium-count">${top1.totalAtenciones}</span>
+                        <span class="podium-count">${top1.migrados}</span>
                         <span class="podium-label">Líder</span>
                     </div>
                     <div class="podium-metrics-card" style="background: rgba(255,215,0,0.08); border-color: rgba(255,215,0,0.2);">
+                        <div class="metric-line"><span><i class="fas fa-briefcase"></i>Tot:</span><span style="color:#fff; font-weight:bold;">${top1.totalAtenciones}</span></div>
                         <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top1.erroresMigracion}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-check-double"></i>Mig:</span><span class="badge-mig">${top1.migrados}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock"></i>Pend:</span><span class="badge-proc">${top1.porProcesar}</span></div>
                         <div class="metric-line"><span><i class="fas fa-virus"></i>Ane:</span><span class="badge-ane">${top1.anemia}</span></div>
                         <div class="metric-line"><span><i class="fas fa-child"></i>Cred:</span><span class="badge-cred">${top1.cred}</span></div>
                     </div>
@@ -872,12 +870,13 @@
                     <div class="podium-name" title="${top3.nombre}">${formatearNombreCorto(top3.nombre)}</div>
                     <div class="podium-column">
                         <i class="fas fa-award podium-cup"></i>
-                        <span class="podium-count">${top3.totalAtenciones}</span>
+                        <span class="podium-count">${top3.migrados}</span>
                         <span class="podium-label">3ro</span>
                     </div>
                     <div class="podium-metrics-card">
+                        <div class="metric-line"><span><i class="fas fa-briefcase"></i>Tot:</span><span style="color:#fff;">${top3.totalAtenciones}</span></div>
                         <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top3.erroresMigracion}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-check-double"></i>Mig:</span><span class="badge-mig">${top3.migrados}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock"></i>Pend:</span><span class="badge-proc">${top3.porProcesar}</span></div>
                         <div class="metric-line"><span><i class="fas fa-virus"></i>Ane:</span><span class="badge-ane">${top3.anemia}</span></div>
                         <div class="metric-line"><span><i class="fas fa-child"></i>Cred:</span><span class="badge-cred">${top3.cred}</span></div>
                     </div>
