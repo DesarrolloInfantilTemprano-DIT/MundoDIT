@@ -155,11 +155,11 @@
             .auth-visual {
                 flex: none;
                 height: auto;
-                padding: 30px 20px;
+                padding: 25px 15px;
                 align-items: center;
                 justify-content: center;
                 text-align: center;
-                gap: 20px;
+                gap: 15px;
             }
             .auth-visual h1 {
                 font-size: 1.8rem !important;
@@ -172,11 +172,11 @@
             }
             .podium-section {
                 max-width: 100% !important;
-                padding: 15px !important;
+                padding: 12px !important;
             }
             .podium-container {
                 height: 110px !important;
-                margin: 10px 0 !important;
+                margin-bottom: 10px !important;
             }
             .podium-column {
                 padding: 4px 2px !important;
@@ -188,7 +188,10 @@
                 font-size: 0.6rem !important;
             }
             .podium-metrics-card {
-                display: none !important;
+                display: none !important; /* Mantiene la limpieza en pantallas móviles compactas */
+            }
+            .podium-extended-list {
+                max-height: 110px !important;
             }
             .podium-place.first .podium-column { height: 80px !important; }
             .podium-place.second .podium-column { height: 60px !important; }
@@ -325,6 +328,8 @@
             border: 1px solid rgba(0, 242, 254, 0.25);
             backdrop-filter: blur(8px);
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
         }
 
         .podium-title {
@@ -459,6 +464,58 @@
         .badge-ane { color: #ff5252; font-weight: bold; }
         .badge-cred { color: #00f2fe; font-weight: bold; }
 
+        /* --- LISTADO EXTENDIDO PUESTOS 4+ --- */
+        .podium-extended-list {
+            width: 100%;
+            max-height: 140px;
+            overflow-y: auto;
+            margin-top: 10px;
+            padding-right: 5px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 242, 254, 0.3) transparent;
+        }
+        .podium-extended-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .podium-extended-list::-webkit-scrollbar-thumb {
+            background: rgba(0, 242, 254, 0.3);
+            border-radius: 4px;
+        }
+        .extended-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 6px;
+            font-size: 0.7rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            animation: fadeIn 0.3s ease-out;
+        }
+        .extended-row:last-child { border-bottom: none; }
+        .extended-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 60%;
+        }
+        .extended-pos {
+            font-weight: 800;
+            color: rgba(255,255,255,0.4);
+            width: 18px;
+        }
+        .extended-name {
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+        }
+        .extended-right {
+            display: flex;
+            gap: 12px;
+            font-size: 0.65rem;
+        }
+
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
@@ -479,6 +536,7 @@
                 <div class="podium-container" id="login-podium">
                     <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin: auto;"><i class="fas fa-sync fa-spin"></i> Sincronizando Auditoría de Cobertura...</div>
                 </div>
+                <div class="podium-extended-list" id="podium-extended-list"></div>
             </div>
             <div style="font-size: 0.8rem; opacity: 0.7;"><i class="fas fa-shield-alt"></i> Red Nacional de Salud - MINSA 2026</div>
         </div>
@@ -603,7 +661,7 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2QKNMUiL-H8Z9CAtC1GvHj7OcbS4mG5yjcUwr6S1cL3B8DZ0-ZddSp2trQlAC6uyQ/exec";
-        const URL_ATENCION_SICHE = "https://script.google.com/macros/s/AKfycbyxdxIUhN3whXP81Y-PpLyiZfpsHUvKbsmjqNYM5YSjQmCElb3YUDqOsvzbUOJLWoc/exec";
+        const URL_ATENCION_SICHE = "https://script.google.com/macros/s/AKfycbxR4V4z_t1kr4Xxb3y8u2cxaM2CQ8w2XS2A7j-7_ywYNaPTbGWNTrBYBf4JsZM2Q6s8/exec";
 
         let currentDNI = '';
         let userDataCache = {};
@@ -670,7 +728,7 @@
                 profesion: document.getElementById('r-prof').value,
                 celular: cel,
                 region: document.getElementById('r-reg').value,
-                provincia: document.getElementById('r-prov').value,
+                provincia: document.getElementById('r-provaws'),
                 distrito: document.getElementById('r-dist').value,
                 eess: document.getElementById('r-eess').value,
                 newPass: pass
@@ -815,10 +873,12 @@
 
         function procesarDatosExcel(ranking) {
             const podiumWrapper = document.getElementById('login-podium');
+            const extendedWrapper = document.getElementById('podium-extended-list');
             if(!podiumWrapper) return;
 
             if (!ranking || !Array.isArray(ranking) || ranking.length === 0) {
                 podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones auditadas en Siche.</div>`;
+                if(extendedWrapper) extendedWrapper.innerHTML = "";
                 return;
             }
 
@@ -836,8 +896,8 @@
             const top2 = ranking[1] || fallback;
             const top3 = ranking[2] || fallback;
 
+            // Renderizar Podio (Muestra "Migrados" en la copa/columna y añade "Pendientes" abajo)
             podiumWrapper.innerHTML = `
-                <!-- Segundo Lugar -->
                 <div class="podium-place second">
                     <div class="podium-name" title="${top2.nombre}">${formatearNombreCorto(top2.nombre)}</div>
                     <div class="podium-column">
@@ -854,7 +914,6 @@
                     </div>
                 </div>
                 
-                <!-- Primer Lugar -->
                 <div class="podium-place first">
                     <div class="podium-name" title="${top1.nombre}">${formatearNombreCorto(top1.nombre)}</div>
                     <div class="podium-column">
@@ -871,7 +930,6 @@
                     </div>
                 </div>
                 
-                <!-- Tercer Lugar -->
                 <div class="podium-place third">
                     <div class="podium-name" title="${top3.nombre}">${formatearNombreCorto(top3.nombre)}</div>
                     <div class="podium-column">
@@ -888,6 +946,31 @@
                     </div>
                 </div>
             `;
+
+            // Renderizar Lista Extendida (Puestos 4 en adelante)
+            if(extendedWrapper) {
+                extendedWrapper.innerHTML = "";
+                if(ranking.length > 3) {
+                    for(let i = 3; i < ranking.length; i++) {
+                        let p = ranking[i];
+                        extendedWrapper.innerHTML += `
+                            <div class="extended-row">
+                                <div class="extended-left">
+                                    <span class="extended-pos">${i + 1}°</span>
+                                    <span class="extended-name" title="${p.nombre}">${formatearNombreCorto(p.nombre)}</span>
+                                </div>
+                                <div class="extended-right">
+                                    <span><i class="fas fa-check-double" style="color:#28a745;"></i> Mig: <b>${p.migrados}</b></span>
+                                    <span><i class="fas fa-clock" style="color:#ffaa00;"></i> Pnd: <b>${p.porProcesar}</b></span>
+                                    <span><i class="fas fa-briefcase" style="color:#fff; opacity:0.6;"></i> Tot: ${p.totalAtenciones}</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    extendedWrapper.innerHTML = `<div style="font-size:0.6rem; color:rgba(255,255,255,0.3); text-align:center; padding:10px;">No hay más personal en el ranking.</div>`;
+                }
+            }
         }
     </script>
 </body>
