@@ -183,6 +183,9 @@
             .podium-name {
                 font-size: 0.6rem !important;
             }
+            .podium-metrics-card {
+                display: none !important; /* Ocultar sub-tarjetas detalladas en pantallas móviles muy pequeñas */
+            }
         }
 
         /* --- APLICACIÓN PRINCIPAL --- */
@@ -307,21 +310,22 @@
         /* --- DISEÑO VIBRANTE DEL PODIO EN PANEL AZUL --- */
         .podium-section {
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             margin: auto;
-            background: rgba(0, 0, 0, 0.25);
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
+            background: rgba(5, 15, 30, 0.75);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
         }
 
         .podium-title {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             color: #00f2fe;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
@@ -332,8 +336,8 @@
             justify-content: center;
             align-items: flex-end;
             gap: 12px;
-            height: 130px;
-            margin-bottom: 5px;
+            height: 140px;
+            margin-bottom: 15px;
         }
 
         .podium-place {
@@ -371,22 +375,24 @@
             justify-content: center;
             padding: 6px 2px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
         }
 
         .podium-place.first .podium-column {
-            height: 90px;
+            height: 100px;
             background: linear-gradient(135deg, #ffd700, #b8860b);
             border: 1px solid #ffe866;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
         .podium-place.second .podium-column {
-            height: 70px;
+            height: 75px;
             background: linear-gradient(135deg, #b0c4de, #708090);
             border: 1px solid #d3d3d3;
         }
 
         .podium-place.third .podium-column {
-            height: 50px;
+            height: 55px;
             background: linear-gradient(135deg, #cd7f32, #8b4513);
             border: 1px solid #e9967a;
         }
@@ -397,7 +403,7 @@
         }
 
         .podium-count {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 800;
             color: #fff;
         }
@@ -408,6 +414,43 @@
             opacity: 0.85;
             color: #fff;
         }
+
+        /* --- CARDS DE MÉTRICAS ANALÍTICAS DE CALIDAD --- */
+        .podium-metrics-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 8px 10px;
+            width: 100%;
+            margin-top: 6px;
+            border: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            text-align: left;
+        }
+
+        .metric-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.58rem;
+            color: rgba(255,255,255,0.75);
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 2px;
+        }
+        .metric-line:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .metric-line span i {
+            margin-right: 3px;
+            width: 10px;
+            text-align: center;
+        }
+        .badge-err { color: #ff4d4d; font-weight: bold; }
+        .badge-mig { color: #28a745; font-weight: bold; }
+        .badge-proc { color: #ffaa00; font-weight: bold; }
+        .badge-ane { color: #ff5252; font-weight: bold; }
+        .badge-cred { color: #00f2fe; font-weight: bold; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(15px); }
@@ -425,9 +468,9 @@
             </div>
             
             <div class="podium-section">
-                <div class="podium-title"><i class="fas fa-chart-line"></i> Top Atenciones del Mes</div>
+                <div class="podium-title"><i class="fas fa-chart-line"></i> Top Calidad de Atención (SICHE)</div>
                 <div class="podium-container" id="login-podium">
-                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin: auto;"><i class="fas fa-sync fa-spin"></i> Sincronizando Registro Diario...</div>
+                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin: auto;"><i class="fas fa-sync fa-spin"></i> Sincronizando Auditoría de Cobertura...</div>
                 </div>
             </div>
             <div style="font-size: 0.8rem; opacity: 0.7;"><i class="fas fa-shield-alt"></i> Red Nacional de Salud - MINSA 2026</div>
@@ -553,7 +596,8 @@
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby2QKNMUiL-H8Z9CAtC1GvHj7OcbS4mG5yjcUwr6S1cL3B8DZ0-ZddSp2trQlAC6uyQ/exec";
-        const URL_REGISTRO_DIARIO = "https://script.google.com/macros/s/AKfycbxAa0Z5U6WSurhkkrhQ8uEAV_eXbfQ9pxOvXDI1Q2lUmR-sPAzAANALj1Umj4mxSEH7/exec";
+        // CAMBIO DE UBICACIÓN REALIZADO DE ACUERDO CON REQUERIMIENTOS DE ATENCIÓN SICHE
+        const URL_ATENCION_SICHE = "https://script.google.com/macros/s/AKfycbwq5kr0Sdv5ZmcegSck1JAcbMagKh_FyT7ukVvIZmOVJUk8pnUkFj4SIsZ0g8FA--eT/exec";
 
         let currentDNI = '';
         let userDataCache = {};
@@ -742,7 +786,7 @@
         });
 
         // ==========================================================================
-        //  --- SOLUCIÓN ANTIBLOQUEO CORS / CONSULTA AUTOMÁTICA (JSONP) ---
+        //  --- SOLUCIÓN ANTIBLOQUEO CORS / CONSULTA AUTOMÁTICA (JSONP - SICHE) ---
         // ==========================================================================
         
         window.addEventListener('DOMContentLoaded', () => {
@@ -755,39 +799,28 @@
 
             const script = document.createElement('script');
             script.id = 'jsonp-stats';
-            // Consulta directa inyectando el Callback global para omitir las restricciones del navegador
-            script.src = `${URL_REGISTRO_DIARIO}?action=getHistorial&callback=procesarDatosExcel`;
+            // Modificado para apuntar a la base de datos de Auditoría Integral "Atención Siche"
+            script.src = `${URL_ATENCION_SICHE}?action=getHistorial&callback=procesarDatosExcel`;
             
             script.onerror = function() {
-                document.getElementById('login-podium').innerHTML = `<div style="font-size:0.75rem; color:#ff4d4d;"><i class="fas fa-exclamation-circle"></i> Error de sincronización remota.</div>`;
+                document.getElementById('login-podium').innerHTML = `<div style="font-size:0.75rem; color:#ff4d4d;"><i class="fas fa-exclamation-circle"></i> Error de sincronización remota con SICHE.</div>`;
             };
             document.body.appendChild(script);
         }
 
-        // Callback global disparado automáticamente al retornar los datos de Google Sheets
-        function procesarDatosExcel(records) {
+        // Callback global disparado automáticamente al retornar los datos estadísticos analizados
+        function procesarDatosExcel(ranking) {
             const podiumWrapper = document.getElementById('login-podium');
             if(!podiumWrapper) return;
 
-            if (!records || !Array.isArray(records) || records.length === 0) {
-                podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones este mes.</div>`;
+            if (!ranking || !Array.isArray(ranking) || ranking.length === 0) {
+                podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones auditadas en Siche.</div>`;
                 return;
             }
 
-            const conteo = {};
-            records.forEach(row => {
-                let esp = row.espInfantil ? String(row.espInfantil).toUpperCase().trim() : "PERSONAL EESS";
-                if (esp === "UNDEFINED" || esp === "-" || esp === "") esp = "PERSONAL EESS";
-                conteo[esp] = (conteo[esp] || 0) + 1;
-            });
-
-            const ranking = Object.keys(conteo).map(key => {
-                return { nombre: key, total: conteo[key] };
-            }).sort((a, b) => b.total - a.total);
-
-            // Función interna optimizada para formatear nombres largos (Ej: "YULIANA ANGELA PEÑA" -> "YULIANA PEÑA")
+            // Función interna optimizada para formatear nombres largos del personal de salud
             const formatearNombreCorto = (nombreCompleto) => {
-                if(!nombreCompleto || nombreCompleto === "-" || nombreCompleto === "PERSONAL EESS") return nombreCompleto;
+                if(!nombreCompleto || nombreCompleto === "-" || nombreCompleto.includes("NO ESPECIFICADO")) return "P. SALUD";
                 var partes = nombreCompleto.split(" ");
                 if(partes.length >= 3) {
                     return partes[0] + " " + partes[2];
@@ -795,22 +828,59 @@
                 return nombreCompleto;
             };
 
-            const top1 = ranking[0] || { nombre: "-", total: 0 };
-            const top2 = ranking[1] || { nombre: "-", total: 0 };
-            const top3 = ranking[2] || { nombre: "-", total: 0 };
+            // Estructuras de fallback elegantes por si el ranking tiene menos de 3 integrantes
+            const top1 = ranking[0] || { nombre: "-", totalAtenciones: 0, erroresMigracion: 0, migrados: 0, porProcesar: 0, anemia: 0, cred: 0 };
+            const top2 = ranking[1] || { nombre: "-", totalAtenciones: 0, erroresMigracion: 0, migrados: 0, porProcesar: 0, anemia: 0, cred: 0 };
+            const top3 = ranking[2] || { nombre: "-", totalAtenciones: 0, erroresMigracion: 0, migrados: 0, porProcesar: 0, anemia: 0, cred: 0 };
 
+            // Inyección limpia del Podio con tarjetas dinámicas de microestadísticas incorporadas por profesional
             podiumWrapper.innerHTML = `
+                <!-- Segundo Lugar -->
                 <div class="podium-place second">
                     <div class="podium-name" title="${top2.nombre}">${formatearNombreCorto(top2.nombre)}</div>
-                    <div class="podium-column"><i class="fas fa-trophy podium-cup"></i><span class="podium-count">${top2.total}</span><span class="podium-label">2do</span></div>
+                    <div class="podium-column">
+                        <i class="fas fa-trophy podium-cup"></i>
+                        <span class="podium-count">${top2.totalAtenciones}</span>
+                        <span class="podium-label">2do</span>
+                    </div>
+                    <div class="podium-metrics-card">
+                        <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top2.erroresMigracion}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-check-double"></i>Mig:</span><span class="badge-mig">${top2.migrados}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-virus"></i>Ane:</span><span class="badge-ane">${top2.anemia}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-child"></i>Cred:</span><span class="badge-cred">${top2.cred}</span></div>
+                    </div>
                 </div>
+                
+                <!-- Primer Lugar -->
                 <div class="podium-place first">
                     <div class="podium-name" title="${top1.nombre}">${formatearNombreCorto(top1.nombre)}</div>
-                    <div class="podium-column"><i class="fas fa-crown podium-cup"></i><span class="podium-count">${top1.total}</span><span class="podium-label">Líder</span></div>
+                    <div class="podium-column">
+                        <i class="fas fa-crown podium-cup"></i>
+                        <span class="podium-count">${top1.totalAtenciones}</span>
+                        <span class="podium-label">Líder</span>
+                    </div>
+                    <div class="podium-metrics-card" style="background: rgba(255,215,0,0.08); border-color: rgba(255,215,0,0.2);">
+                        <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top1.erroresMigracion}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-check-double"></i>Mig:</span><span class="badge-mig">${top1.migrados}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-virus"></i>Ane:</span><span class="badge-ane">${top1.anemia}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-child"></i>Cred:</span><span class="badge-cred">${top1.cred}</span></div>
+                    </div>
                 </div>
+                
+                <!-- Tercer Lugar -->
                 <div class="podium-place third">
                     <div class="podium-name" title="${top3.nombre}">${formatearNombreCorto(top3.nombre)}</div>
-                    <div class="podium-column"><i class="fas fa-award podium-cup"></i><span class="podium-count">${top3.total}</span><span class="podium-label">3ro</span></div>
+                    <div class="podium-column">
+                        <i class="fas fa-award podium-cup"></i>
+                        <span class="podium-count">${top3.totalAtenciones}</span>
+                        <span class="podium-label">3ro</span>
+                    </div>
+                    <div class="podium-metrics-card">
+                        <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top3.erroresMigracion}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-check-double"></i>Mig:</span><span class="badge-mig">${top3.migrados}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-virus"></i>Ane:</span><span class="badge-ane">${top3.anemia}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-child"></i>Cred:</span><span class="badge-cred">${top3.cred}</span></div>
+                    </div>
                 </div>
             `;
         }
