@@ -146,7 +146,7 @@
             text-decoration: underline;
         }
 
-        /* --- NUEVO FILTRO POR RANGO DE FECHAS (CYBERPUNK) --- */
+        /* --- FILTRO POR RANGO DE FECHAS (OPTIMIZADO AMPLIO) --- */
         .filter-panel {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(0, 242, 254, 0.2);
@@ -202,6 +202,215 @@
         .btn-export {
             background: var(--glow-pink);
             color: #fff;
+        }
+
+        /* --- DISEÑO MEJORADO DEL PODIO (MÁXIMO ESPACIO HORIZONTAL Y SIMETRÍA) --- */
+        .podium-section {
+            width: 100%;
+            max-width: 650px; /* Incrementado para dar más holgura en pantallas horizontales */
+            margin: auto;
+            background: rgba(5, 15, 30, 0.85);
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .podium-title {
+            font-size: 0.95rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 16px;
+            color: #00f2fe;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 15px;
+            height: 145px;
+            margin-bottom: 15px;
+        }
+
+        .podium-place {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 32%;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .podium-place.second { animation-delay: 0.2s; }
+        .podium-place.first { animation-delay: 0s; }
+        .podium-place.third { animation-delay: 0.4s; }
+
+        .podium-name {
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .podium-column {
+            width: 100%;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .podium-place.first .podium-column {
+            height: 100px;
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            border: 1px solid #ffe866;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .podium-place.second .podium-column {
+            height: 75px;
+            background: linear-gradient(135deg, #b0c4de, #708090);
+            border: 1px solid #d3d3d3;
+        }
+
+        .podium-place.third .podium-column {
+            height: 55px;
+            background: linear-gradient(135deg, #cd7f32, #8b4513);
+            border: 1px solid #e9967a;
+        }
+
+        .podium-cup {
+            font-size: 1.3rem;
+            margin-bottom: 2px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .podium-count {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .podium-column span.podium-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            opacity: 0.9;
+            color: #fff;
+        }
+
+        /* --- ESTRUCTURA SIMÉTRICA PARA MÁXIMA LEGIBILIDAD DE FILAS DE DATOS --- */
+        .podium-metrics-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 6px 8px;
+            width: 100%;
+            margin-top: 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            text-align: left;
+        }
+
+        .metric-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.62rem;
+            color: rgba(255,255,255,0.8);
+            border-bottom: 1px dashed rgba(255,255,255,0.08);
+            padding-bottom: 2px;
+        }
+        .metric-line:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .metric-line span i {
+            margin-right: 4px;
+            width: 11px;
+            text-align: center;
+            opacity: 0.85;
+        }
+        .badge-err { color: #ff4d4d; font-weight: bold; }
+        .badge-mig { color: #28a745; font-weight: bold; }
+        .badge-rua { color: #a67cff; font-weight: bold; }
+        .badge-falta { color: #ff4444; font-weight: bold; text-shadow: 0 0 5px rgba(255,68,68,0.4); }
+        .badge-proc { color: #ffaa00; font-weight: bold; }
+
+        /* --- LISTADO EXTENDIDO PUESTOS 4+ --- */
+        .podium-extended-list {
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 12px;
+            padding-right: 5px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 242, 254, 0.3) transparent;
+        }
+        .podium-extended-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .podium-extended-list::-webkit-scrollbar-thumb {
+            background: rgba(0, 242, 254, 0.3);
+            border-radius: 4px;
+        }
+        .extended-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 6px;
+            font-size: 0.72rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            animation: fadeIn 0.3s ease-out;
+        }
+        .extended-row:last-child { border-bottom: none; }
+        .extended-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 45%;
+        }
+        .extended-pos {
+            font-weight: 800;
+            color: rgba(0, 242, 254, 0.6);
+            width: 20px;
+        }
+        .extended-name {
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+        }
+        .extended-right {
+            display: flex;
+            gap: 12px;
+            font-size: 0.68rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- DISEÑO RESPONSIVO PARA MÓVILES --- */
@@ -373,210 +582,6 @@
             width: 90%;
             max-width: 350px;
             color: #333;
-        }
-
-        /* --- DISEÑO VIBRANTE DEL PODIO EN PANEL AZUL --- */
-        .podium-section {
-            width: 100%;
-            max-width: 520px;
-            margin: auto;
-            background: rgba(5, 15, 30, 0.75);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(0, 242, 254, 0.25);
-            backdrop-filter: blur(8px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .podium-title {
-            font-size: 0.9rem;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            color: #00f2fe;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
-        }
-
-        .podium-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 12px;
-            height: 140px;
-            margin-bottom: 15px;
-        }
-
-        .podium-place {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 31%;
-            text-align: center;
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        .podium-place.second { animation-delay: 0.2s; }
-        .podium-place.first { animation-delay: 0s; }
-        .podium-place.third { animation-delay: 0.4s; }
-
-        .podium-name {
-            font-size: 0.65rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-            color: #fff;
-        }
-
-        .podium-column {
-            width: 100%;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 2px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .podium-place.first .podium-column {
-            height: 100px;
-            background: linear-gradient(135deg, #ffd700, #b8860b);
-            border: 1px solid #ffe866;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-
-        .podium-place.second .podium-column {
-            height: 75px;
-            background: linear-gradient(135deg, #b0c4de, #708090);
-            border: 1px solid #d3d3d3;
-        }
-
-        .podium-place.third .podium-column {
-            height: 55px;
-            background: linear-gradient(135deg, #cd7f32, #8b4513);
-            border: 1px solid #e9967a;
-        }
-
-        .podium-cup {
-            font-size: 1.2rem;
-            margin-bottom: 2px;
-        }
-
-        .podium-count {
-            font-size: 0.85rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .podium-column span.podium-label {
-            font-size: 0.5rem;
-            text-transform: uppercase;
-            opacity: 0.85;
-            color: #fff;
-        }
-
-        /* --- CARDS DE MÉTRICAS ANALÍTICAS DE CALIDAD (MIGRO vs RUA) --- */
-        .podium-metrics-card {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 8px;
-            padding: 8px 10px;
-            width: 100%;
-            margin-top: 6px;
-            border: 1px solid rgba(255,255,255,0.06);
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            text-align: left;
-        }
-
-        .metric-line {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.58rem;
-            color: rgba(255,255,255,0.75);
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
-            padding-bottom: 2px;
-        }
-        .metric-line:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        .metric-line span i {
-            margin-right: 3px;
-            width: 10px;
-            text-align: center;
-        }
-        .badge-err { color: #ff4d4d; font-weight: bold; }
-        .badge-mig { color: #28a745; font-weight: bold; }
-        .badge-rua { color: #a67cff; font-weight: bold; }
-        .badge-falta { color: #ff4444; font-weight: bold; text-shadow: 0 0 5px rgba(255,68,68,0.4); }
-        .badge-proc { color: #ffaa00; font-weight: bold; }
-
-        /* --- LISTADO EXTENDIDO PUESTOS 4+ --- */
-        .podium-extended-list {
-            width: 100%;
-            max-height: 140px;
-            overflow-y: auto;
-            margin-top: 10px;
-            padding-right: 5px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            scrollbar-width: thin;
-            scrollbar-color: rgba(0, 242, 254, 0.3) transparent;
-        }
-        .podium-extended-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        .podium-extended-list::-webkit-scrollbar-thumb {
-            background: rgba(0, 242, 254, 0.3);
-            border-radius: 4px;
-        }
-        .extended-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 6px;
-            font-size: 0.7rem;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            animation: fadeIn 0.3s ease-out;
-        }
-        .extended-row:last-child { border-bottom: none; }
-        .extended-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 50%;
-        }
-        .extended-pos {
-            font-weight: 800;
-            color: rgba(255,255,255,0.4);
-            width: 18px;
-        }
-        .extended-name {
-            font-weight: 600;
-            color: rgba(255,255,255,0.85);
-        }
-        .extended-right {
-            display: flex;
-            gap: 10px;
-            font-size: 0.65rem;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -783,7 +788,7 @@
                         showMsg("", "");
                     }
                 } else {
-                    showMsg("DNI no autorizado. Comuníquese con el administrador del sistema DIT.", "red");
+                    showMsg("DNI no autorisado. Comuníquese con el administrador del sistema DIT.", "red");
                 }
             } catch(e) {
                 showMsg("Error de red o caída de servidor. Intente de nuevo.", "red");
@@ -944,7 +949,6 @@
 
             const script = document.createElement('script');
             script.id = 'jsonp-stats';
-            // Se inyectan dinámicamente los parámetros de fecha al backend
             script.src = `${URL_ATENCION_SICHE}?action=getHistorial&desde=${desde}&hasta=${hasta}&callback=procesarDatosExcel`;
             
             script.onerror = function() {
@@ -978,7 +982,6 @@
             const top2 = ranking[1] || fallback;
             const top3 = ranking[2] || fallback;
 
-            // Renderizar Podio Principal con Auditoría RUA vs SICHE MIGRADO
             podiumWrapper.innerHTML = `
                 <div class="podium-place second">
                     <div class="podium-name" title="${top2.nombre}">${formatearNombreCorto(top2.nombre)}</div>
@@ -1026,7 +1029,6 @@
                 </div>
             `;
 
-            // Renderizar Lista Extendida (Puestos 4 en adelante)
             if(extendedWrapper) {
                 extendedWrapper.innerHTML = "";
                 if(ranking.length > 3) {
@@ -1052,7 +1054,6 @@
             }
         }
 
-        // FUNCIONALIDAD DE EXPORTACIÓN AUTOMÁTICA EN CSV
         async function exportarFaltantesAExcel() {
             const desde = document.getElementById('filtro-desde').value;
             const hasta = document.getElementById('filtro-hasta').value;
@@ -1069,7 +1070,6 @@
                     return;
                 }
 
-                // Definición estructural del CSV con BOM para compatibilidad total con Excel (tildes/caracteres)
                 let csvContent = "\uFEFF"; 
                 csvContent += "Fecha de Atención,DNI Paciente Rezagado,Especialista Infantil / Personal de Salud\n";
                 
@@ -1077,7 +1077,6 @@
                     csvContent += `"${item.fecha}","${item.dni}","${item.personal}"\n`;
                 });
 
-                // Descarga virtual por enlace emulado
                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                 const urlBlob = URL.createObjectURL(blob);
                 const link = document.createElement("a");
