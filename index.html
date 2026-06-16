@@ -146,7 +146,7 @@
             text-decoration: underline;
         }
 
-        /* --- FILTRO POR RANGO DE FECHAS (OPTIMIZADO AMPLIO) --- */
+        /* --- FILTRO POR RANGO DE FECHAS (DISEÑO HORIZONTAL OPTIMIZADO) --- */
         .filter-panel {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(0, 242, 254, 0.2);
@@ -204,10 +204,10 @@
             color: #fff;
         }
 
-        /* --- DISEÑO MEJORADO DEL PODIO (MÁXIMO ESPACIO HORIZONTAL Y SIMETRÍA) --- */
+        /* --- PODIO MODULAR DE AUDITORÍA (MÁXIMO ESPACIO HORIZONTAL) --- */
         .podium-section {
             width: 100%;
-            max-width: 650px; /* Incrementado para dar más holgura en pantallas horizontales */
+            max-width: 650px;
             margin: auto;
             background: rgba(5, 15, 30, 0.85);
             padding: 22px;
@@ -317,7 +317,7 @@
             color: #fff;
         }
 
-        /* --- ESTRUCTURA SIMÉTRICA PARA MÁXIMA LEGIBILIDAD DE FILAS DE DATOS --- */
+        /* --- FILAS DE DATOS SIMÉTRICAS --- */
         .podium-metrics-card {
             background: rgba(0, 0, 0, 0.4);
             border-radius: 8px;
@@ -356,7 +356,7 @@
         .badge-falta { color: #ff4444; font-weight: bold; text-shadow: 0 0 5px rgba(255,68,68,0.4); }
         .badge-proc { color: #ffaa00; font-weight: bold; }
 
-        /* --- LISTADO EXTENDIDO PUESTOS 4+ --- */
+        /* --- EXTENSIÓN PARA PUESTOS RESTANTES --- */
         .podium-extended-list {
             width: 100%;
             max-height: 150px;
@@ -413,7 +413,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- DISEÑO RESPONSIVO PARA MÓVILES --- */
+        /* --- RESPONSIVE ADAPTATION --- */
         @media (max-width: 768px) {
             #auth-screen {
                 flex-direction: column;
@@ -428,9 +428,7 @@
                 text-align: center;
                 gap: 15px;
             }
-            .auth-visual h1 {
-                font-size: 1.8rem !important;
-            }
+            .auth-visual h1 { font-size: 1.8rem !important; }
             .auth-form-panel {
                 width: 100%;
                 padding: 25px;
@@ -445,27 +443,17 @@
                 height: 110px !important;
                 margin-bottom: 10px !important;
             }
-            .podium-column {
-                padding: 4px 2px !important;
-            }
-            .podium-cup {
-                font-size: 1.1rem !important;
-            }
-            .podium-name {
-                font-size: 0.6rem !important;
-            }
-            .podium-metrics-card {
-                display: none !important; 
-            }
-            .podium-extended-list {
-                max-height: 110px !important;
-            }
+            .podium-column { padding: 4px 2px !important; }
+            .podium-cup { font-size: 1.1rem !important; }
+            .podium-name { font-size: 0.6rem !important; }
+            .podium-metrics-card { display: none !important; }
+            .podium-extended-list { max-height: 110px !important; }
             .podium-place.first .podium-column { height: 80px !important; }
             .podium-place.second .podium-column { height: 60px !important; }
             .podium-place.third .podium-column { height: 45px !important; }
         }
 
-        /* --- APLICACIÓN PRINCIPAL --- */
+        /* --- INTERFAZ PRINCIPAL DEL APLICATIVO --- */
         #main-app {
             display: none;
             flex-direction: column;
@@ -506,9 +494,7 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .scroll-container::-webkit-scrollbar {
-            display: none;
-        }
+        .scroll-container::-webkit-scrollbar { display: none; }
 
         #sortable-nodes {
             display: flex;
@@ -562,7 +548,7 @@
             border: none;
         }
 
-        /* --- MODAL LLAVE CONTRASEÑA --- */
+        /* --- MODAL CREDENCIAL SEGURA --- */
         #modal-pw {
             position: fixed;
             inset: 0;
@@ -615,7 +601,10 @@
                 </div>
 
                 <div class="podium-container" id="login-podium">
-                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin: auto;"><i class="fas fa-sync fa-spin"></i> Sincronizando Auditoría de Cobertura...</div>
+                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.5); margin: auto; text-align: center;">
+                        <i class="fas fa-calendar-check" style="color: var(--glow-cyan); font-size: 1.2rem; margin-bottom: 5px; display: block;"></i> 
+                        Seleccione un rango de fechas y consulte para ver los resultados.
+                    </div>
                 </div>
                 <div class="podium-extended-list" id="podium-extended-list"></div>
             </div>
@@ -788,7 +777,7 @@
                         showMsg("", "");
                     }
                 } else {
-                    showMsg("DNI no autorisado. Comuníquese con el administrador del sistema DIT.", "red");
+                    showMsg("DNI no autorizado. Comuníquese con el administrador del sistema DIT.", "red");
                 }
             } catch(e) {
                 showMsg("Error de red o caída de servidor. Intente de nuevo.", "red");
@@ -799,7 +788,7 @@
             const cel = document.getElementById('r-cel').value;
             const pass = document.getElementById('r-new-pass').value;
 
-            if(cel.length !== 9) return showMsg("El número celular debe poseer strictly 9 dígitos", "red");
+            if(cel.length !== 9) return showMsg("El número celular debe poseer estrictamente 9 dígitos", "red");
             if(pass.length < 4) return showMsg("Defina una contraseña válida (mínimo 4 caracteres)", "red");
 
             const data = {
@@ -930,19 +919,24 @@
             });
         });
 
-        // ==========================================================================
-        //  --- AUDITORÍA CRUZADA INTEGRADA CON FILTROS POR RANGO DE FECHAS (JSONP) ---
-        // ==========================================================================
+        // ============================================================================================
+        //  --- AUDITORÍA CRUZADA CON FILTROS POR RANGO DE FECHAS (CONDICIÓN DE CONSULTA EXCLUSIVA) ---
+        // ============================================================================================
         
-        window.addEventListener('DOMContentLoaded', () => {
-            ejecutarConsultaEstadistica();
-        });
+        // Se elimina la llamada automática en el DOMContentLoaded para evitar que cargue datos sin accionar el botón.
 
         function ejecutarConsultaEstadistica() {
             const desde = document.getElementById('filtro-desde').value;
             const hasta = document.getElementById('filtro-hasta').value;
 
+            // Validación opcional: advertir si el rango no está completo
+            if(!desde || !hasta) {
+                alert("Por favor seleccione ambas fechas (Desde y Hasta) para realizar la auditoría cruzada.");
+                return;
+            }
+
             document.getElementById('login-podium').innerHTML = `<div style="font-size:0.75rem; color:var(--glow-cyan); margin: auto;"><i class="fas fa-sync fa-spin"></i> Filtrando y Auditando Coberturas...</div>`;
+            document.getElementById('podium-extended-list').innerHTML = "";
 
             const viejoScript = document.getElementById('jsonp-stats');
             if (viejoScript) viejoScript.remove();
@@ -952,7 +946,7 @@
             script.src = `${URL_ATENCION_SICHE}?action=getHistorial&desde=${desde}&hasta=${hasta}&callback=procesarDatosExcel`;
             
             script.onerror = function() {
-                document.getElementById('login-podium').innerHTML = `<div style="font-size:0.75rem; color:#ff4d4d;"><i class="fas fa-exclamation-circle"></i> Error de sincronización remota con SICHE.</div>`;
+                document.getElementById('login-podium').innerHTML = `<div style="font-size:0.75rem; color:#ff4d4d; margin: auto;"><i class="fas fa-exclamation-circle"></i> Error de sincronización remota con SICHE.</div>`;
             };
             document.body.appendChild(script);
         }
@@ -963,7 +957,7 @@
             if(!podiumWrapper) return;
 
             if (!ranking || !Array.isArray(ranking) || ranking.length === 0) {
-                podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones en el rango seleccionado.</div>`;
+                podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones encontradas en el rango seleccionado.</div>`;
                 if(extendedWrapper) extendedWrapper.innerHTML = "";
                 return;
             }
@@ -1058,6 +1052,11 @@
             const desde = document.getElementById('filtro-desde').value;
             const hasta = document.getElementById('filtro-hasta').value;
             
+            if(!desde || !hasta) {
+                alert("Por favor seleccione ambas fechas (Desde y Hasta) antes de exportar.");
+                return;
+            }
+            
             alert("Generando listado de auditoría de DNI faltantes de migrar... por favor espere.");
             
             try {
@@ -1081,7 +1080,7 @@
                 const urlBlob = URL.createObjectURL(blob);
                 const link = document.createElement("a");
                 link.setAttribute("href", urlBlob);
-                link.setAttribute("download", `Atenciones_FALTANTES_en_SICHE_${desde || 'inicio'}_al_${hasta || 'fin'}.csv`);
+                link.setAttribute("download", `Atenciones_FALTANTES_en_SICHE_${desde}_al_${hasta}.csv`);
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
