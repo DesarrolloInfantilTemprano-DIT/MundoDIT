@@ -146,7 +146,7 @@
             text-decoration: underline;
         }
 
-        /* --- FILTRO POR RANGO DE FECHAS (DISEÑO HORIZONTAL OPTIMIZADO) --- */
+        /* --- FILTRO POR RANGO DE FECHAS --- */
         .filter-panel {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(0, 242, 254, 0.2);
@@ -204,7 +204,7 @@
             color: #fff;
         }
 
-        /* --- PODIO MODULAR DE AUDITORÍA (MÁXIMO ESPACIO HORIZONTAL) --- */
+        /* --- PODIO MODULAR DE AUDITORÍA --- */
         .podium-section {
             width: 100%;
             max-width: 650px;
@@ -665,7 +665,7 @@
                     </div>
                     <div>
                         <label>Distrito</label>
-                        <input type="text" id="r-dist.value" placeholder="Distrito">
+                        <input type="text" id="r-dist" placeholder="Distrito">
                     </div>
                 </div>
                 
@@ -771,7 +771,7 @@
                         document.getElementById('r-cel').value = res.userData.celular || "";
                         document.getElementById('r-reg').value = res.userData.region || "";
                         document.getElementById('r-provaws').value = res.userData.provincia || "";
-                        document.getElementById('r-dist.value').value = res.userData.distrito || "";
+                        document.getElementById('r-dist').value = res.userData.distrito || "";
                         document.getElementById('r-eess').value = res.userData.eess || "";
                         showBox('reg-final');
                         showMsg("", "");
@@ -799,7 +799,7 @@
                 celular: cel,
                 region: document.getElementById('r-reg').value,
                 provincia: document.getElementById('r-provaws').value,
-                distrito: document.getElementById('r-dist.value').value,
+                distrito: document.getElementById('r-dist').value,
                 eess: document.getElementById('r-eess').value,
                 newPass: pass
             };
@@ -893,7 +893,7 @@
             document.getElementById('user-display').innerText = n;
             
             if(!window.hasGreeted) {
-                const msg = new SpeechSynthesisUtterance(`Bienvenido al sistema DIT, ${n}`);
+                const msg = new SpeechSynthesisUtterance("Bienvenido al sistema DIT, " + n);
                 msg.lang = 'es-PE';
                 window.speechSynthesis.speak(msg);
                 window.hasGreeted = true;
@@ -920,22 +920,19 @@
         });
 
         // ============================================================================================
-        //  --- AUDITORÍA CRUZADA CON FILTROS POR RANGO DE FECHAS (CONDICIÓN DE CONSULTA EXCLUSIVA) ---
+        //  --- AUDITORÍA CRUZADA CON FILTROS POR RANGO DE FECHAS ---
         // ============================================================================================
-        
-        // Se elimina la llamada automática en el DOMContentLoaded para evitar que cargue datos sin accionar el botón.
 
         function ejecutarConsultaEstadistica() {
             const desde = document.getElementById('filtro-desde').value;
             const hasta = document.getElementById('filtro-hasta').value;
 
-            // Validación opcional: advertir si el rango no está completo
             if(!desde || !hasta) {
                 alert("Por favor seleccione ambas fechas (Desde y Hasta) para realizar la auditoría cruzada.");
                 return;
             }
 
-            document.getElementById('login-podium').innerHTML = `<div style="font-size:0.75rem; color:var(--glow-cyan); margin: auto;"><i class="fas fa-sync fa-spin"></i> Filtrando y Auditando Coberturas...</div>`;
+            document.getElementById('login-podium').innerHTML = '<div style="font-size:0.75rem; color:var(--glow-cyan); margin: auto;"><i class="fas fa-sync fa-spin"></i> Filtrando y Auditando Coberturas...</div>';
             document.getElementById('podium-extended-list').innerHTML = "";
 
             const viejoScript = document.getElementById('jsonp-stats');
@@ -943,10 +940,10 @@
 
             const script = document.createElement('script');
             script.id = 'jsonp-stats';
-            script.src = `${URL_ATENCION_SICHE}?action=getHistorial&desde=${desde}&hasta=${hasta}&callback=procesarDatosExcel`;
+            script.src = URL_ATENCION_SICHE + "?action=getHistorial&desde=" + desde + "&hasta=" + hasta + "&callback=procesarDatosExcel";
             
             script.onerror = function() {
-                document.getElementById('login-podium').innerHTML = `<div style="font-size:0.75rem; color:#ff4d4d; margin: auto;"><i class="fas fa-exclamation-circle"></i> Error de sincronización remota con SICHE.</div>`;
+                document.getElementById('login-podium').innerHTML = '<div style="font-size:0.75rem; color:#ff4d4d; margin: auto;"><i class="fas fa-exclamation-circle"></i> Error de sincronización remota con SICHE.</div>';
             };
             document.body.appendChild(script);
         }
@@ -957,7 +954,7 @@
             if(!podiumWrapper) return;
 
             if (!ranking || !Array.isArray(ranking) || ranking.length === 0) {
-                podiumWrapper.innerHTML = `<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones encontradas en el rango seleccionado.</div>`;
+                podiumWrapper.innerHTML = '<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones encontradas en el rango seleccionado.</div>';
                 if(extendedWrapper) extendedWrapper.innerHTML = "";
                 return;
             }
@@ -1043,7 +1040,7 @@
                         `;
                     }
                 } else {
-                    extendedWrapper.innerHTML = `<div style="font-size:0.6rem; color:rgba(255,255,255,0.3); text-align:center; padding:10px;">No hay más personal en el ranking.</div>`;
+                    extendedWrapper.innerHTML = '<div style="font-size:0.6rem; color:rgba(255,255,255,0.3); text-align:center; padding:10px;">No hay más personal en el ranking.</div>';
                 }
             }
         }
@@ -1060,7 +1057,7 @@
             alert("Generando listado de auditoría de DNI faltantes de migrar... por favor espere.");
             
             try {
-                const url = `${URL_ATENCION_SICHE}?action=exportarFaltantes&desde=${desde}&hasta=${hasta}`;
+                const url = URL_ATENCION_SICHE + "?action=exportarFaltantes&desde=" + desde + "&hasta=" + hasta;
                 const response = await fetch(url);
                 const data = await response.json();
 
@@ -1073,14 +1070,14 @@
                 csvContent += "Fecha de Atención,DNI Paciente Rezagado,Especialista Infantil / Personal de Salud\n";
                 
                 data.forEach(item => {
-                    csvContent += `"${item.fecha}","${item.dni}","${item.personal}"\n`;
+                    csvContent += '"' + item.fecha + '","' + item.dni + '","' + item.personal + '"\n';
                 });
 
                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                 const urlBlob = URL.createObjectURL(blob);
                 const link = document.createElement("a");
                 link.setAttribute("href", urlBlob);
-                link.setAttribute("download", `Atenciones_FALTANTES_en_SICHE_${desde}_al_${hasta}.csv`);
+                link.setAttribute("download", "Atenciones_FALTANTES_en_SICHE_" + desde + "_al_" + hasta + ".csv");
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
