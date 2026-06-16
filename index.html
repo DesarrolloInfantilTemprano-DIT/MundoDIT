@@ -7,11 +7,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --glow-cyan: #00f2fe;
-            --glow-pink: #ff007f;
-            --bg-dark: #05070a;
-            --glass: rgba(10, 15, 25, 0.95);
-            --minsa-blue: #4477c7;
+            --glow-cyan: #bbf2f6;
+            --glow-pink: #ffb7d5;
+            --pastel-blue: #70a1ff;
+            --pastel-purple: #9b5de5;
+            --pastel-yellow: #fee440;
+            --bg-dark: #0f172a;
+            --glass: rgba(30, 41, 59, 0.95);
+            --minsa-blue: #4a7bc7;
         }
 
         * {
@@ -23,12 +26,12 @@
         }
 
         body {
-            background-color: var(--bg-dark);
+            background: radial-gradient(circle at top, #1e1b4b, #0f172a);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            color: white;
+            color: #f8fafc;
         }
 
         /* --- PANTALLA DE AUTENTICACIÓN --- */
@@ -37,13 +40,13 @@
             inset: 0;
             z-index: 2000;
             display: flex;
-            background: #fff;
+            background: #f1f5f9;
             transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
         }
 
         .auth-visual {
             flex: 1;
-            background: linear-gradient(rgba(68, 119, 199, 0.9), rgba(68, 119, 199, 0.9)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg');
+            background: linear-gradient(rgba(74, 123, 199, 0.85), rgba(15, 23, 42, 0.9)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -56,19 +59,21 @@
 
         .auth-form-panel {
             width: 450px;
-            padding: 35px;
+            padding: 40px 35px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: #fff;
-            color: #333;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            background: #ffffff;
+            color: #334155;
+            box-shadow: -10px 0 30px rgba(15, 23, 42, 0.15);
             overflow-y: auto;
+            border-top-left-radius: 30px;
+            border-bottom-left-radius: 30px;
         }
 
         .form-box {
             display: none;
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .form-box.active {
@@ -76,7 +81,7 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -84,59 +89,83 @@
             display: block;
             font-size: 0.75rem;
             font-weight: 700;
-            color: #666;
-            margin-bottom: 4px;
+            color: #64748b;
+            margin-bottom: 6px;
             margin-left: 5px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
         }
 
         input {
             width: 100%;
-            padding: 12px 15px;
-            background: #f1f4f7;
-            border: 1px solid #cfd7df;
-            border-radius: 8px;
+            padding: 14px 16px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
             outline: none;
-            margin-bottom: 15px;
-            color: #333;
+            margin-bottom: 18px;
+            color: #1e293b;
             font-size: 0.9rem;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         input:focus {
-            border-color: var(--minsa-blue);
+            border-color: var(--pastel-blue);
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(68, 119, 199, 0.15);
+            box-shadow: 0 0 0 4px rgba(112, 161, 255, 0.2);
+        }
+
+        /* Forzar diseño e icono del calendario nativo */
+        input[type="date"] {
+            position: relative;
+            appearance: none;
+            -webkit-appearance: none;
+            min-height: 45px;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+            z-index: 2;
         }
 
         .btn-main {
             width: 100%;
-            padding: 14px;
-            background: var(--minsa-blue);
+            padding: 16px;
+            background: linear-gradient(135deg, var(--minsa-blue), var(--pastel-blue));
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 16px;
             font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(74, 123, 199, 0.3);
+            transition: all 0.2s ease;
             letter-spacing: 0.5px;
         }
 
         .btn-main:hover {
-            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 123, 199, 0.4);
         }
 
         .btn-main:active {
-            transform: scale(0.98);
+            transform: translateY(1px);
         }
 
         .toggle-link {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
             font-size: 0.85rem;
-            color: #666;
+            color: #64748b;
         }
 
         .toggle-link span {
@@ -146,97 +175,109 @@
             text-decoration: underline;
         }
 
-        /* --- FILTRO POR RANGO DE FECHAS --- */
+        /* --- FILTRO POR RANGO DE FECHAS (INFANTIL ELEGANTE) --- */
         .filter-panel {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 12px;
+            margin-bottom: 15px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
         .filter-row {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
         .filter-group {
             flex: 1;
+            position: relative;
         }
         .filter-group label {
-            color: #00f2fe;
-            font-size: 0.65rem;
-            margin-left: 2px;
+            color: var(--glow-cyan);
+            font-size: 0.7rem;
+            margin-bottom: 4px;
+        }
+        .filter-group i.calendar-icon {
+            position: absolute;
+            right: 14px;
+            bottom: 14px;
+            color: var(--glow-cyan);
+            pointer-events: none;
+            font-size: 0.95rem;
+            z-index: 1;
         }
         .filter-group input[type="date"] {
             margin-bottom: 0;
-            padding: 8px 10px;
-            font-size: 0.78rem;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 35px 10px 12px;
+            font-size: 0.8rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.15);
             color: #fff;
-            border-radius: 6px;
+            border-radius: 12px;
         }
         .filter-buttons {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
         .btn-filter {
             flex: 1;
-            padding: 9px;
-            font-size: 0.75rem;
+            padding: 12px;
+            font-size: 0.8rem;
             font-weight: bold;
             border: none;
-            border-radius: 6px;
+            border-radius: 12px;
             cursor: pointer;
-            color: #000;
-            background: var(--glow-cyan);
+            color: #0f172a;
+            background: linear-gradient(135deg, #a5f3fc, #22d3ee);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 6px;
+            box-shadow: 0 4px 10px rgba(34, 211, 238, 0.2);
             transition: all 0.2s;
         }
-        .btn-filter:hover { filter: brightness(1.2); }
+        .btn-filter:hover { transform: scale(1.02); }
         .btn-export {
-            background: var(--glow-pink);
+            background: linear-gradient(135deg, #fbcfe8, #f472b6);
             color: #fff;
+            box-shadow: 0 4px 10px rgba(244, 114, 182, 0.2);
         }
 
-        /* --- PODIO MODULAR DE AUDITORÍA --- */
+        /* --- PODIO MODULAR INFANTIL-ELEGANTE --- */
         .podium-section {
             width: 100%;
             max-width: 650px;
             margin: auto;
-            background: rgba(5, 15, 30, 0.85);
-            padding: 22px;
-            border-radius: 16px;
-            border: 1px solid rgba(0, 242, 254, 0.3);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            background: rgba(15, 23, 42, 0.75);
+            padding: 24px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
         }
 
         .podium-title {
-            font-size: 0.95rem;
+            font-size: 1rem;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 16px;
-            color: #00f2fe;
+            letter-spacing: 1.5px;
+            margin-bottom: 18px;
+            color: #fff;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+            text-shadow: 0 0 15px rgba(255,255,255,0.3);
         }
 
         .podium-container {
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            gap: 15px;
-            height: 145px;
-            margin-bottom: 15px;
+            gap: 12px;
+            height: 155px;
+            margin-bottom: 10px;
         }
 
         .podium-place {
@@ -246,66 +287,68 @@
             width: 32%;
             text-align: center;
             opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
+            animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        .podium-place.second { animation-delay: 0.2s; }
+        .podium-place.second { animation-delay: 0.15s; }
         .podium-place.first { animation-delay: 0s; }
-        .podium-place.third { animation-delay: 0.4s; }
+        .podium-place.third { animation-delay: 0.3s; }
 
         .podium-name {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: bold;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-            color: #fff;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            color: #f1f5f9;
         }
 
         .podium-column {
             width: 100%;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 8px 4px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            padding: 10px 4px;
             position: relative;
         }
 
         .podium-place.first .podium-column {
-            height: 100px;
-            background: linear-gradient(135deg, #ffd700, #b8860b);
-            border: 1px solid #ffe866;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            height: 95px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
         }
 
         .podium-place.second .podium-column {
             height: 75px;
-            background: linear-gradient(135deg, #b0c4de, #708090);
-            border: 1px solid #d3d3d3;
+            background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+            box-shadow: 0 10px 20px rgba(148, 163, 184, 0.3);
         }
 
         .podium-place.third .podium-column {
-            height: 55px;
-            background: linear-gradient(135deg, #cd7f32, #8b4513);
-            border: 1px solid #e9967a;
+            height: 60px;
+            background: linear-gradient(135deg, #ed8936, #c05621);
+            box-shadow: 0 10px 15px rgba(192, 86, 33, 0.3);
         }
 
         .podium-cup {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 2px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            animation: float 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-4px); }
         }
 
         .podium-count {
-            font-size: 0.95rem;
-            font-weight: 800;
+            font-size: 1.1rem;
+            font-weight: 900;
             color: #fff;
         }
 
@@ -313,18 +356,18 @@
             font-size: 0.55rem;
             text-transform: uppercase;
             font-weight: bold;
+            letter-spacing: 0.5px;
             opacity: 0.9;
-            color: #fff;
         }
 
-        /* --- FILAS DE DATOS SIMÉTRICAS --- */
+        /* --- FILAS DE DATOS SIMÉTRICAS EN EL PODIO --- */
         .podium-metrics-card {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
             padding: 6px 8px;
             width: 100%;
             margin-top: 8px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.06);
             display: flex;
             flex-direction: column;
             gap: 4px;
@@ -335,8 +378,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.62rem;
-            color: rgba(255,255,255,0.8);
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.85);
             border-bottom: 1px dashed rgba(255,255,255,0.08);
             padding-bottom: 2px;
         }
@@ -348,112 +391,109 @@
             margin-right: 4px;
             width: 11px;
             text-align: center;
-            opacity: 0.85;
         }
-        .badge-err { color: #ff4d4d; font-weight: bold; }
-        .badge-mig { color: #28a745; font-weight: bold; }
-        .badge-rua { color: #a67cff; font-weight: bold; }
-        .badge-falta { color: #ff4444; font-weight: bold; text-shadow: 0 0 5px rgba(255,68,68,0.4); }
-        .badge-proc { color: #ffaa00; font-weight: bold; }
 
-        /* --- EXTENSIÓN PARA PUESTOS RESTANTES --- */
+        /* --- FILAS DE DATOS EXTENDIDAS --- */
         .podium-extended-list {
             width: 100%;
-            max-height: 150px;
+            max-height: 180px;
             overflow-y: auto;
-            margin-top: 12px;
+            margin-top: 15px;
             padding-right: 5px;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 2px dashed rgba(255, 255, 255, 0.1);
             scrollbar-width: thin;
-            scrollbar-color: rgba(0, 242, 254, 0.3) transparent;
         }
-        .podium-extended-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        .podium-extended-list::-webkit-scrollbar-thumb {
-            background: rgba(0, 242, 254, 0.3);
-            border-radius: 4px;
-        }
+        .podium-extended-list::-webkit-scrollbar { width: 4px; }
+        .podium-extended-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        
         .extended-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 10px 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            margin-top: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            animation: fadeIn 0.3s ease-out;
+        }
+        .extended-top-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 6px;
-            font-size: 0.72rem;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            animation: fadeIn 0.3s ease-out;
         }
-        .extended-row:last-child { border-bottom: none; }
         .extended-left {
             display: flex;
             align-items: center;
             gap: 8px;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 45%;
+            max-width: 70%;
         }
         .extended-pos {
-            font-weight: 800;
-            color: rgba(0, 242, 254, 0.6);
-            width: 20px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 7px;
+            border-radius: 8px;
+            color: var(--glow-cyan);
         }
+        .extended-pos.gold { background: #f59e0b; color: #fff; }
+        .extended-pos.silver { background: #94a3b8; color: #fff; }
+        .extended-pos.bronze { background: #c05621; color: #fff; }
+
         .extended-name {
-            font-weight: 600;
-            color: rgba(255,255,255,0.9);
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #f1f5f9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .extended-right {
-            display: flex;
-            gap: 12px;
-            font-size: 0.68rem;
+        .extended-total-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            background: rgba(34, 211, 238, 0.2);
+            color: #22d3ee;
+            padding: 2px 8px;
+            border-radius: 20px;
         }
+        .extended-grid-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            background: rgba(0,0,0,0.2);
+            padding: 6px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.65rem;
+        }
+        .metric-box { display: flex; flex-direction: column; gap: 2px; }
+        .metric-box span { color: #94a3b8; font-weight: 600; font-size: 0.58rem; text-transform: uppercase;}
+        
+        .badge-err { color: #f87171; font-weight: bold; }
+        .badge-mig { color: #4ade80; font-weight: bold; }
+        .badge-rua { color: #c084fc; font-weight: bold; }
+        .badge-falta { color: #f87171; font-weight: bold; }
+        .badge-proc { color: #fbbf24; font-weight: bold; }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- RESPONSIVE ADAPTATION --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            #auth-screen {
-                flex-direction: column;
-                overflow-y: auto;
-            }
-            .auth-visual {
-                flex: none;
-                height: auto;
-                padding: 25px 15px;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                gap: 15px;
-            }
+            #auth-screen { flex-direction: column; overflow-y: auto; }
+            .auth-visual { flex: none; padding: 20px 15px; text-align: center; gap: 15px; }
             .auth-visual h1 { font-size: 1.8rem !important; }
-            .auth-form-panel {
-                width: 100%;
-                padding: 25px;
-                box-shadow: none;
-                justify-content: flex-start;
-            }
-            .podium-section {
-                max-width: 100% !important;
-                padding: 12px !important;
-            }
-            .podium-container {
-                height: 110px !important;
-                margin-bottom: 10px !important;
-            }
-            .podium-column { padding: 4px 2px !important; }
-            .podium-cup { font-size: 1.1rem !important; }
-            .podium-name { font-size: 0.6rem !important; }
+            .auth-form-panel { width: 100%; padding: 25px; box-shadow: none; border-radius: 0; }
+            .podium-section { padding: 15px !important; }
+            .podium-container { height: 110px !important; }
             .podium-metrics-card { display: none !important; }
-            .podium-extended-list { max-height: 110px !important; }
-            .podium-place.first .podium-column { height: 80px !important; }
-            .podium-place.second .podium-column { height: 60px !important; }
-            .podium-place.third .podium-column { height: 45px !important; }
+            .podium-extended-list { max-height: 150px !important; }
         }
 
-        /* --- INTERFAZ PRINCIPAL DEL APLICATIVO --- */
+        /* --- INTERFAZ PRINCIPAL --- */
         #main-app {
             display: none;
             flex-direction: column;
@@ -463,111 +503,80 @@
 
         .top-nav {
             background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
-            padding-top: 10px;
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+            padding-top: 12px;
         }
 
         .brand-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 15px 10px;
+            padding: 0 20px 12px;
         }
 
         .logo-circle {
-            width: 34px;
-            height: 34px;
-            border: 2px solid var(--glow-cyan);
-            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #a5f3fc, #0284c7);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 12px var(--glow-cyan);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
         }
 
         .scroll-container {
             width: 100%;
             overflow-x: auto;
-            padding: 5px 10px 15px;
+            padding: 5px 15px 15px;
             scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
         }
-
         .scroll-container::-webkit-scrollbar { display: none; }
 
-        #sortable-nodes {
-            display: flex;
-            gap: 10px;
-            width: max-content;
-        }
+        #sortable-nodes { display: flex; gap: 10px; width: max-content; }
 
         .node-btn {
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 18px;
-            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            padding: 10px 20px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
-
-        .node-btn i {
-            font-size: 1.1rem;
-            color: var(--glow-cyan);
-        }
-
-        .node-btn span {
-            font-size: 0.75rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .node-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(0, 242, 254, 0.4);
-        }
-
+        .node-btn i { font-size: 1.1rem; color: var(--pastel-blue); }
+        .node-btn span { font-size: 0.75rem; font-weight: 700; white-space: nowrap; }
+        .node-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); }
         .node-btn.active {
-            border-color: var(--glow-pink);
-            background: rgba(255, 0, 127, 0.15);
-            box-shadow: 0 0 12px rgba(255, 0, 127, 0.3);
+            border-color: #fff;
+            background: linear-gradient(135deg, #38bdf8, #0369a1);
+            box-shadow: 0 5px 15px rgba(3, 105, 161, 0.4);
         }
 
-        .main-viewport {
-            flex: 1;
-            position: relative;
-            background: #000;
-        }
+        .main-viewport { flex: 1; position: relative; background: #0f172a; }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* --- MODAL CREDENCIAL SEGURA --- */
         #modal-pw {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(15, 23, 42, 0.85);
             z-index: 3000;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             display: none;
         }
-
         .modal-card {
             background: #fff;
-            padding: 25px;
-            border-radius: 12px;
+            padding: 30px;
+            border-radius: 24px;
             width: 90%;
-            max-width: 350px;
-            color: #333;
+            max-width: 380px;
+            color: #334155;
         }
     </style>
 </head>
@@ -576,60 +585,64 @@
     <div id="auth-screen">
         <div class="auth-visual">
             <div>
-                <h1 style="font-size: 2.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.3);">Desarrollo Infantil Temprano <b>DIT</b></h1>
-                <p style="opacity: 0.8; margin-top: 5px;">Plataforma de Monitoreo Integral Profesional</p>
+                <h1 style="font-size: 2.6rem; font-weight:900; text-shadow: 0 4px 10px rgba(0,0,0,0.2);">Desarrollo Infantil Temprano <b style="color:var(--glow-pink)">DIT</b></h1>
+                <p style="opacity: 0.9; margin-top: 5px; font-weight: 600; letter-spacing: 0.5px;">✨ Plataforma de Monitoreo Integral Infantil</p>
             </div>
             
             <div class="podium-section">
-                <div class="podium-title"><i class="fas fa-shield-halved"></i> Auditoría Cruzada: SICHE vs RUA</div>
+                <div class="podium-title"><i class="fas fa-star" style="color:var(--pastel-yellow)"></i> Auditoría Cruzada: SICHE vs RUA</div>
                 
                 <div class="filter-panel">
                     <div class="filter-row">
                         <div class="filter-group">
                             <label>Desde:</label>
                             <input type="date" id="filtro-desde">
+                            <i class="fas fa-calendar-alt calendar-icon"></i>
                         </div>
                         <div class="filter-group">
                             <label>Hasta:</label>
                             <input type="date" id="filtro-hasta">
+                            <i class="fas fa-calendar-alt calendar-icon"></i>
                         </div>
                     </div>
                     <div class="filter-buttons">
-                        <button class="btn-filter" onclick="ejecutarConsultaEstadistica()"><i class="fas fa-search"></i> Consultar Fechas</button>
-                        <button class="btn-filter btn-export" onclick="exportarFaltantesAExcel()"><i class="fas fa-file-download"></i> Exportar Faltantes</button>
+                        <button class="btn-filter" onclick="ejecutarConsultaEstadistica()"><i class="fas fa-magic"></i> Consultar Fechas</button>
+                        <button class="btn-filter btn-export" onclick="exportarFaltantesAExcel()"><i class="fas fa-cloud-download-alt"></i> Exportar Faltantes</button>
                     </div>
                 </div>
 
                 <div class="podium-container" id="login-podium">
-                    <div style="font-size:0.75rem; color:rgba(255,255,255,0.5); margin: auto; text-align: center;">
-                        <i class="fas fa-calendar-check" style="color: var(--glow-cyan); font-size: 1.2rem; margin-bottom: 5px; display: block;"></i> 
-                        Seleccione un rango de fechas y consulte para ver los resultados.
+                    <div style="font-size:0.8rem; color:rgba(255,255,255,0.5); margin: auto; text-align: center;">
+                        <i class="fas fa-wand-magic-sparkles" style="color: var(--pastel-yellow); font-size: 1.5rem; margin-bottom: 8px; display: block;"></i> 
+                        Elige un rango de fechas para desplegar la auditoría interactiva.
                     </div>
                 </div>
                 <div class="podium-extended-list" id="podium-extended-list"></div>
             </div>
-            <div style="font-size: 0.8rem; opacity: 0.7;"><i class="fas fa-shield-alt"></i> Red Nacional de Salud - MINSA 2026</div>
+            <div style="font-size: 0.8rem; opacity: 0.7; font-weight: 600;"><i class="fas fa-shield-cat"></i> Red Nacional de Salud - MINSA 2026</div>
         </div>
         
         <div class="auth-form-panel">
             <div id="login-box" class="form-box active">
-                <h2 style="margin-bottom: 20px; font-weight: 800; color: #111;">Acceso Profesional</h2>
+                <h2 style="margin-bottom: 8px; font-weight: 900; color: #0f172a; font-size: 1.6rem;">¡Hola, Profesional!</h2>
+                <p style="font-size:0.85rem; color:#64748b; margin-bottom: 25px;">Ingresa tus credenciales autorizadas para continuar.</p>
+                
                 <label>DNI del Usuario</label>
-                <input type="text" id="l-dni" placeholder="Ingrese su número de DNI" autocomplete="username">
+                <input type="text" id="l-dni" placeholder="Ingresa tu número de DNI" autocomplete="username">
                 
                 <label>Contraseña</label>
                 <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password">
                 
                 <button class="btn-main" onclick="handleLogin()">INGRESAR AL SISTEMA</button>
-                <div class="toggle-link">¿No tienes una cuenta activa? <span onclick="showBox('reg-check')">Registrarse aquí</span></div>
+                <div class="toggle-link">¿No tienes una cuenta activa? <span onclick="showBox('reg-check')">Regístrate aquí</span></div>
             </div>
 
             <div id="reg-check" class="form-box">
-                <h2 style="margin-bottom: 5px; font-weight: 800; color: #111;">Zona de Validación</h2>
-                <p style="font-size: 0.85rem; color: #666; margin-bottom: 20px;">Consulte si su DNI se encuentra autorizado por la jefatura del establecimiento.</p>
+                <h2 style="margin-bottom: 8px; font-weight: 900; color: #0f172a;">Validación de Personal</h2>
+                <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Validaremos si tu DNI figura pre-aprobado por la jefatura del establecimiento.</p>
                 
-                <label>Ingrese su DNI</label>
-                <input type="text" id="r-dni-search" placeholder="Escriba aquí el DNI a evaluar">
+                <label>Ingresa tu DNI</label>
+                <input type="text" id="r-dni-search" placeholder="Escribe aquí el DNI a evaluar">
                 
                 <button class="btn-main" onclick="checkAuthorizedDNI()">BUSCAR AUTORIZACIÓN</button>
                 <div class="toggle-link"><span onclick="showBox('login')">Volver al inicio de sesión</span></div>
@@ -637,8 +650,8 @@
 
             <div id="reg-final" class="form-box">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 id="reg-greeting" style="color: var(--minsa-blue); font-size: 1.05rem; font-weight: 700;"></h3>
-                    <button onclick="showBox('reg-check')" style="background: none; border: none; color: var(--minsa-blue); font-size: 0.75rem; cursor: pointer; font-weight: 700;"><i class="fas fa-arrow-left"></i> REGRESAR</button>
+                    <h3 id="reg-greeting" style="color: var(--minsa-blue); font-size: 1.1rem; font-weight: 800;"></h3>
+                    <button onclick="showBox('reg-check')" style="background: none; border: none; color: var(--minsa-blue); font-size: 0.8rem; cursor: pointer; font-weight: 700;"><i class="fas fa-arrow-left"></i> VOLVER</button>
                 </div>
                 
                 <label>Nombres y Apellidos Completos</label>
@@ -675,39 +688,39 @@
                 <label>Defina su Nueva Contraseña</label>
                 <input type="password" id="r-new-pass" placeholder="Mínimo 4 caracteres">
                 
-                <button class="btn-main" style="background: #28a745;" onclick="activateAccount()">CONFIRMAR Y ACTIVAR CUENTA</button>
+                <button class="btn-main" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="activateAccount()">CONFIRMAR Y ACTIVAR CUENTA</button>
             </div>
             
-            <div id="auth-msg" style="margin-top: 20px; text-align: center; font-size: 0.85rem; display: none; padding: 12px; border-radius: 8px; font-weight: 600;"></div>
+            <div id="auth-msg" style="margin-top: 20px; text-align: center; font-size: 0.85rem; display: none; padding: 14px; border-radius: 14px; font-weight: 700;"></div>
         </div>
     </div>
 
     <div id="main-app">
         <header class="top-nav">
             <div class="brand-header">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div class="logo-circle"><i class="fas fa-dna" style="color: var(--glow-cyan)"></i></div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div class="logo-circle"><i class="fas fa-child-reaching" style="color: #fff; font-size: 1.1rem;"></i></div>
                     <div>
-                        <h4 style="color: var(--glow-cyan); font-size: 0.85rem; letter-spacing: 0.5px;">SISTEMA INTEGRADO DIT</h4>
-                        <p id="user-display" style="font-size: 0.65rem; color: #fff; font-weight: 700; opacity: 0.9; text-transform: uppercase;"></p>
+                        <h4 style="color: #fff; font-size: 0.9rem; font-weight: 900; letter-spacing: 0.5px;">SISTEMA INTEGRADO DIT</h4>
+                        <p id="user-display" style="font-size: 0.68rem; color: var(--pastel-blue); font-weight: 800; text-transform: uppercase;"></p>
                     </div>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button onclick="document.getElementById('modal-pw').style.display='flex'" style="background: rgba(255,255,255,0.05); border: 1px solid #444; color: #fff; font-size: 0.7rem; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-key" style="color:var(--glow-cyan)"></i> LLAVE</button>
-                    <button onclick="logout()" style="background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; font-size: 0.7rem; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-sign-out-alt"></i> SALIR</button>
+                    <button onclick="document.getElementById('modal-pw').style.display='flex'" style="background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.1); color: #fff; font-size: 0.72rem; padding: 8px 14px; border-radius: 12px; cursor: pointer; font-weight: 700;"><i class="fas fa-key" style="color:var(--pastel-yellow)"></i> LLAVE</button>
+                    <button onclick="logout()" style="background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; color: #ef4444; font-size: 0.72rem; padding: 8px 14px; border-radius: 12px; cursor: pointer; font-weight: 700;"><i class="fas fa-door-open"></i> SALIR</button>
                 </div>
             </div>
 
             <div class="scroll-container">
                 <div id="sortable-nodes">
-                    <div class="node-btn active" data-url="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"><i class="fas fa-fingerprint"></i><span>CENSO DIT</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/"><i class="fas fa-microchip"></i><span>CITAS DIT</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Mapa/"><i class="fas fa-satellite-dish"></i><span>MAPA DIT</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RecordarCITAS/"><i class="fas fa-brain"></i><span>RECORDAR CITADOS</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/"><i class="fas fa-code-branch"></i><span>REGISTRO DE ATENCIÓNS</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/LibretaBoys/"><i class="fas fa-code-branch"></i><span>LIBRETA CRED</span></div>
-                    <div class="node-btn" data-url="https://confianzaseguridad772-max.github.io/Dosificador_Hierro/"><i class="fas fa-flask-vial"></i><span>DOSIFICADOR</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/casita/"><i class="fas fa-brain"></i><span>LA CASITA</span></div>
+                    <div class="node-btn active" data-url="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"><i class="fas fa-baby"></i><span>CENSO DIT</span></div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/"><i class="fas fa-calendar-check"></i><span>CITAS DIT</span></div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Mapa/"><i class="fas fa-map-marked-alt"></i><span>MAPA DIT</span></div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RecordarCITAS/"><i class="fas fa-bell"></i><span>RECORDAR CITADOS</span></div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/"><i class="fas fa-notes-medical"></i><span>REGISTRO ATENCIÓN</span></div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/LibretaBoys/"><i class="fas fa-book-open"></i><span>LIBRETA CRED</span></div>
+                    <div class="node-btn" data-url="https://confianzaseguridad772-max.github.io/Dosificador_Hierro/"><i class="fas fa-projections-atom"></i><span>DOSIFICADOR</span></div>
+                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/casita/"><i class="fas fa-home-user"></i><span>LA CASITA</span></div>
                 </div>
             </div>
         </header>
@@ -719,13 +732,13 @@
 
     <div id="modal-pw">
         <div class="modal-card">
-            <h3 style="margin-bottom: 15px; font-weight: 800; color: #111;">Cambiar Contraseña</h3>
+            <h3 style="margin-bottom: 15px; font-weight: 900; color: #0f172a; font-size: 1.2rem;">Cambiar Contraseña</h3>
             <label>Contraseña Actual</label>
             <input type="password" id="old-pw" placeholder="Escriba clave vigente">
             <label>Nueva Contraseña</label>
             <input type="password" id="new-pw" placeholder="Mínimo 4 caracteres">
             <button class="btn-main" onclick="changePassword()">ACTUALIZAR CREDENCIAL</button>
-            <button class="btn-main" style="background: #eee; color: #333; margin-top: 8px; font-weight: 600;" onclick="document.getElementById('modal-pw').style.display='none'">CANCELAR</button>
+            <button class="btn-main" style="background: #e2e8f0; color: #475569; margin-top: 10px; font-weight: 700; box-shadow: none;" onclick="document.getElementById('modal-pw').style.display='none'">CANCELAR</button>
         </div>
     </div>
 
@@ -744,15 +757,15 @@
         function showMsg(t, c) {
             const m = document.getElementById('auth-msg');
             m.innerText = t;
-            m.style.background = c === 'red' ? '#ffebee' : (c === 'green' ? '#e8f5e9' : '#e3f2fd');
-            m.style.color = c;
+            m.style.background = c === 'red' ? '#fef2f2' : (c === 'green' ? '#f0fdf4' : '#f0f9ff');
+            m.style.color = c === 'red' ? '#991b1b' : (c === 'green' ? '#166534' : '#075985');
             m.style.display = t ? 'block' : 'none';
         }
 
         async function checkAuthorizedDNI() {
             const dni = document.getElementById('r-dni-search').value;
             if(!dni) return showMsg("Por favor, ingrese un número de DNI", "red");
-            showMsg("Verificando credenciales en la base autorizada MINSA...", "blue");
+            showMsg("Verificando en servidores del MINSA...", "blue");
             
             try {
                 const r = await fetch(`${SCRIPT_URL}?action=fetchUserData&dni=${dni}`);
@@ -760,12 +773,12 @@
                 
                 if(res.status === "found") {
                     if(res.hasPass) {
-                        showMsg("Este usuario ya posee perfil activo. Redireccionando al Login...", "orange");
-                        setTimeout(() => showBox('login'), 2200);
+                        showMsg("Este perfil ya se encuentra activo. Redireccionando...", "blue");
+                        setTimeout(() => showBox('login'), 2000);
                     } else {
                         currentDNI = dni;
                         userDataCache = res.userData;
-                        document.getElementById('reg-greeting').innerText = "Bienvenido, " + res.userData.nombre;
+                        document.getElementById('reg-greeting').innerText = "¡Hola, " + res.userData.nombre.split(" ")[0] + "!";
                         document.getElementById('r-name').value = res.userData.nombre || "";
                         document.getElementById('r-prof').value = res.userData.profesion || "";
                         document.getElementById('r-cel').value = res.userData.celular || "";
@@ -777,10 +790,10 @@
                         showMsg("", "");
                     }
                 } else {
-                    showMsg("DNI no autorizado. Comuníquese con el administrador del sistema DIT.", "red");
+                    showMsg("DNI no registrado como autorizado. Contacte con soporte DIT.", "red");
                 }
             } catch(e) {
-                showMsg("Error de red o caída de servidor. Intente de nuevo.", "red");
+                showMsg("Ocurrió un error al conectar con la base de datos.", "red");
             }
         }
 
@@ -788,8 +801,8 @@
             const cel = document.getElementById('r-cel').value;
             const pass = document.getElementById('r-new-pass').value;
 
-            if(cel.length !== 9) return showMsg("El número celular debe poseer estrictamente 9 dígitos", "red");
-            if(pass.length < 4) return showMsg("Defina una contraseña válida (mínimo 4 caracteres)", "red");
+            if(cel.length !== 9) return showMsg("El celular debe tener 9 dígitos", "red");
+            if(pass.length < 4) return showMsg("Contraseña muy corta (mínimo 4 caracteres)", "red");
 
             const data = {
                 action: "updateUserProfile",
@@ -804,7 +817,7 @@
                 newPass: pass
             };
 
-            showMsg("Inscribiendo y asegurando credenciales...", "blue");
+            showMsg("Guardando y encriptando tu cuenta...", "blue");
             const formData = new URLSearchParams();
             formData.append('jsonData', JSON.stringify(data));
 
@@ -817,22 +830,22 @@
                 const resText = await response.text();
                 
                 if(resText.includes("Success")) {
-                    showMsg("¡Perfil activado correctamente! Reiniciando plataforma...", "green");
-                    setTimeout(() => location.reload(), 1600);
+                    showMsg("¡Cuenta activada con éxito! Reiniciando...", "green");
+                    setTimeout(() => location.reload(), 1500);
                 } else {
-                    showMsg("Error devuelto por el servidor: " + resText, "red");
+                    showMsg("Error del servidor: " + resText, "red");
                 }
             } catch(e) {
-                showMsg("Error crítico de conexión al guardar cambios.", "red");
+                showMsg("Fallo crítico en la red.", "red");
             }
         }
 
         async function handleLogin() {
             const u = document.getElementById('l-dni').value;
             const p = document.getElementById('l-pass').value;
-            if(!u || !p) return showMsg("Complete todos los campos de acceso", "red");
+            if(!u || !p) return showMsg("Por favor completa los dos campos", "red");
             
-            showMsg("Validando credenciales profesionales...", "blue");
+            showMsg("Validando credenciales...", "blue");
             try {
                 const r = await fetch(`${SCRIPT_URL}?action=login&dni=${u}&pass=${p}`);
                 const res = await r.json();
@@ -842,17 +855,17 @@
                     sessionStorage.setItem('user_name', res.nombre);
                     unlockApp(res.nombre);
                 } else {
-                    showMsg("Número de DNI o Contraseña incorrectos", "red");
+                    showMsg("DNI o Contraseña no coinciden", "red");
                 }
             } catch(e) {
-                showMsg("Servidor inaccesible. Verifique su conexión de internet.", "red");
+                showMsg("Error de conexión remota.", "red");
             }
         }
 
         async function changePassword() {
             const oldP = document.getElementById('old-pw').value;
             const newP = document.getElementById('new-pw').value;
-            if(!oldP || !newP) return alert("Por favor complete los campos requeridos.");
+            if(!oldP || !newP) return alert("Rellene los campos obligatorios.");
 
             const data = {
                 action: "updateUserProfile",
@@ -863,7 +876,6 @@
                 nombre: "", profesion: "", celular: "", region: "", provincia: "", distrito: "", eess: ""
             };
 
-            alert("Estableciendo nueva llave de seguridad...");
             const formData = new URLSearchParams();
             formData.append('jsonData', JSON.stringify(data));
 
@@ -878,12 +890,12 @@
                     alert(resText);
                 } else {
                     document.getElementById('modal-pw').style.display='none';
-                    alert("¡Contraseña actualizada con éxito!");
+                    alert("¡Contraseña actualizada!");
                     document.getElementById('old-pw').value = "";
                     document.getElementById('new-pw').value = "";
                 }
             } catch(e) {
-                alert("Error de red inesperado al procesar el cambio.");
+                alert("Error al procesar el cambio.");
             }
         }
 
@@ -893,7 +905,7 @@
             document.getElementById('user-display').innerText = n;
             
             if(!window.hasGreeted) {
-                const msg = new SpeechSynthesisUtterance("Bienvenido al sistema DIT, " + n);
+                const msg = new SpeechSynthesisUtterance("Bienvenido al sistema DIT, " + n.split(" ")[0]);
                 msg.lang = 'es-PE';
                 window.speechSynthesis.speak(msg);
                 window.hasGreeted = true;
@@ -920,7 +932,7 @@
         });
 
         // ============================================================================================
-        //  --- AUDITORÍA CRUZADA CON FILTROS POR RANGO DE FECHAS ---
+        //  --- AUDITORÍA CRUZADA ACTUALIZADA (RECUPERADO COMPLETO Y REORGANIZADO) ---
         // ============================================================================================
 
         function ejecutarConsultaEstadistica() {
@@ -928,11 +940,11 @@
             const hasta = document.getElementById('filtro-hasta').value;
 
             if(!desde || !hasta) {
-                alert("Por favor seleccione ambas fechas (Desde y Hasta) para realizar la auditoría cruzada.");
+                alert("Por favor elija un rango válido de fechas.");
                 return;
             }
 
-            document.getElementById('login-podium').innerHTML = '<div style="font-size:0.75rem; color:var(--glow-cyan); margin: auto;"><i class="fas fa-sync fa-spin"></i> Filtrando y Auditando Coberturas...</div>';
+            document.getElementById('login-podium').innerHTML = '<div style="font-size:0.8rem; color:var(--glow-cyan); margin: auto;"><i class="fas fa-spinner fa-spin"></i> Generando Auditoría DIT...</div>';
             document.getElementById('podium-extended-list').innerHTML = "";
 
             const viejoScript = document.getElementById('jsonp-stats');
@@ -943,7 +955,7 @@
             script.src = URL_ATENCION_SICHE + "?action=getHistorial&desde=" + desde + "&hasta=" + hasta + "&callback=procesarDatosExcel";
             
             script.onerror = function() {
-                document.getElementById('login-podium').innerHTML = '<div style="font-size:0.75rem; color:#ff4d4d; margin: auto;"><i class="fas fa-exclamation-circle"></i> Error de sincronización remota con SICHE.</div>';
+                document.getElementById('login-podium').innerHTML = '<div style="font-size:0.8rem; color:#f87171; margin: auto;"><i class="fas fa-times-circle"></i> Error al conectar con SICHE.</div>';
             };
             document.body.appendChild(script);
         }
@@ -954,7 +966,7 @@
             if(!podiumWrapper) return;
 
             if (!ranking || !Array.isArray(ranking) || ranking.length === 0) {
-                podiumWrapper.innerHTML = '<div style="font-size:0.7rem; color:rgba(255,255,255,0.6); margin:auto;">Sin atenciones encontradas en el rango seleccionado.</div>';
+                podiumWrapper.innerHTML = '<div style="font-size:0.8rem; color:rgba(255,255,255,0.6); margin:auto;">No hay registros de atenciones para estas fechas.</div>';
                 if(extendedWrapper) extendedWrapper.innerHTML = "";
                 return;
             }
@@ -962,9 +974,7 @@
             const formatearNombreCorto = (nombreCompleto) => {
                 if(!nombreCompleto || nombreCompleto === "-" || nombreCompleto.includes("NO ESPECIFICADO")) return "P. SALUD";
                 var partes = nombreCompleto.split(" ");
-                if(partes.length >= 3) {
-                    return partes[0] + " " + partes[2];
-                }
+                if(partes.length >= 3) return partes[0] + " " + partes[2];
                 return nombreCompleto;
             };
 
@@ -973,75 +983,84 @@
             const top2 = ranking[1] || fallback;
             const top3 = ranking[2] || fallback;
 
+            // 1. RESTAURACIÓN DEL PODIO: Nombres, Totales y Tarjetas Simétricas de Control Interno
             podiumWrapper.innerHTML = `
                 <div class="podium-place second">
                     <div class="podium-name" title="${top2.nombre}">${formatearNombreCorto(top2.nombre)}</div>
                     <div class="podium-column">
-                        <i class="fas fa-trophy podium-cup"></i>
+                        <i class="fas fa-medal podium-cup" style="color: #cbd5e1"></i>
                         <span class="podium-count">${top2.migrados}</span>
-                        <span class="podium-label">Migró</span>
+                        <span class="podium-label">MIGRADOS</span>
                     </div>
                     <div class="podium-metrics-card">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice"></i>RUA:</span><span class="badge-rua">${top2.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle"></i>Falta:</span><span class="badge-falta">${top2.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock"></i>Pend:</span><span class="badge-proc">${top2.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top2.erroresMigracion}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#c084fc"></i>RUA:</span><span class="badge-rua">${top2.rua}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#f87171"></i>Falta:</span><span class="badge-falta">${top2.faltaSiche}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#fbbf24"></i>Pend:</span><span class="badge-proc">${top2.porProcesar}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#f87171"></i>Err:</span><span class="badge-err">${top2.erroresMigracion}</span></div>
                     </div>
                 </div>
                 
                 <div class="podium-place first">
                     <div class="podium-name" title="${top1.nombre}">${formatearNombreCorto(top1.nombre)}</div>
                     <div class="podium-column">
-                        <i class="fas fa-crown podium-cup"></i>
+                        <i class="fas fa-crown podium-cup" style="color: #fbbf24"></i>
                         <span class="podium-count">${top1.migrados}</span>
-                        <span class="podium-label">Líder</span>
+                        <span class="podium-label">LÍDER</span>
                     </div>
-                    <div class="podium-metrics-card" style="background: rgba(0,242,254,0.05); border-color: rgba(0,242,254,0.2);">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice"></i>RUA:</span><span class="badge-rua">${top1.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle"></i>Falta:</span><span class="badge-falta">${top1.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock"></i>Pend:</span><span class="badge-proc">${top1.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top1.erroresMigracion}</span></div>
+                    <div class="podium-metrics-card" style="background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.2);">
+                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#c084fc"></i>RUA:</span><span class="badge-rua">${top1.rua}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#f87171"></i>Falta:</span><span class="badge-falta">${top1.faltaSiche}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#fbbf24"></i>Pend:</span><span class="badge-proc">${top1.porProcesar}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#f87171"></i>Err:</span><span class="badge-err">${top1.erroresMigracion}</span></div>
                     </div>
                 </div>
                 
                 <div class="podium-place third">
                     <div class="podium-name" title="${top3.nombre}">${formatearNombreCorto(top3.nombre)}</div>
                     <div class="podium-column">
-                        <i class="fas fa-award podium-cup"></i>
+                        <i class="fas fa-medal podium-cup" style="color: #ed8936"></i>
                         <span class="podium-count">${top3.migrados}</span>
-                        <span class="podium-label">Migró</span>
+                        <span class="podium-label">MIGRADOS</span>
                     </div>
                     <div class="podium-metrics-card">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice"></i>RUA:</span><span class="badge-rua">${top3.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle"></i>Falta:</span><span class="badge-falta">${top3.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock"></i>Pend:</span><span class="badge-proc">${top3.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug"></i>Err:</span><span class="badge-err">${top3.erroresMigracion}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#c084fc"></i>RUA:</span><span class="badge-rua">${top3.rua}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#f87171"></i>Falta:</span><span class="badge-falta">${top3.faltaSiche}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#fbbf24"></i>Pend:</span><span class="badge-proc">${top3.porProcesar}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#f87171"></i>Err:</span><span class="badge-err">${top3.erroresMigracion}</span></div>
                     </div>
                 </div>
             `;
 
+            // 2. LISTADO EXTENDIDO TOTAL: Muestra a todos (incluyendo primeros puestos) con desglose en cuadrícula
             if(extendedWrapper) {
                 extendedWrapper.innerHTML = "";
-                if(ranking.length > 3) {
-                    for(let i = 3; i < ranking.length; i++) {
-                        let p = ranking[i];
-                        extendedWrapper.innerHTML += `
-                            <div class="extended-row">
+                
+                ranking.forEach((p, index) => {
+                    let posClass = "";
+                    let posLabel = `${index + 1}°`;
+                    
+                    if(index === 0) { posClass = "gold"; }
+                    else if(index === 1) { posClass = "silver"; }
+                    else if(index === 2) { posClass = "bronze"; }
+
+                    extendedWrapper.innerHTML += `
+                        <div class="extended-row">
+                            <div class="extended-top-info">
                                 <div class="extended-left">
-                                    <span class="extended-pos">${i + 1}°</span>
+                                    <span class="extended-pos ${posClass}">${posLabel}</span>
                                     <span class="extended-name" title="${p.nombre}">${formatearNombreCorto(p.nombre)}</span>
                                 </div>
-                                <div class="extended-right">
-                                    <span><i class="fas fa-check" style="color:#28a745;"></i> Mig: <b>${p.migrados}</b></span>
-                                    <span><i class="fas fa-list-alt" style="color:#a67cff;"></i> RUA: <b>${p.rua}</b></span>
-                                    <span><i class="fas fa-bolt" style="color:#ff4444;"></i> Falta: <b class="badge-falta">${p.faltaSiche}</b></span>
-                                </div>
+                                <span class="extended-total-badge">Total RUA: ${p.rua}</span>
                             </div>
-                        `;
-                    }
-                } else {
-                    extendedWrapper.innerHTML = '<div style="font-size:0.6rem; color:rgba(255,255,255,0.3); text-align:center; padding:10px;">No hay más personal en el ranking.</div>';
-                }
+                            <div class="extended-grid-metrics">
+                                <div class="metric-box"><span>Migrado</span><b class="badge-mig">${p.migrados}</b></div>
+                                <div class="metric-box"><span>Falta</span><b class="badge-falta">${p.faltaSiche}</b></div>
+                                <div class="metric-box"><span>Pendiente</span><b class="badge-proc">${p.porProcesar}</b></div>
+                                <div class="metric-box"><span>Error</span><b class="badge-err">${p.erroresMigracion}</b></div>
+                            </div>
+                        </div>
+                    `;
+                });
             }
         }
 
@@ -1050,11 +1069,11 @@
             const hasta = document.getElementById('filtro-hasta').value;
             
             if(!desde || !hasta) {
-                alert("Por favor seleccione ambas fechas (Desde y Hasta) antes de exportar.");
+                alert("Seleccione las fechas para exportar.");
                 return;
             }
             
-            alert("Generando listado de auditoría de DNI faltantes de migrar... por favor espere.");
+            alert("Compilando reporte CSV de atenciones faltantes...");
             
             try {
                 const url = URL_ATENCION_SICHE + "?action=exportarFaltantes&desde=" + desde + "&hasta=" + hasta;
@@ -1062,12 +1081,12 @@
                 const data = await response.json();
 
                 if (!data || data.length === 0) {
-                    alert("¡Excelente cobertura! No se encontraron discrepancias. Todo RUA está migrado correctamente.");
+                    alert("¡Felicidades! 100% de coberturas cuadradas con éxito.");
                     return;
                 }
 
                 let csvContent = "\uFEFF"; 
-                csvContent += "Fecha de Atención,DNI Paciente Rezagado,Especialista Infantil / Personal de Salud\n";
+                csvContent += "Fecha de Atención,DNI Paciente Rezagado,Personal de Salud\n";
                 
                 data.forEach(item => {
                     csvContent += '"' + item.fecha + '","' + item.dni + '","' + item.personal + '"\n';
@@ -1077,12 +1096,12 @@
                 const urlBlob = URL.createObjectURL(blob);
                 const link = document.createElement("a");
                 link.setAttribute("href", urlBlob);
-                link.setAttribute("download", "Atenciones_FALTANTES_en_SICHE_" + desde + "_al_" + hasta + ".csv");
+                link.setAttribute("download", "Faltantes_SICHE_" + desde + "_" + hasta + ".csv");
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
             } catch (e) {
-                alert("Error de conexión al intentar recuperar los datos cruzados de RUA.");
+                alert("Error de respuesta de red.");
             }
         }
     </script>
