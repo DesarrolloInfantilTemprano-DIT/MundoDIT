@@ -5,33 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DIT | Desarrollo Infantil Temprano</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glow-cyan: #bbf2f6;
-            --glow-pink: #ffb7d5;
-            --pastel-blue: #70a1ff;
-            --pastel-purple: #9b5de5;
-            --pastel-yellow: #fee440;
-            --bg-dark: #0f172a;
-            --glass: rgba(30, 41, 59, 0.95);
-            --minsa-blue: #4a7bc7;
+            --bg-light: #f4f8ff;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --primary-blue: #0284c7;
+            --mint-green: #10b981;
+            --pastel-pink: #f472b6;
+            --bright-yellow: #fbbf24;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --shadow-soft: 0 10px 30px rgba(14, 165, 233, 0.12);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: radial-gradient(circle at top, #1e1b4b, #0f172a);
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #fef3c7 100%);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            color: #f8fafc;
+            color: var(--text-main);
         }
 
         /* --- PANTALLA DE AUTENTICACIÓN --- */
@@ -40,13 +43,13 @@
             inset: 0;
             z-index: 2000;
             display: flex;
-            background: #f1f5f9;
+            background: #f8fafc;
             transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
         }
 
         .auth-visual {
             flex: 1;
-            background: linear-gradient(rgba(74, 123, 199, 0.85), rgba(15, 23, 42, 0.9)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg');
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.85), rgba(168, 85, 247, 0.85)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -55,6 +58,7 @@
             padding: 40px;
             color: white;
             position: relative;
+            overflow-y: auto;
         }
 
         .auth-form-panel {
@@ -64,8 +68,8 @@
             flex-direction: column;
             justify-content: center;
             background: #ffffff;
-            color: #334155;
-            box-shadow: -10px 0 30px rgba(15, 23, 42, 0.15);
+            color: var(--text-main);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
             overflow-y: auto;
             border-top-left-radius: 30px;
             border-bottom-left-radius: 30px;
@@ -89,7 +93,7 @@
             display: block;
             font-size: 0.75rem;
             font-weight: 700;
-            color: #64748b;
+            color: var(--text-muted);
             margin-bottom: 6px;
             margin-left: 5px;
             text-transform: uppercase;
@@ -99,23 +103,22 @@
         input {
             width: 100%;
             padding: 14px 16px;
-            background: #f8fafc;
+            background: #f1f5f9;
             border: 2px solid #e2e8f0;
             border-radius: 16px;
             outline: none;
             margin-bottom: 18px;
-            color: #1e293b;
+            color: var(--text-main);
             font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
         input:focus {
-            border-color: var(--pastel-blue);
+            border-color: var(--primary-blue);
             background: #fff;
-            box-shadow: 0 0 0 4px rgba(112, 161, 255, 0.2);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
         }
 
-        /* Forzar diseño e icono del calendario nativo */
         input[type="date"] {
             position: relative;
             appearance: none;
@@ -140,21 +143,21 @@
         .btn-main {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--minsa-blue), var(--pastel-blue));
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
             color: white;
             border: none;
             border-radius: 16px;
             font-size: 0.95rem;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(74, 123, 199, 0.3);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
             transition: all 0.2s ease;
             letter-spacing: 0.5px;
         }
 
         .btn-main:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 123, 199, 0.4);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
         }
 
         .btn-main:active {
@@ -165,110 +168,144 @@
             text-align: center;
             margin-top: 20px;
             font-size: 0.85rem;
-            color: #64748b;
+            color: var(--text-muted);
         }
 
         .toggle-link span {
-            color: var(--minsa-blue);
+            color: var(--primary-blue);
             cursor: pointer;
             font-weight: 700;
             text-decoration: underline;
         }
 
-        /* --- FILTRO POR RANGO DE FECHAS (INFANTIL ELEGANTE) --- */
+        /* --- BOTÓN AUDITORÍA --- */
+        .btn-toggle-auditoria {
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            padding: 12px 22px;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .btn-toggle-auditoria:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.03);
+        }
+
+        /* --- FILTRO POR RANGO DE FECHAS --- */
         .filter-panel {
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px dashed rgba(14, 165, 233, 0.3);
             border-radius: 20px;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 15px;
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
+
         .filter-row {
             display: flex;
             gap: 10px;
         }
+
         .filter-group {
             flex: 1;
             position: relative;
         }
+
         .filter-group label {
-            color: var(--glow-cyan);
+            color: var(--primary-blue);
             font-size: 0.7rem;
             margin-bottom: 4px;
         }
+
         .filter-group i.calendar-icon {
             position: absolute;
             right: 14px;
             bottom: 14px;
-            color: var(--glow-cyan);
+            color: var(--primary-blue);
             pointer-events: none;
             font-size: 0.95rem;
             z-index: 1;
         }
+
         .filter-group input[type="date"] {
             margin-bottom: 0;
             padding: 10px 35px 10px 12px;
             font-size: 0.8rem;
-            background: rgba(15, 23, 42, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            color: var(--text-main);
             border-radius: 12px;
         }
+
         .filter-buttons {
             display: flex;
             gap: 10px;
         }
+
         .btn-filter {
             flex: 1;
             padding: 12px;
             font-size: 0.8rem;
-            font-weight: bold;
+            font-weight: 800;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            color: #0f172a;
-            background: linear-gradient(135deg, #a5f3fc, #22d3ee);
+            color: #fff;
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            box-shadow: 0 4px 10px rgba(34, 211, 238, 0.2);
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2);
             transition: all 0.2s;
         }
+
         .btn-filter:hover { transform: scale(1.02); }
+
         .btn-export {
-            background: linear-gradient(135deg, #fbcfe8, #f472b6);
-            color: #fff;
-            box-shadow: 0 4px 10px rgba(244, 114, 182, 0.2);
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            box-shadow: 0 4px 10px rgba(236, 72, 153, 0.2);
         }
 
-        /* --- PODIO MODULAR INFANTIL-ELEGANTE --- */
+        /* --- PODIO AUDITORÍA --- */
         .podium-section {
             width: 100%;
             max-width: 650px;
-            margin: auto;
-            background: rgba(15, 23, 42, 0.75);
+            margin: 10px auto;
+            background: rgba(255, 255, 255, 0.9);
             padding: 24px;
-            border-radius: 30px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            display: flex;
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
+            display: none;
             flex-direction: column;
+            animation: fadeIn 0.4s ease-out;
+            color: var(--text-main);
         }
 
         .podium-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-align: center;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             margin-bottom: 18px;
-            color: #fff;
-            font-weight: bold;
-            text-shadow: 0 0 15px rgba(255,255,255,0.3);
+            color: var(--primary-blue);
+            font-weight: 800;
         }
 
         .podium-container {
@@ -296,13 +333,13 @@
 
         .podium-name {
             font-size: 0.75rem;
-            font-weight: bold;
+            font-weight: 800;
             margin-bottom: 8px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-            color: #f1f5f9;
+            color: var(--text-main);
         }
 
         .podium-column {
@@ -319,59 +356,55 @@
 
         .podium-place.first .podium-column {
             height: 95px;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+            color: #fff;
         }
 
         .podium-place.second .podium-column {
             height: 75px;
-            background: linear-gradient(135deg, #cbd5e1, #94a3b8);
-            box-shadow: 0 10px 20px rgba(148, 163, 184, 0.3);
+            background: linear-gradient(135deg, #38bdf8, #7dd3fc);
+            box-shadow: 0 8px 15px rgba(56, 189, 248, 0.3);
+            color: #fff;
         }
 
         .podium-place.third .podium-column {
             height: 60px;
-            background: linear-gradient(135deg, #ed8936, #c05621);
-            box-shadow: 0 10px 15px rgba(192, 86, 33, 0.3);
+            background: linear-gradient(135deg, #34d399, #6ee7b7);
+            box-shadow: 0 8px 15px rgba(52, 211, 153, 0.3);
+            color: #fff;
         }
 
         .podium-cup {
             font-size: 1.4rem;
             margin-bottom: 2px;
-            animation: float 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes float {
-            from { transform: translateY(0px); }
-            to { transform: translateY(-4px); }
         }
 
         .podium-count {
             font-size: 1.1rem;
             font-weight: 900;
-            color: #fff;
         }
 
         .podium-column span.podium-label {
             font-size: 0.55rem;
             text-transform: uppercase;
-            font-weight: bold;
+            font-weight: 800;
             letter-spacing: 0.5px;
             opacity: 0.9;
         }
 
-        /* --- FILAS DE DATOS SIMÉTRICAS EN EL PODIO --- */
         .podium-metrics-card {
-            background: rgba(0, 0, 0, 0.3);
+            background: #fff;
             border-radius: 12px;
             padding: 6px 8px;
             width: 100%;
             margin-top: 8px;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
             gap: 4px;
             text-align: left;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
 
         .metric-line {
@@ -379,43 +412,33 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.65rem;
-            color: rgba(255,255,255,0.85);
-            border-bottom: 1px dashed rgba(255,255,255,0.08);
+            color: var(--text-muted);
+            border-bottom: 1px dashed #f1f5f9;
             padding-bottom: 2px;
         }
         .metric-line:last-child {
             border-bottom: none;
             padding-bottom: 0;
         }
-        .metric-line span i {
-            margin-right: 4px;
-            width: 11px;
-            text-align: center;
-        }
 
-        /* --- FILAS DE DATOS EXTENDIDAS --- */
         .podium-extended-list {
             width: 100%;
             max-height: 180px;
             overflow-y: auto;
             margin-top: 15px;
             padding-right: 5px;
-            border-top: 2px dashed rgba(255, 255, 255, 0.1);
-            scrollbar-width: thin;
+            border-top: 1px dashed #e2e8f0;
         }
-        .podium-extended-list::-webkit-scrollbar { width: 4px; }
-        .podium-extended-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
-        
+
         .extended-row {
             display: flex;
             flex-direction: column;
             gap: 6px;
             padding: 10px 8px;
-            background: rgba(255, 255, 255, 0.03);
+            background: #fff;
             border-radius: 12px;
             margin-top: 8px;
-            border: 1px solid rgba(255,255,255,0.05);
-            animation: fadeIn 0.3s ease-out;
+            border: 1px solid #e2e8f0;
         }
         .extended-top-info {
             display: flex;
@@ -432,19 +455,19 @@
         .extended-pos {
             font-weight: 900;
             font-size: 0.8rem;
-            background: rgba(255,255,255,0.1);
+            background: #f1f5f9;
             padding: 2px 7px;
             border-radius: 8px;
-            color: var(--glow-cyan);
+            color: var(--primary-blue);
         }
         .extended-pos.gold { background: #f59e0b; color: #fff; }
-        .extended-pos.silver { background: #94a3b8; color: #fff; }
-        .extended-pos.bronze { background: #c05621; color: #fff; }
+        .extended-pos.silver { background: #38bdf8; color: #fff; }
+        .extended-pos.bronze { background: #34d399; color: #fff; }
 
         .extended-name {
             font-weight: 700;
             font-size: 0.8rem;
-            color: #f1f5f9;
+            color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -452,8 +475,8 @@
         .extended-total-badge {
             font-size: 0.75rem;
             font-weight: 800;
-            background: rgba(34, 211, 238, 0.2);
-            color: #22d3ee;
+            background: #e0f2fe;
+            color: #0284c7;
             padding: 2px 8px;
             border-radius: 20px;
         }
@@ -461,39 +484,27 @@
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 6px;
-            background: rgba(0,0,0,0.2);
+            background: #f8fafc;
             padding: 6px;
             border-radius: 8px;
             text-align: center;
             font-size: 0.65rem;
         }
         .metric-box { display: flex; flex-direction: column; gap: 2px; }
-        .metric-box span { color: #94a3b8; font-weight: 600; font-size: 0.58rem; text-transform: uppercase;}
-        
-        .badge-err { color: #f87171; font-weight: bold; }
-        .badge-mig { color: #4ade80; font-weight: bold; }
-        .badge-rua { color: #c084fc; font-weight: bold; }
-        .badge-falta { color: #f87171; font-weight: bold; }
-        .badge-proc { color: #fbbf24; font-weight: bold; }
+        .metric-box span { color: #64748b; font-weight: 600; font-size: 0.58rem; text-transform: uppercase;}
+
+        .badge-err { color: #ef4444; font-weight: 800; }
+        .badge-mig { color: #10b981; font-weight: 800; }
+        .badge-rua { color: #8b5cf6; font-weight: 800; }
+        .badge-falta { color: #f43f5e; font-weight: 800; }
+        .badge-proc { color: #f59e0b; font-weight: 800; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            #auth-screen { flex-direction: column; overflow-y: auto; }
-            .auth-visual { flex: none; padding: 20px 15px; text-align: center; gap: 15px; }
-            .auth-visual h1 { font-size: 1.8rem !important; }
-            .auth-form-panel { width: 100%; padding: 25px; box-shadow: none; border-radius: 0; }
-            .podium-section { padding: 15px !important; }
-            .podium-container { height: 110px !important; }
-            .podium-metrics-card { display: none !important; }
-            .podium-extended-list { max-height: 150px !important; }
-        }
-
-        /* --- INTERFAZ PRINCIPAL --- */
+        /* --- INTERFAZ PRINCIPAL ALEGRE Y MODERNA --- */
         #main-app {
             display: none;
             flex-direction: column;
@@ -501,68 +512,216 @@
             width: 100%;
         }
 
-        .top-nav {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
-            padding-top: 12px;
-        }
-
-        .brand-header {
+        .header-clean {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px 12px;
+            padding: 16px 30px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         }
 
-        .logo-circle {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, #a5f3fc, #0284c7);
-            border-radius: 12px;
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f0f9ff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            border: 1px solid #bae6fd;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0284c7, #38bdf8);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            color: #fff;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
         }
 
-        .scroll-container {
-            width: 100%;
-            overflow-x: auto;
-            padding: 5px 15px 15px;
-            scrollbar-width: none;
+        .header-actions {
+            display: flex;
+            gap: 10px;
         }
-        .scroll-container::-webkit-scrollbar { display: none; }
 
-        #sortable-nodes { display: flex; gap: 10px; width: max-content; }
-
-        .node-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            padding: 10px 20px;
-            border-radius: 18px;
+        .action-btn {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            color: var(--text-main);
+            font-size: 0.8rem;
+            padding: 9px 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .node-btn i { font-size: 1.1rem; color: var(--pastel-blue); }
-        .node-btn span { font-size: 0.75rem; font-weight: 700; white-space: nowrap; }
-        .node-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); }
-        .node-btn.active {
-            border-color: #fff;
-            background: linear-gradient(135deg, #38bdf8, #0369a1);
-            box-shadow: 0 5px 15px rgba(3, 105, 161, 0.4);
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
 
-        .main-viewport { flex: 1; position: relative; background: #0f172a; }
-        iframe { width: 100%; height: 100%; border: none; }
+        .action-btn:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .action-btn-danger {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #ef4444;
+        }
+
+        .action-btn-danger:hover {
+            background: #ef4444;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .main-viewport {
+            flex: 1;
+            position: relative;
+            background: transparent;
+            overflow-y: auto;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+        }
+
+        /* --- BOTÓN FLOTANTE REGRESAR AL INICIO --- */
+        #btn-back-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: #ffffff;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        #btn-back-home:hover {
+            background: var(--primary-blue);
+            color: #ffffff;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
+        }
+
+        /* --- DASHBOARD DE TARJETAS MODULARES ALEGRES --- */
+        #modules-dashboard {
+            padding: 35px 25px 50px;
+            max-width: 1250px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border: 2px solid #ffffff;
+            border-radius: 28px;
+            padding: 28px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(16px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .module-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: #ffffff;
+            box-shadow: 0 20px 35px rgba(14, 165, 233, 0.2);
+        }
+
+        .module-card .icon-box {
+            width: 70px;
+            height: 70px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            font-size: 1.8rem;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+        }
+
+        .module-card:hover .icon-box {
+            transform: scale(1.15) rotate(-4deg);
+            color: #ffffff !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-card h3 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* TARJETAS CON PALETA ALEGRE PASTEL */
+        .module-card:nth-child(1) .icon-box { background: #e0f2fe; color: #0284c7; }
+        .module-card:nth-child(2) .icon-box { background: #dcfce7; color: #16a34a; }
+        .module-card:nth-child(3) .icon-box { background: #fef3c7; color: #d97706; }
+        .module-card:nth-child(4) .icon-box { background: #f3e8ff; color: #9333ea; }
+        .module-card:nth-child(5) .icon-box { background: #ffe4e6; color: #e11d48; }
+        .module-card:nth-child(6) .icon-box { background: #ccfbf1; color: #0d9488; }
+        .module-card:nth-child(7) .icon-box { background: #ffedd5; color: #ea580c; }
+        .module-card:nth-child(8) .icon-box { background: #fae8ff; color: #c084fc; }
+        .module-card:nth-child(9) .icon-box { background: #e0e7ff; color: #4f46e5; }
+        .module-card:nth-child(10) .icon-box { background: #ecfdf5; color: #059669; }
+        .module-card:nth-child(11) .icon-box { background: #fef2f2; color: #dc2626; }
+        .module-card:nth-child(12) .icon-box { background: #f0fdf4; color: #16a34a; }
+
+        .module-card:nth-child(1):hover .icon-box { background: linear-gradient(135deg, #38bdf8, #0284c7); }
+        .module-card:nth-child(2):hover .icon-box { background: linear-gradient(135deg, #4ade80, #16a34a); }
+        .module-card:nth-child(3):hover .icon-box { background: linear-gradient(135deg, #fbbf24, #d97706); }
+        .module-card:nth-child(4):hover .icon-box { background: linear-gradient(135deg, #c084fc, #9333ea); }
+        .module-card:nth-child(5):hover .icon-box { background: linear-gradient(135deg, #fb7185, #e11d48); }
+        .module-card:nth-child(6):hover .icon-box { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
+        .module-card:nth-child(7):hover .icon-box { background: linear-gradient(135deg, #fb923c, #ea580c); }
+        .module-card:nth-child(8):hover .icon-box { background: linear-gradient(135deg, #e879f9, #c084fc); }
+        .module-card:nth-child(9):hover .icon-box { background: linear-gradient(135deg, #818cf8, #4f46e5); }
+        .module-card:nth-child(10):hover .icon-box { background: linear-gradient(135deg, #34d399, #059669); }
+        .module-card:nth-child(11):hover .icon-box { background: linear-gradient(135deg, #f87171, #dc2626); }
+        .module-card:nth-child(12):hover .icon-box { background: linear-gradient(135deg, #4ade80, #16a34a); }
 
         #modal-pw {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(30, 41, 59, 0.4);
             z-index: 3000;
             display: flex;
             align-items: center;
@@ -572,25 +731,46 @@
         }
         .modal-card {
             background: #fff;
-            padding: 30px;
-            border-radius: 24px;
+            padding: 35px;
+            border-radius: 28px;
             width: 90%;
-            max-width: 380px;
-            color: #334155;
+            max-width: 400px;
+            color: var(--text-main);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 768px) {
+            #auth-screen { flex-direction: column; overflow-y: auto; }
+            .auth-visual { flex: none; padding: 25px 20px; text-align: center; gap: 15px; }
+            .auth-visual h1 { font-size: 1.8rem !important; }
+            .auth-form-panel { width: 100%; padding: 30px 20px; box-shadow: none; border-radius: 0; }
+            .header-clean { padding: 12px 16px; }
+            #modules-dashboard { padding: 20px 12px 40px; gap: 15px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .module-card { padding: 20px 10px; border-radius: 20px; }
+            .module-card .icon-box { width: 55px; height: 55px; font-size: 1.3rem; margin-bottom: 12px; }
+            .module-card h3 { font-size: 0.78rem; }
+            #btn-back-home { top: 12px; left: 12px; padding: 8px 16px; font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- PANTALLA DE AUTENTICACIÓN -->
     <div id="auth-screen">
         <div class="auth-visual">
             <div>
-                <h1 style="font-size: 2.6rem; font-weight:900; text-shadow: 0 4px 10px rgba(0,0,0,0.2);">Desarrollo Infantil Temprano <b style="color:var(--glow-pink)">DIT</b></h1>
-                <p style="opacity: 0.9; margin-top: 5px; font-weight: 600; letter-spacing: 0.5px;">✨ Plataforma de Monitoreo Integral Infantil</p>
+                <h1 style="font-size: 2.6rem; font-weight:900; text-shadow: 0 4px 10px rgba(0,0,0,0.15);">Desarrollo Infantil Temprano <b style="color:var(--bright-yellow)">DIT</b></h1>
+                <p style="opacity: 0.95; margin-top: 5px; font-weight: 700; letter-spacing: 0.5px;">☀️ Plataforma de Monitoreo Integral Infantil</p>
             </div>
             
-            <div class="podium-section">
-                <div class="podium-title"><i class="fas fa-star" style="color:var(--pastel-yellow)"></i> Auditoría Cruzada: SICHE vs RUA</div>
+            <button class="btn-toggle-auditoria" onclick="toggleAuditoria()">
+                <i class="fas fa-star" style="color:var(--bright-yellow)"></i> 
+                <span>VER AUDITORÍA CRUZADA: SICHE VS RUA</span>
+                <i class="fas fa-chevron-down" id="auditoria-arrow"></i>
+            </button>
+
+            <div class="podium-section" id="podium-section">
+                <div class="podium-title"><i class="fas fa-star" style="color:var(--bright-yellow)"></i> Auditoría Cruzada: SICHE vs RUA</div>
                 
                 <div class="filter-panel">
                     <div class="filter-row">
@@ -612,20 +792,20 @@
                 </div>
 
                 <div class="podium-container" id="login-podium">
-                    <div style="font-size:0.8rem; color:rgba(255,255,255,0.5); margin: auto; text-align: center;">
-                        <i class="fas fa-wand-magic-sparkles" style="color: var(--pastel-yellow); font-size: 1.5rem; margin-bottom: 8px; display: block;"></i> 
+                    <div style="font-size:0.8rem; color:var(--text-muted); margin: auto; text-align: center;">
+                        <i class="fas fa-wand-magic-sparkles" style="color: var(--primary-blue); font-size: 1.5rem; margin-bottom: 8px; display: block;"></i> 
                         Elige un rango de fechas para desplegar la auditoría interactiva.
                     </div>
                 </div>
                 <div class="podium-extended-list" id="podium-extended-list"></div>
             </div>
-            <div style="font-size: 0.8rem; opacity: 0.7; font-weight: 600;"><i class="fas fa-shield-cat"></i> Red Nacional de Salud - MINSA 2026</div>
+            <div style="font-size: 0.8rem; opacity: 0.9; font-weight: 700;"><i class="fas fa-shield-cat"></i> Red Nacional de Salud - MINSA 2026</div>
         </div>
         
         <div class="auth-form-panel">
             <div id="login-box" class="form-box active">
-                <h2 style="margin-bottom: 8px; font-weight: 900; color: #0f172a; font-size: 1.6rem;">¡Hola, Profesional!</h2>
-                <p style="font-size:0.85rem; color:#64748b; margin-bottom: 25px;">Ingresa tus credenciales autorizadas para continuar.</p>
+                <h2 style="margin-bottom: 8px; font-weight: 900; color: #0f172a; font-size: 1.6rem;">¡Hola, Profesional! 👋</h2>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom: 25px;">Ingresa tus credenciales autorizadas para continuar.</p>
                 
                 <label>DNI del Usuario</label>
                 <input type="text" id="l-dni" placeholder="Ingresa tu número de DNI" autocomplete="username">
@@ -639,7 +819,7 @@
 
             <div id="reg-check" class="form-box">
                 <h2 style="margin-bottom: 8px; font-weight: 900; color: #0f172a;">Validación de Personal</h2>
-                <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 25px;">Validaremos si tu DNI figura pre-aprobado por la jefatura del establecimiento.</p>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 25px;">Validaremos si tu DNI figura pre-aprobado por la jefatura del establecimiento.</p>
                 
                 <label>Ingresa tu DNI</label>
                 <input type="text" id="r-dni-search" placeholder="Escribe aquí el DNI a evaluar">
@@ -650,8 +830,8 @@
 
             <div id="reg-final" class="form-box">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 id="reg-greeting" style="color: var(--minsa-blue); font-size: 1.1rem; font-weight: 800;"></h3>
-                    <button onclick="showBox('reg-check')" style="background: none; border: none; color: var(--minsa-blue); font-size: 0.8rem; cursor: pointer; font-weight: 700;"><i class="fas fa-arrow-left"></i> VOLVER</button>
+                    <h3 id="reg-greeting" style="color: var(--primary-blue); font-size: 1.1rem; font-weight: 800;"></h3>
+                    <button onclick="showBox('reg-check')" style="background: none; border: none; color: var(--primary-blue); font-size: 0.8rem; cursor: pointer; font-weight: 700;"><i class="fas fa-arrow-left"></i> VOLVER</button>
                 </div>
                 
                 <label>Nombres y Apellidos Completos</label>
@@ -695,45 +875,102 @@
         </div>
     </div>
 
+    <!-- APLICACIÓN PRINCIPAL -->
     <div id="main-app">
-        <header class="top-nav">
-            <div class="brand-header">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div class="logo-circle"><i class="fas fa-child-reaching" style="color: #fff; font-size: 1.1rem;"></i></div>
-                    <div>
-                        <h4 style="color: #fff; font-size: 0.9rem; font-weight: 900; letter-spacing: 0.5px;">SISTEMA INTEGRADO DIT</h4>
-                        <p id="user-display" style="font-size: 0.68rem; color: var(--pastel-blue); font-weight: 800; text-transform: uppercase;"></p>
-                    </div>
+        <!-- BOTÓN FLOTANTE REGRESAR -->
+        <button id="btn-back-home" onclick="showDashboard()">
+            <i class="fas fa-arrow-left"></i> REGRESAR AL INICIO
+        </button>
+
+        <!-- ENCABEZADO MODERNO Y CLARO -->
+        <header class="header-clean" id="app-header">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7, #38bdf8); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);">
+                    <i class="fas fa-child-reaching" style="color: #fff; font-size: 1.2rem;"></i>
                 </div>
-                <div style="display: flex; gap: 8px;">
-                    <button onclick="document.getElementById('modal-pw').style.display='flex'" style="background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.1); color: #fff; font-size: 0.72rem; padding: 8px 14px; border-radius: 12px; cursor: pointer; font-weight: 700;"><i class="fas fa-key" style="color:var(--pastel-yellow)"></i> LLAVE</button>
-                    <button onclick="logout()" style="background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; color: #ef4444; font-size: 0.72rem; padding: 8px 14px; border-radius: 12px; cursor: pointer; font-weight: 700;"><i class="fas fa-door-open"></i> SALIR</button>
+                <div>
+                    <h3 style="color: var(--text-main); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.5px;">SISTEMA INTEGRADO DIT</h3>
+                    <p style="font-size: 0.72rem; color: var(--primary-blue); font-weight: 700;">Panel Principal de Monitoreo</p>
                 </div>
             </div>
 
-            <div class="scroll-container">
-                <div id="sortable-nodes">
-                    <div class="node-btn active" data-url="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"><i class="fas fa-baby"></i><span>CENSO DIT</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/"><i class="fas fa-calendar-check"></i><span>CITAS CRED</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/CampanaInfantil/"><i class="fas fa-calendar-check"></i><span>CITAS SATD</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/citadosdesarrollo/"><i class="fas fa-calendar-check"></i><span>REPORTE SATD</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/Mapa/"><i class="fas fa-map-marked-alt"></i><span>MAPA DIT</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RecordarCITAS/"><i class="fas fa-bell"></i><span>RECORDAR CITADOS</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/"><i class="fas fa-notes-medical"></i><span>REGISTRO ATENCIÓN</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/LibretaBoys/"><i class="fas fa-book-open"></i><span>LIBRETA CRED</span></div>
-                    <div class="node-btn" data-url="https://confianzaseguridad772-max.github.io/Dosificador_Hierro/"><i class="fas fa-projections-atom"></i><span>DOSIFICADOR</span></div>
-                     <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/mapasector/"><i class="fas fa-home-user"></i><span>MAPA SECTOR</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/sectorizar/"><i class="fas fa-home-user"></i><span>FICHA FAMILIAR</span></div>
-                    <div class="node-btn" data-url="https://desarrolloinfantiltemprano-dit.github.io/casita/"><i class="fas fa-home-user"></i><span>LA CASITA</span></div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="user-pill">
+                    <div class="user-avatar"><i class="fas fa-user-nurse"></i></div>
+                    <span id="user-display" style="font-size: 0.8rem; color: var(--text-main); font-weight: 800;"></span>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="action-btn" onclick="document.getElementById('modal-pw').style.display='flex'">
+                        <i class="fas fa-key" style="color:var(--bright-yellow)"></i> LLAVE
+                    </button>
+                    <button class="action-btn action-btn-danger" onclick="logout()">
+                        <i class="fas fa-power-off"></i> SALIR
+                    </button>
                 </div>
             </div>
         </header>
 
+        <!-- CONTENEDOR PRINCIPAL -->
         <main class="main-viewport">
-            <iframe id="content-frame" src="https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/"></iframe>
+            <!-- DASHBOARD DE TARJETAS MODULARES -->
+            <div id="modules-dashboard">
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/')">
+                    <div class="icon-box"><i class="fas fa-baby"></i></div>
+                    <h3>Censo DIT</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/')">
+                    <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
+                    <h3>Citas CRED</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/CampanaInfantil/')">
+                    <div class="icon-box"><i class="fas fa-calendar-plus"></i></div>
+                    <h3>Citas SATD</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/citadosdesarrollo/')">
+                    <div class="icon-box"><i class="fas fa-chart-line"></i></div>
+                    <h3>Reporte SATD</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/Mapa/')">
+                    <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3>Mapa DIT</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/RecordarCITAS/')">
+                    <div class="icon-box"><i class="fas fa-bell"></i></div>
+                    <h3>Recordar Citados</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/RegistroDiario/')">
+                    <div class="icon-box"><i class="fas fa-notes-medical"></i></div>
+                    <h3>Registro Atención</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/LibretaBoys/')">
+                    <div class="icon-box"><i class="fas fa-book-open"></i></div>
+                    <h3>Libreta CRED</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://confianzaseguridad772-max.github.io/Dosificador_Hierro/')">
+                    <div class="icon-box"><i class="fas fa-pills"></i></div>
+                    <h3>Dosificador</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/mapasector/')">
+                    <div class="icon-box"><i class="fas fa-map-pin"></i></div>
+                    <h3>Mapa Sector</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/sectorizar/')">
+                    <div class="icon-box"><i class="fas fa-file-invoice"></i></div>
+                    <h3>Ficha Familiar</h3>
+                </div>
+                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/casita/')">
+                    <div class="icon-box"><i class="fas fa-house-user"></i></div>
+                    <h3>La Casita</h3>
+                </div>
+            </div>
+
+            <!-- VISOR IFRAME DE MÓDULOS -->
+            <iframe id="content-frame"></iframe>
         </main>
     </div>
 
+    <!-- MODAL LLAVE (CAMBIO DE CONTRASEÑA) -->
     <div id="modal-pw">
         <div class="modal-card">
             <h3 style="margin-bottom: 15px; font-weight: 900; color: #0f172a; font-size: 1.2rem;">Cambiar Contraseña</h3>
@@ -764,6 +1001,35 @@
             m.style.background = c === 'red' ? '#fef2f2' : (c === 'green' ? '#f0fdf4' : '#f0f9ff');
             m.style.color = c === 'red' ? '#991b1b' : (c === 'green' ? '#166534' : '#075985');
             m.style.display = t ? 'block' : 'none';
+        }
+
+        function toggleAuditoria() {
+            const section = document.getElementById('podium-section');
+            const arrow = document.getElementById('auditoria-arrow');
+            if (section.style.display === 'flex') {
+                section.style.display = 'none';
+                arrow.className = 'fas fa-chevron-down';
+            } else {
+                section.style.display = 'flex';
+                arrow.className = 'fas fa-chevron-up';
+            }
+        }
+
+        /* NAVEGACIÓN ENTRE DASHBOARD E IFRAME */
+        function showDashboard() {
+            document.getElementById('modules-dashboard').style.display = 'grid';
+            document.getElementById('app-header').style.display = 'flex';
+            document.getElementById('content-frame').style.display = 'none';
+            document.getElementById('btn-back-home').style.display = 'none';
+        }
+
+        function openModule(url) {
+            document.getElementById('modules-dashboard').style.display = 'none';
+            document.getElementById('app-header').style.display = 'none';
+            const frame = document.getElementById('content-frame');
+            frame.src = url;
+            frame.style.display = 'block';
+            document.getElementById('btn-back-home').style.display = 'flex';
         }
 
         async function checkAuthorizedDNI() {
@@ -908,6 +1174,8 @@
             document.getElementById('main-app').style.display = "flex";
             document.getElementById('user-display').innerText = n;
             
+            showDashboard();
+
             if(!window.hasGreeted) {
                 const msg = new SpeechSynthesisUtterance("Bienvenido al sistema DIT, " + n.split(" ")[0]);
                 msg.lang = 'es-PE';
@@ -927,18 +1195,7 @@
 
         document.getElementById('l-pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
 
-        document.querySelectorAll('.node-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.node-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                document.getElementById('content-frame').src = this.getAttribute('data-url');
-            });
-        });
-
-        // ============================================================================================
-        //  --- AUDITORÍA CRUZADA ACTUALIZADA (RECUPERADO COMPLETO Y REORGANIZADO) ---
-        // ============================================================================================
-
+        /* AUDITORÍA CRUZADA */
         function ejecutarConsultaEstadistica() {
             const desde = document.getElementById('filtro-desde').value;
             const hasta = document.getElementById('filtro-hasta').value;
@@ -948,7 +1205,7 @@
                 return;
             }
 
-            document.getElementById('login-podium').innerHTML = '<div style="font-size:0.8rem; color:var(--glow-cyan); margin: auto;"><i class="fas fa-spinner fa-spin"></i> Generando Auditoría DIT...</div>';
+            document.getElementById('login-podium').innerHTML = '<div style="font-size:0.8rem; color:var(--primary-blue); margin: auto;"><i class="fas fa-spinner fa-spin"></i> Generando Auditoría DIT...</div>';
             document.getElementById('podium-extended-list').innerHTML = "";
 
             const viejoScript = document.getElementById('jsonp-stats');
@@ -959,7 +1216,7 @@
             script.src = URL_ATENCION_SICHE + "?action=getHistorial&desde=" + desde + "&hasta=" + hasta + "&callback=procesarDatosExcel";
             
             script.onerror = function() {
-                document.getElementById('login-podium').innerHTML = '<div style="font-size:0.8rem; color:#f87171; margin: auto;"><i class="fas fa-times-circle"></i> Error al conectar con SICHE.</div>';
+                document.getElementById('login-podium').innerHTML = '<div style="font-size:0.8rem; color:#ef4444; margin: auto;"><i class="fas fa-times-circle"></i> Error al conectar con SICHE.</div>';
             };
             document.body.appendChild(script);
         }
@@ -970,7 +1227,7 @@
             if(!podiumWrapper) return;
 
             if (!ranking || !Array.isArray(ranking) || ranking.length === 0) {
-                podiumWrapper.innerHTML = '<div style="font-size:0.8rem; color:rgba(255,255,255,0.6); margin:auto;">No hay registros de atenciones para estas fechas.</div>';
+                podiumWrapper.innerHTML = '<div style="font-size:0.8rem; color:var(--text-muted); margin:auto;">No hay registros de atenciones para estas fechas.</div>';
                 if(extendedWrapper) extendedWrapper.innerHTML = "";
                 return;
             }
@@ -987,55 +1244,53 @@
             const top2 = ranking[1] || fallback;
             const top3 = ranking[2] || fallback;
 
-            // 1. RESTAURACIÓN DEL PODIO: Nombres, Totales y Tarjetas Simétricas de Control Interno
             podiumWrapper.innerHTML = `
                 <div class="podium-place second">
                     <div class="podium-name" title="${top2.nombre}">${formatearNombreCorto(top2.nombre)}</div>
                     <div class="podium-column">
-                        <i class="fas fa-medal podium-cup" style="color: #cbd5e1"></i>
+                        <i class="fas fa-medal podium-cup" style="color: #fff"></i>
                         <span class="podium-count">${top2.migrados}</span>
                         <span class="podium-label">MIGRADOS</span>
                     </div>
                     <div class="podium-metrics-card">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#c084fc"></i>RUA:</span><span class="badge-rua">${top2.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#f87171"></i>Falta:</span><span class="badge-falta">${top2.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#fbbf24"></i>Pend:</span><span class="badge-proc">${top2.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#f87171"></i>Err:</span><span class="badge-err">${top2.erroresMigracion}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#8b5cf6"></i>RUA:</span><span class="badge-rua">${top2.rua}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#ef4444"></i>Falta:</span><span class="badge-falta">${top2.faltaSiche}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#f59e0b"></i>Pend:</span><span class="badge-proc">${top2.porProcesar}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#ef4444"></i>Err:</span><span class="badge-err">${top2.erroresMigracion}</span></div>
                     </div>
                 </div>
                 
                 <div class="podium-place first">
                     <div class="podium-name" title="${top1.nombre}">${formatearNombreCorto(top1.nombre)}</div>
                     <div class="podium-column">
-                        <i class="fas fa-crown podium-cup" style="color: #fbbf24"></i>
+                        <i class="fas fa-crown podium-cup" style="color: #fff"></i>
                         <span class="podium-count">${top1.migrados}</span>
                         <span class="podium-label">LÍDER</span>
                     </div>
-                    <div class="podium-metrics-card" style="background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.2);">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#c084fc"></i>RUA:</span><span class="badge-rua">${top1.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#f87171"></i>Falta:</span><span class="badge-falta">${top1.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#fbbf24"></i>Pend:</span><span class="badge-proc">${top1.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#f87171"></i>Err:</span><span class="badge-err">${top1.erroresMigracion}</span></div>
+                    <div class="podium-metrics-card" style="background: #fffbebf; border-color: #fde68a;">
+                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#8b5cf6"></i>RUA:</span><span class="badge-rua">${top1.rua}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#ef4444"></i>Falta:</span><span class="badge-falta">${top1.faltaSiche}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#f59e0b"></i>Pend:</span><span class="badge-proc">${top1.porProcesar}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#ef4444"></i>Err:</span><span class="badge-err">${top1.erroresMigracion}</span></div>
                     </div>
                 </div>
                 
                 <div class="podium-place third">
                     <div class="podium-name" title="${top3.nombre}">${formatearNombreCorto(top3.nombre)}</div>
                     <div class="podium-column">
-                        <i class="fas fa-medal podium-cup" style="color: #ed8936"></i>
+                        <i class="fas fa-medal podium-cup" style="color: #fff"></i>
                         <span class="podium-count">${top3.migrados}</span>
                         <span class="podium-label">MIGRADOS</span>
                     </div>
                     <div class="podium-metrics-card">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#c084fc"></i>RUA:</span><span class="badge-rua">${top3.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#f87171"></i>Falta:</span><span class="badge-falta">${top3.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#fbbf24"></i>Pend:</span><span class="badge-proc">${top3.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#f87171"></i>Err:</span><span class="badge-err">${top3.erroresMigracion}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#8b5cf6"></i>RUA:</span><span class="badge-rua">${top3.rua}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#ef4444"></i>Falta:</span><span class="badge-falta">${top3.faltaSiche}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#f59e0b"></i>Pend:</span><span class="badge-proc">${top3.porProcesar}</span></div>
+                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#ef4444"></i>Err:</span><span class="badge-err">${top3.erroresMigracion}</span></div>
                     </div>
                 </div>
             `;
 
-            // 2. LISTADO EXTENDIDO TOTAL: Muestra a todos (incluyendo primeros puestos) con desglose en cuadrícula
             if(extendedWrapper) {
                 extendedWrapper.innerHTML = "";
                 
