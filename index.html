@@ -9,15 +9,15 @@
     <style>
         :root {
             --bg-light: #f4f8ff;
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.85);
             --primary-blue: #0284c7;
             --mint-green: #10b981;
             --pastel-pink: #f472b6;
             --bright-yellow: #fbbf24;
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --shadow-soft: 0 10px 30px rgba(14, 165, 233, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --shadow-soft: 0 20px 40px rgba(14, 165, 233, 0.15);
         }
 
         * {
@@ -29,7 +29,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #fef3c7 100%);
+            background: radial-gradient(circle at 50% -20%, #bae6fd 0%, #f0f9ff 40%, #fef3c7 100%);
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -49,7 +49,7 @@
 
         .auth-visual {
             flex: 1;
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.85), rgba(168, 85, 247, 0.85)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg');
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.85), rgba(147, 51, 234, 0.85)), url('https://w.wallhaven.cc/full/kx/wallhaven-kxjjjm.jpg');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -67,12 +67,13 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             color: var(--text-main);
-            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+            box-shadow: -20px 0 50px rgba(0, 0, 0, 0.08);
             overflow-y: auto;
-            border-top-left-radius: 30px;
-            border-bottom-left-radius: 30px;
+            border-top-left-radius: 35px;
+            border-bottom-left-radius: 35px;
         }
 
         .form-box {
@@ -103,7 +104,7 @@
         input {
             width: 100%;
             padding: 14px 16px;
-            background: #f1f5f9;
+            background: #f8fafc;
             border: 2px solid #e2e8f0;
             border-radius: 16px;
             outline: none;
@@ -119,27 +120,6 @@
             box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
         }
 
-        input[type="date"] {
-            position: relative;
-            appearance: none;
-            -webkit-appearance: none;
-            min-height: 45px;
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            background: transparent;
-            bottom: 0;
-            color: transparent;
-            cursor: pointer;
-            height: auto;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: auto;
-            z-index: 2;
-        }
-
         .btn-main {
             width: 100%;
             padding: 16px;
@@ -150,14 +130,14 @@
             font-size: 0.95rem;
             font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
-            transition: all 0.2s ease;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.35);
+            transition: all 0.3s ease;
             letter-spacing: 0.5px;
         }
 
         .btn-main:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.5);
         }
 
         .btn-main:active {
@@ -178,333 +158,7 @@
             text-decoration: underline;
         }
 
-        /* --- BOTÓN AUDITORÍA --- */
-        .btn-toggle-auditoria {
-            background: rgba(255, 255, 255, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #fff;
-            padding: 12px 22px;
-            border-radius: 50px;
-            font-weight: 800;
-            cursor: pointer;
-            margin: 15px auto;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .btn-toggle-auditoria:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.03);
-        }
-
-        /* --- FILTRO POR RANGO DE FECHAS --- */
-        .filter-panel {
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px dashed rgba(14, 165, 233, 0.3);
-            border-radius: 20px;
-            padding: 14px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .filter-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .filter-group {
-            flex: 1;
-            position: relative;
-        }
-
-        .filter-group label {
-            color: var(--primary-blue);
-            font-size: 0.7rem;
-            margin-bottom: 4px;
-        }
-
-        .filter-group i.calendar-icon {
-            position: absolute;
-            right: 14px;
-            bottom: 14px;
-            color: var(--primary-blue);
-            pointer-events: none;
-            font-size: 0.95rem;
-            z-index: 1;
-        }
-
-        .filter-group input[type="date"] {
-            margin-bottom: 0;
-            padding: 10px 35px 10px 12px;
-            font-size: 0.8rem;
-            background: #fff;
-            border: 1px solid #cbd5e1;
-            color: var(--text-main);
-            border-radius: 12px;
-        }
-
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-filter {
-            flex: 1;
-            padding: 12px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            color: #fff;
-            background: linear-gradient(135deg, #0284c7, #38bdf8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2);
-            transition: all 0.2s;
-        }
-
-        .btn-filter:hover { transform: scale(1.02); }
-
-        .btn-export {
-            background: linear-gradient(135deg, #ec4899, #f472b6);
-            box-shadow: 0 4px 10px rgba(236, 72, 153, 0.2);
-        }
-
-        /* --- PODIO AUDITORÍA --- */
-        .podium-section {
-            width: 100%;
-            max-width: 650px;
-            margin: 10px auto;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 24px;
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15);
-            display: none;
-            flex-direction: column;
-            animation: fadeIn 0.4s ease-out;
-            color: var(--text-main);
-        }
-
-        .podium-title {
-            font-size: 0.95rem;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 18px;
-            color: var(--primary-blue);
-            font-weight: 800;
-        }
-
-        .podium-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 12px;
-            height: 155px;
-            margin-bottom: 10px;
-        }
-
-        .podium-place {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 32%;
-            text-align: center;
-            opacity: 0;
-            animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .podium-place.second { animation-delay: 0.15s; }
-        .podium-place.first { animation-delay: 0s; }
-        .podium-place.third { animation-delay: 0.3s; }
-
-        .podium-name {
-            font-size: 0.75rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-            color: var(--text-main);
-        }
-
-        .podium-column {
-            width: 100%;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 4px;
-            position: relative;
-        }
-
-        .podium-place.first .podium-column {
-            height: 95px;
-            background: linear-gradient(135deg, #f59e0b, #fbbf24);
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
-            color: #fff;
-        }
-
-        .podium-place.second .podium-column {
-            height: 75px;
-            background: linear-gradient(135deg, #38bdf8, #7dd3fc);
-            box-shadow: 0 8px 15px rgba(56, 189, 248, 0.3);
-            color: #fff;
-        }
-
-        .podium-place.third .podium-column {
-            height: 60px;
-            background: linear-gradient(135deg, #34d399, #6ee7b7);
-            box-shadow: 0 8px 15px rgba(52, 211, 153, 0.3);
-            color: #fff;
-        }
-
-        .podium-cup {
-            font-size: 1.4rem;
-            margin-bottom: 2px;
-        }
-
-        .podium-count {
-            font-size: 1.1rem;
-            font-weight: 900;
-        }
-
-        .podium-column span.podium-label {
-            font-size: 0.55rem;
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            opacity: 0.9;
-        }
-
-        .podium-metrics-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 6px 8px;
-            width: 100%;
-            margin-top: 8px;
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            text-align: left;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        }
-
-        .metric-line {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            border-bottom: 1px dashed #f1f5f9;
-            padding-bottom: 2px;
-        }
-        .metric-line:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .podium-extended-list {
-            width: 100%;
-            max-height: 180px;
-            overflow-y: auto;
-            margin-top: 15px;
-            padding-right: 5px;
-            border-top: 1px dashed #e2e8f0;
-        }
-
-        .extended-row {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding: 10px 8px;
-            background: #fff;
-            border-radius: 12px;
-            margin-top: 8px;
-            border: 1px solid #e2e8f0;
-        }
-        .extended-top-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .extended-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            overflow: hidden;
-            max-width: 70%;
-        }
-        .extended-pos {
-            font-weight: 900;
-            font-size: 0.8rem;
-            background: #f1f5f9;
-            padding: 2px 7px;
-            border-radius: 8px;
-            color: var(--primary-blue);
-        }
-        .extended-pos.gold { background: #f59e0b; color: #fff; }
-        .extended-pos.silver { background: #38bdf8; color: #fff; }
-        .extended-pos.bronze { background: #34d399; color: #fff; }
-
-        .extended-name {
-            font-weight: 700;
-            font-size: 0.8rem;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .extended-total-badge {
-            font-size: 0.75rem;
-            font-weight: 800;
-            background: #e0f2fe;
-            color: #0284c7;
-            padding: 2px 8px;
-            border-radius: 20px;
-        }
-        .extended-grid-metrics {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            background: #f8fafc;
-            padding: 6px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 0.65rem;
-        }
-        .metric-box { display: flex; flex-direction: column; gap: 2px; }
-        .metric-box span { color: #64748b; font-weight: 600; font-size: 0.58rem; text-transform: uppercase;}
-
-        .badge-err { color: #ef4444; font-weight: 800; }
-        .badge-mig { color: #10b981; font-weight: 800; }
-        .badge-rua { color: #8b5cf6; font-weight: 800; }
-        .badge-falta { color: #f43f5e; font-weight: 800; }
-        .badge-proc { color: #f59e0b; font-weight: 800; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- INTERFAZ PRINCIPAL ALEGRE Y MODERNA --- */
+        /* --- INTERFAZ PRINCIPAL CON EFECTO ESPEJO / CRISTAL --- */
         #main-app {
             display: none;
             flex-direction: column;
@@ -517,21 +171,23 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 30px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.8);
             z-index: 10;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         }
 
         .user-pill {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: #f0f9ff;
+            background: rgba(240, 249, 255, 0.9);
             padding: 6px 14px;
             border-radius: 50px;
-            border: 1px solid #bae6fd;
+            border: 1px solid rgba(186, 230, 253, 0.8);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8);
         }
 
         .user-avatar {
@@ -544,7 +200,7 @@
             justify-content: center;
             color: #fff;
             font-size: 0.85rem;
-            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
         }
 
         .header-actions {
@@ -553,8 +209,8 @@
         }
 
         .action-btn {
-            background: #fff;
-            border: 1px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.8);
             color: var(--text-main);
             font-size: 0.8rem;
             padding: 9px 16px;
@@ -564,26 +220,26 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.25s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
         .action-btn:hover {
-            background: #f8fafc;
+            background: #fff;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
         .action-btn-danger {
-            background: #fef2f2;
-            border-color: #fecaca;
+            background: rgba(254, 242, 242, 0.9);
+            border-color: rgba(254, 202, 202, 0.8);
             color: #ef4444;
         }
 
         .action-btn-danger:hover {
             background: #ef4444;
             color: #fff;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
         }
 
         .main-viewport {
@@ -606,7 +262,7 @@
             top: 20px;
             left: 20px;
             z-index: 100;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
             border: 2px solid var(--primary-blue);
             color: var(--primary-blue);
             padding: 10px 22px;
@@ -615,7 +271,7 @@
             font-size: 0.85rem;
             cursor: pointer;
             backdrop-filter: blur(15px);
-            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.2);
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.25);
             display: none;
             align-items: center;
             gap: 10px;
@@ -626,117 +282,110 @@
             background: var(--primary-blue);
             color: #ffffff;
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
+            box-shadow: 0 15px 35px rgba(2, 132, 199, 0.4);
         }
 
-        /* --- DASHBOARD DE TARJETAS MODULARES ALEGRES --- */
+        /* --- DASHBOARD DE TARJETAS MODULARES CON EFECTO ESPEJO Y BRILLO --- */
         #modules-dashboard {
-            padding: 35px 25px 50px;
-            max-width: 1250px;
+            padding: 40px 30px 60px;
+            max-width: 1300px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 22px;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
             animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .module-card {
-            background: var(--card-bg);
-            border: 2px solid #ffffff;
-            border-radius: 28px;
-            padding: 28px 18px;
+            background: rgba(255, 255, 255, 0.75);
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 32px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
             cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            backdrop-filter: blur(16px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             position: relative;
             overflow: hidden;
-            box-shadow: var(--shadow-soft);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Reflejo de luz tipo espejo superior */
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transition: 0.6s;
+        }
+
+        .module-card:hover::before {
+            left: 150%;
         }
 
         .module-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            background: #ffffff;
-            box-shadow: 0 20px 35px rgba(14, 165, 233, 0.2);
+            transform: translateY(-10px) scale(1.03);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 25px 50px rgba(14, 165, 233, 0.25), inset 0 2px 4px rgba(255, 255, 255, 1);
         }
 
         .module-card .icon-box {
-            width: 70px;
-            height: 70px;
-            border-radius: 24px;
+            width: 75px;
+            height: 75px;
+            border-radius: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 18px;
-            font-size: 1.8rem;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.06);
-        }
-
-        .module-card:hover .icon-box {
-            transform: scale(1.15) rotate(-4deg);
-            color: #ffffff !important;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            font-size: 1.9rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06), inset 0 2px 4px rgba(255, 255, 255, 0.6);
         }
 
         .module-card h3 {
             font-size: 0.9rem;
             font-weight: 800;
             color: var(--text-main);
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
             text-transform: uppercase;
+            transition: color 0.3s ease;
         }
 
-        /* TARJETAS CON PALETA ALEGRE PASTEL */
-        .module-card:nth-child(1) .icon-box { background: #e0f2fe; color: #0284c7; }
-        .module-card:nth-child(2) .icon-box { background: #dcfce7; color: #16a34a; }
-        .module-card:nth-child(3) .icon-box { background: #fef3c7; color: #d97706; }
-        .module-card:nth-child(4) .icon-box { background: #f3e8ff; color: #9333ea; }
-        .module-card:nth-child(5) .icon-box { background: #ffe4e6; color: #e11d48; }
-        .module-card:nth-child(6) .icon-box { background: #ccfbf1; color: #0d9488; }
-        .module-card:nth-child(7) .icon-box { background: #ffedd5; color: #ea580c; }
-        .module-card:nth-child(8) .icon-box { background: #fae8ff; color: #c084fc; }
-        .module-card:nth-child(9) .icon-box { background: #e0e7ff; color: #4f46e5; }
-        .module-card:nth-child(10) .icon-box { background: #ecfdf5; color: #059669; }
-        .module-card:nth-child(11) .icon-box { background: #fef2f2; color: #dc2626; }
-        .module-card:nth-child(12) .icon-box { background: #f0fdf4; color: #16a34a; }
-
-        .module-card:nth-child(1):hover .icon-box { background: linear-gradient(135deg, #38bdf8, #0284c7); }
-        .module-card:nth-child(2):hover .icon-box { background: linear-gradient(135deg, #4ade80, #16a34a); }
-        .module-card:nth-child(3):hover .icon-box { background: linear-gradient(135deg, #fbbf24, #d97706); }
-        .module-card:nth-child(4):hover .icon-box { background: linear-gradient(135deg, #c084fc, #9333ea); }
-        .module-card:nth-child(5):hover .icon-box { background: linear-gradient(135deg, #fb7185, #e11d48); }
-        .module-card:nth-child(6):hover .icon-box { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
-        .module-card:nth-child(7):hover .icon-box { background: linear-gradient(135deg, #fb923c, #ea580c); }
-        .module-card:nth-child(8):hover .icon-box { background: linear-gradient(135deg, #e879f9, #c084fc); }
-        .module-card:nth-child(9):hover .icon-box { background: linear-gradient(135deg, #818cf8, #4f46e5); }
-        .module-card:nth-child(10):hover .icon-box { background: linear-gradient(135deg, #34d399, #059669); }
-        .module-card:nth-child(11):hover .icon-box { background: linear-gradient(135deg, #f87171, #dc2626); }
-        .module-card:nth-child(12):hover .icon-box { background: linear-gradient(135deg, #4ade80, #16a34a); }
+        .module-card:hover h3 {
+            color: #0284c7;
+        }
 
         #modal-pw {
             position: fixed;
             inset: 0;
-            background: rgba(30, 41, 59, 0.4);
+            background: rgba(30, 41, 59, 0.5);
             z-index: 3000;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
             display: none;
         }
+
         .modal-card {
-            background: #fff;
-            padding: 35px;
-            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(25px);
+            padding: 40px;
+            border-radius: 32px;
             width: 90%;
-            max-width: 400px;
+            max-width: 420px;
             color: var(--text-main);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,1);
+            border: 1px solid rgba(255,255,255,0.8);
         }
 
         @media (max-width: 768px) {
@@ -745,9 +394,9 @@
             .auth-visual h1 { font-size: 1.8rem !important; }
             .auth-form-panel { width: 100%; padding: 30px 20px; box-shadow: none; border-radius: 0; }
             .header-clean { padding: 12px 16px; }
-            #modules-dashboard { padding: 20px 12px 40px; gap: 15px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
-            .module-card { padding: 20px 10px; border-radius: 20px; }
-            .module-card .icon-box { width: 55px; height: 55px; font-size: 1.3rem; margin-bottom: 12px; }
+            #modules-dashboard { padding: 20px 15px 40px; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); }
+            .module-card { padding: 22px 12px; border-radius: 22px; }
+            .module-card .icon-box { width: 60px; height: 60px; font-size: 1.4rem; margin-bottom: 14px; border-radius: 20px; }
             .module-card h3 { font-size: 0.78rem; }
             #btn-back-home { top: 12px; left: 12px; padding: 8px 16px; font-size: 0.75rem; }
         }
@@ -759,46 +408,10 @@
     <div id="auth-screen">
         <div class="auth-visual">
             <div>
-                <h1 style="font-size: 2.6rem; font-weight:900; text-shadow: 0 4px 10px rgba(0,0,0,0.15);">Desarrollo Infantil Temprano <b style="color:var(--bright-yellow)">DIT</b></h1>
+                <h1 style="font-size: 2.6rem; font-weight:900; text-shadow: 0 4px 15px rgba(0,0,0,0.2);">Desarrollo Infantil Temprano <b style="color:var(--bright-yellow)">DIT</b></h1>
                 <p style="opacity: 0.95; margin-top: 5px; font-weight: 700; letter-spacing: 0.5px;">☀️ Plataforma de Monitoreo Integral Infantil</p>
             </div>
             
-            <button class="btn-toggle-auditoria" onclick="toggleAuditoria()">
-                <i class="fas fa-star" style="color:var(--bright-yellow)"></i> 
-                <span>VER AUDITORÍA CRUZADA: SICHE VS RUA</span>
-                <i class="fas fa-chevron-down" id="auditoria-arrow"></i>
-            </button>
-
-            <div class="podium-section" id="podium-section">
-                <div class="podium-title"><i class="fas fa-star" style="color:var(--bright-yellow)"></i> Auditoría Cruzada: SICHE vs RUA</div>
-                
-                <div class="filter-panel">
-                    <div class="filter-row">
-                        <div class="filter-group">
-                            <label>Desde:</label>
-                            <input type="date" id="filtro-desde">
-                            <i class="fas fa-calendar-alt calendar-icon"></i>
-                        </div>
-                        <div class="filter-group">
-                            <label>Hasta:</label>
-                            <input type="date" id="filtro-hasta">
-                            <i class="fas fa-calendar-alt calendar-icon"></i>
-                        </div>
-                    </div>
-                    <div class="filter-buttons">
-                        <button class="btn-filter" onclick="ejecutarConsultaEstadistica()"><i class="fas fa-magic"></i> Consultar Fechas</button>
-                        <button class="btn-filter btn-export" onclick="exportarFaltantesAExcel()"><i class="fas fa-cloud-download-alt"></i> Exportar Faltantes</button>
-                    </div>
-                </div>
-
-                <div class="podium-container" id="login-podium">
-                    <div style="font-size:0.8rem; color:var(--text-muted); margin: auto; text-align: center;">
-                        <i class="fas fa-wand-magic-sparkles" style="color: var(--primary-blue); font-size: 1.5rem; margin-bottom: 8px; display: block;"></i> 
-                        Elige un rango de fechas para desplegar la auditoría interactiva.
-                    </div>
-                </div>
-                <div class="podium-extended-list" id="podium-extended-list"></div>
-            </div>
             <div style="font-size: 0.8rem; opacity: 0.9; font-weight: 700;"><i class="fas fa-shield-cat"></i> Red Nacional de Salud - MINSA 2026</div>
         </div>
         
@@ -885,7 +498,7 @@
         <!-- ENCABEZADO MODERNO Y CLARO -->
         <header class="header-clean" id="app-header">
             <div style="display: flex; align-items: center; gap: 14px;">
-                <div style="width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7, #38bdf8); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);">
+                <div style="width: 42px; height: 42px; background: linear-gradient(135deg, #0284c7, #38bdf8); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 15px rgba(14, 165, 233, 0.4);">
                     <i class="fas fa-child-reaching" style="color: #fff; font-size: 1.2rem;"></i>
                 </div>
                 <div>
@@ -913,53 +526,8 @@
 
         <!-- CONTENEDOR PRINCIPAL -->
         <main class="main-viewport">
-            <!-- DASHBOARD DE TARJETAS MODULARES -->
-            <div id="modules-dashboard">
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/CensoDIT/')">
-                    <div class="icon-box"><i class="fas fa-baby"></i></div>
-                    <h3>Censo</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/Reservar.CITAS.DIT/')">
-                    <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
-                    <h3>Citas CRED</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/programarcitas/')">
-                    <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
-                    <h3>Topes Citas</h3>                    
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/CampanaInfantil/')">
-                    <div class="icon-box"><i class="fas fa-calendar-plus"></i></div>
-                    <h3>Citas SATD</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/citadosdesarrollo/')">
-                    <div class="icon-box"><i class="fas fa-chart-line"></i></div>
-                    <h3>Reporte SATD</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/RecordarCITAS/')">
-                    <div class="icon-box"><i class="fas fa-bell"></i></div>
-                    <h3>Recordar Citados</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/LibretaBoys/')">
-                    <div class="icon-box"><i class="fas fa-book-open"></i></div>
-                    <h3>Libreta CRED</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/anemia/')">
-                    <div class="icon-box"><i class="fas fa-pills"></i></div>
-                    <h3>Anemia</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://confianzaseguridad772-max.github.io/Dosificador_Hierro/')">
-                    <div class="icon-box"><i class="fas fa-pills"></i></div>
-                    <h3>Dosificador</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/mapasector/')">
-                    <div class="icon-box"><i class="fas fa-map-pin"></i></div>
-                    <h3>Mapa Sector</h3>
-                </div>
-                <div class="module-card" onclick="openModule('https://desarrolloinfantiltemprano-dit.github.io/sectorizar/')">
-                    <div class="icon-box"><i class="fas fa-file-invoice"></i></div>
-                    <h3>Ficha Familiar</h3>
-                </div>
-            </div>
+            <!-- DASHBOARD DE TARJETAS MODULARES DINÁMICAS -->
+            <div id="modules-dashboard"></div>
 
             <!-- VISOR IFRAME DE MÓDULOS -->
             <iframe id="content-frame"></iframe>
@@ -980,8 +548,7 @@
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxwrc0DxVF8WiXc_gYzCR3iS0rO5K7IcKKmdgASn5apmIiCAd-dpscLIQOpBRdfdg/exec";
-        const URL_ATENCION_SICHE = "https://script.google.com/macros/s/AKfycbyxsU7zLwpZVgcbb_b6HoGglYU2_QQsKfoP6netAos_r89minIBxWRGpKpNe28IlDDG/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzGBrko3zwbZnZSTf98X-AsI-0m0NsQ1JALa3MULaErK8n5ND03NryyKGW5v5pqxYJY/exec";
 
         let currentDNI = '';
         let userDataCache = {};
@@ -997,18 +564,6 @@
             m.style.background = c === 'red' ? '#fef2f2' : (c === 'green' ? '#f0fdf4' : '#f0f9ff');
             m.style.color = c === 'red' ? '#991b1b' : (c === 'green' ? '#166534' : '#075985');
             m.style.display = t ? 'block' : 'none';
-        }
-
-        function toggleAuditoria() {
-            const section = document.getElementById('podium-section');
-            const arrow = document.getElementById('auditoria-arrow');
-            if (section.style.display === 'flex') {
-                section.style.display = 'none';
-                arrow.className = 'fas fa-chevron-down';
-            } else {
-                section.style.display = 'flex';
-                arrow.className = 'fas fa-chevron-up';
-            }
         }
 
         /* NAVEGACIÓN ENTRE DASHBOARD E IFRAME */
@@ -1119,7 +674,8 @@
                     sessionStorage.setItem('user_dni', u);
                     sessionStorage.setItem('is_auth', 'true');
                     sessionStorage.setItem('user_name', res.nombre);
-                    unlockApp(res.nombre);
+                    sessionStorage.setItem('user_paginas', JSON.stringify(res.paginas || []));
+                    unlockApp(res.nombre, res.paginas);
                 } else {
                     showMsg("DNI o Contraseña no coinciden", "red");
                 }
@@ -1165,11 +721,46 @@
             }
         }
 
-        function unlockApp(n) {
+        function unlockApp(n, paginas) {
             document.getElementById('auth-screen').style.transform = "translateY(-100%)";
             document.getElementById('main-app').style.display = "flex";
             document.getElementById('user-display').innerText = n;
             
+            // Paleta de colores dinámicos brillantes estilo espejo / esmalte infantil de alta gama
+            const colorPalette = [
+                { bg: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', color: '#0284c7', shadow: 'rgba(2, 132, 199, 0.3)' }, // Azul Cielo Cristal
+                { bg: 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)', color: '#16a34a', shadow: 'rgba(22, 163, 74, 0.3)' },  // Verde Menta Brillante
+                { bg: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', color: '#d97706', shadow: 'rgba(217, 119, 6, 0.3)' },  // Amarillo Sol
+                { bg: 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%)', color: '#9333ea', shadow: 'rgba(147, 51, 234, 0.3)' }, // Lila Mágico
+                { bg: 'linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%)', color: '#e11d48', shadow: 'rgba(225, 29, 72, 0.3)' },  // Rosa Pastel Vivo
+                { bg: 'linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%)', color: '#0d9488', shadow: 'rgba(13, 148, 136, 0.3)' }, // Turquesa Espejo
+                { bg: 'linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%)', color: '#ea580c', shadow: 'rgba(234, 88, 12, 0.3)' },  // Naranja Melocotón
+                { bg: 'linear-gradient(135deg, #fae8ff 0%, #f5d0fe 100%)', color: '#c084fc', shadow: 'rgba(192, 132, 252, 0.3)' },// Magenta Suave
+                { bg: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)', color: '#4f46e5', shadow: 'rgba(79, 70, 229, 0.3)' }   // Índigo Espacial
+            ];
+
+            const dashboard = document.getElementById('modules-dashboard');
+            dashboard.innerHTML = '';
+
+            if (paginas && paginas.length > 0) {
+                paginas.forEach((pag, index) => {
+                    const theme = colorPalette[index % colorPalette.length];
+                    const card = document.createElement('div');
+                    card.className = 'module-card';
+                    card.onclick = () => openModule(pag.url);
+
+                    card.innerHTML = `
+                        <div class="icon-box" style="background: ${theme.bg}; color: ${theme.color}; box-shadow: 0 8px 20px ${theme.shadow}, inset 0 2px 4px rgba(255,255,255,0.8);">
+                            <i class="${pag.icono || 'fas fa-star'}"></i>
+                        </div>
+                        <h3>${pag.nombre}</h3>
+                    `;
+                    dashboard.appendChild(card);
+                });
+            } else {
+                dashboard.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px;">No hay módulos asignados para tu tipo de usuario.</div>';
+            }
+
             showDashboard();
 
             if(!window.hasGreeted) {
@@ -1186,179 +777,11 @@
         }
 
         if(sessionStorage.getItem('is_auth') === 'true') {
-            unlockApp(sessionStorage.getItem('user_name'));
+            const savedPaginas = JSON.parse(sessionStorage.getItem('user_paginas') || '[]');
+            unlockApp(sessionStorage.getItem('user_name'), savedPaginas);
         }
 
         document.getElementById('l-pass').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleLogin(); });
-
-        /* AUDITORÍA CRUZADA */
-        function ejecutarConsultaEstadistica() {
-            const desde = document.getElementById('filtro-desde').value;
-            const hasta = document.getElementById('filtro-hasta').value;
-
-            if(!desde || !hasta) {
-                alert("Por favor elija un rango válido de fechas.");
-                return;
-            }
-
-            document.getElementById('login-podium').innerHTML = '<div style="font-size:0.8rem; color:var(--primary-blue); margin: auto;"><i class="fas fa-spinner fa-spin"></i> Generando Auditoría DIT...</div>';
-            document.getElementById('podium-extended-list').innerHTML = "";
-
-            const viejoScript = document.getElementById('jsonp-stats');
-            if (viejoScript) viejoScript.remove();
-
-            const script = document.createElement('script');
-            script.id = 'jsonp-stats';
-            script.src = URL_ATENCION_SICHE + "?action=getHistorial&desde=" + desde + "&hasta=" + hasta + "&callback=procesarDatosExcel";
-            
-            script.onerror = function() {
-                document.getElementById('login-podium').innerHTML = '<div style="font-size:0.8rem; color:#ef4444; margin: auto;"><i class="fas fa-times-circle"></i> Error al conectar con SICHE.</div>';
-            };
-            document.body.appendChild(script);
-        }
-
-        function procesarDatosExcel(ranking) {
-            const podiumWrapper = document.getElementById('login-podium');
-            const extendedWrapper = document.getElementById('podium-extended-list');
-            if(!podiumWrapper) return;
-
-            if (!ranking || !Array.isArray(ranking) || ranking.length === 0) {
-                podiumWrapper.innerHTML = '<div style="font-size:0.8rem; color:var(--text-muted); margin:auto;">No hay registros de atenciones para estas fechas.</div>';
-                if(extendedWrapper) extendedWrapper.innerHTML = "";
-                return;
-            }
-
-            const formatearNombreCorto = (nombreCompleto) => {
-                if(!nombreCompleto || nombreCompleto === "-" || nombreCompleto.includes("NO ESPECIFICADO")) return "P. SALUD";
-                var partes = nombreCompleto.split(" ");
-                if(partes.length >= 3) return partes[0] + " " + partes[2];
-                return nombreCompleto;
-            };
-
-            const fallback = { nombre: "-", totalAtenciones: 0, erroresMigracion: 0, migrados: 0, porProcesar: 0, anemia: 0, cred: 0, rua: 0, faltaSiche: 0 };
-            const top1 = ranking[0] || fallback;
-            const top2 = ranking[1] || fallback;
-            const top3 = ranking[2] || fallback;
-
-            podiumWrapper.innerHTML = `
-                <div class="podium-place second">
-                    <div class="podium-name" title="${top2.nombre}">${formatearNombreCorto(top2.nombre)}</div>
-                    <div class="podium-column">
-                        <i class="fas fa-medal podium-cup" style="color: #fff"></i>
-                        <span class="podium-count">${top2.migrados}</span>
-                        <span class="podium-label">MIGRADOS</span>
-                    </div>
-                    <div class="podium-metrics-card">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#8b5cf6"></i>RUA:</span><span class="badge-rua">${top2.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#ef4444"></i>Falta:</span><span class="badge-falta">${top2.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#f59e0b"></i>Pend:</span><span class="badge-proc">${top2.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#ef4444"></i>Err:</span><span class="badge-err">${top2.erroresMigracion}</span></div>
-                    </div>
-                </div>
-                
-                <div class="podium-place first">
-                    <div class="podium-name" title="${top1.nombre}">${formatearNombreCorto(top1.nombre)}</div>
-                    <div class="podium-column">
-                        <i class="fas fa-crown podium-cup" style="color: #fff"></i>
-                        <span class="podium-count">${top1.migrados}</span>
-                        <span class="podium-label">LÍDER</span>
-                    </div>
-                    <div class="podium-metrics-card" style="background: #fffbebf; border-color: #fde68a;">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#8b5cf6"></i>RUA:</span><span class="badge-rua">${top1.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#ef4444"></i>Falta:</span><span class="badge-falta">${top1.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#f59e0b"></i>Pend:</span><span class="badge-proc">${top1.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#ef4444"></i>Err:</span><span class="badge-err">${top1.erroresMigracion}</span></div>
-                    </div>
-                </div>
-                
-                <div class="podium-place third">
-                    <div class="podium-name" title="${top3.nombre}">${formatearNombreCorto(top3.nombre)}</div>
-                    <div class="podium-column">
-                        <i class="fas fa-medal podium-cup" style="color: #fff"></i>
-                        <span class="podium-count">${top3.migrados}</span>
-                        <span class="podium-label">MIGRADOS</span>
-                    </div>
-                    <div class="podium-metrics-card">
-                        <div class="metric-line"><span><i class="fas fa-file-invoice" style="color:#8b5cf6"></i>RUA:</span><span class="badge-rua">${top3.rua}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-exclamation-triangle" style="color:#ef4444"></i>Falta:</span><span class="badge-falta">${top3.faltaSiche}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-clock" style="color:#f59e0b"></i>Pend:</span><span class="badge-proc">${top3.porProcesar}</span></div>
-                        <div class="metric-line"><span><i class="fas fa-bug" style="color:#ef4444"></i>Err:</span><span class="badge-err">${top3.erroresMigracion}</span></div>
-                    </div>
-                </div>
-            `;
-
-            if(extendedWrapper) {
-                extendedWrapper.innerHTML = "";
-                
-                ranking.forEach((p, index) => {
-                    let posClass = "";
-                    let posLabel = `${index + 1}°`;
-                    
-                    if(index === 0) { posClass = "gold"; }
-                    else if(index === 1) { posClass = "silver"; }
-                    else if(index === 2) { posClass = "bronze"; }
-
-                    extendedWrapper.innerHTML += `
-                        <div class="extended-row">
-                            <div class="extended-top-info">
-                                <div class="extended-left">
-                                    <span class="extended-pos ${posClass}">${posLabel}</span>
-                                    <span class="extended-name" title="${p.nombre}">${formatearNombreCorto(p.nombre)}</span>
-                                </div>
-                                <span class="extended-total-badge">Total RUA: ${p.rua}</span>
-                            </div>
-                            <div class="extended-grid-metrics">
-                                <div class="metric-box"><span>Migrado</span><b class="badge-mig">${p.migrados}</b></div>
-                                <div class="metric-box"><span>Falta</span><b class="badge-falta">${p.faltaSiche}</b></div>
-                                <div class="metric-box"><span>Pendiente</span><b class="badge-proc">${p.porProcesar}</b></div>
-                                <div class="metric-box"><span>Error</span><b class="badge-err">${p.erroresMigracion}</b></div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        async function exportarFaltantesAExcel() {
-            const desde = document.getElementById('filtro-desde').value;
-            const hasta = document.getElementById('filtro-hasta').value;
-            
-            if(!desde || !hasta) {
-                alert("Seleccione las fechas para exportar.");
-                return;
-            }
-            
-            alert("Compilando reporte CSV de atenciones faltantes...");
-            
-            try {
-                const url = URL_ATENCION_SICHE + "?action=exportarFaltantes&desde=" + desde + "&hasta=" + hasta;
-                const response = await fetch(url);
-                const data = await response.json();
-
-                if (!data || data.length === 0) {
-                    alert("¡Felicidades! 100% de coberturas cuadradas con éxito.");
-                    return;
-                }
-
-                let csvContent = "\uFEFF"; 
-                csvContent += "Fecha de Atención,DNI Paciente Rezagado,Personal de Salud\n";
-                
-                data.forEach(item => {
-                    csvContent += '"' + item.fecha + '","' + item.dni + '","' + item.personal + '"\n';
-                });
-
-                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                const urlBlob = URL.createObjectURL(blob);
-                const link = document.createElement("a");
-                link.setAttribute("href", urlBlob);
-                link.setAttribute("download", "Faltantes_SICHE_" + desde + "_" + hasta + ".csv");
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            } catch (e) {
-                alert("Error de respuesta de red.");
-            }
-        }
     </script>
 </body>
 </html>
